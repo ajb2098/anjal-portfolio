@@ -51,12 +51,23 @@ body.g .list{display:none}body.g .grid{display:grid}
 .about{border-top:1px solid var(--ink);padding:60px 28px 70px;max-width:1360px;margin:0 auto;display:grid;grid-template-columns:1fr 1.5fr;gap:40px}
 .about h2{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;letter-spacing:-.04em;line-height:1}
 .about p{max-width:46em;margin-bottom:1em}
+.resume{border-top:1px solid var(--ink);padding:60px 28px 70px;max-width:1360px;margin:0 auto;display:grid;grid-template-columns:1fr 1.5fr;gap:40px}
+.resume h2{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;letter-spacing:-.04em;line-height:1}
+.resume .dl{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.btn{display:inline-block;padding:13px 20px;border:1px solid var(--ink);font:11px/1 ui-monospace,"SF Mono",Menlo,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;transition:background .2s,color .2s,border-color .2s}
+.btn.pri{background:var(--ink);color:var(--paper,#f4f3ef)}
+.btn:hover{background:var(--acc);border-color:var(--acc);color:#fff}
+.rs{display:grid;grid-template-columns:140px 1fr;gap:0;border-top:1px solid var(--ink)}
+.rs dt,.rs dd{padding:14px 0;border-bottom:1px solid rgba(17,17,17,.2);margin:0}
+.rs dt{font:10px/1.5 ui-monospace,"SF Mono",Menlo,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:#77776f;padding-top:16px}
+.rs dd{font-size:15px;line-height:1.5}.rs dd span{display:block}
+@media(max-width:900px){.resume{grid-template-columns:1fr}.rs{grid-template-columns:100px 1fr}}
 footer{border-top:1px solid var(--ink);padding:16px 28px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 footer a:hover{color:var(--acc)}
 @media(max-width:900px){.head,.about{grid-template-columns:1fr}.head p{justify-self:start}.list{grid-template-columns:1fr}.prev{display:none}.grid{grid-template-columns:repeat(2,1fr)}.hd{display:none}.row{grid-template-columns:34px 1fr}.row .c,.row .s{grid-column:2}.nav{padding:12px 16px}.nav div{gap:14px}.head,.bar,.wrap,.about{padding-left:16px;padding-right:16px}}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.row,.card img,.prev img{transition:none}}
 </style></head><body>
-<div class="nav mono"><b>Anjal B</b><div><a href="#work">Work</a><a href="#about">About</a><a href="mailto:anjal2098@gmail.com">Contact</a><a href="https://medium.com/@anjal_b" target="_blank" rel="noopener">Medium</a></div></div>
+<div class="nav mono"><b>Anjal B</b><div><a href="#work">Work</a><a href="#about">About</a><a href="#resume">Resume</a><a href="mailto:anjal2098@gmail.com">Contact</a><a href="https://medium.com/@anjal_b" target="_blank" rel="noopener">Medium</a></div></div>
 <header class="head"><h1>Anjal B<i>.</i></h1><p><b>Designer-researcher.</b> Installation, interactive media, sound and research. Nine works below. Eight open with their own transition and share one shell and fact strip; the ninth is on its way.</p></header>
 <div class="bar" id="work"><div class="chips" id="chips" role="group" aria-label="Filter by type"></div><div class="view" role="group" aria-label="View"><button data-v="l" aria-pressed="true">Index</button><button data-v="g" aria-pressed="false">Grid</button></div></div>
 <main class="wrap">
@@ -64,6 +75,13 @@ footer a:hover{color:var(--acc)}
  <div class="grid" id="grid"></div>
 </main>
 <section class="about" id="about"><h2>About</h2><div><p>Assistant Professor at the Department of Design, DC School of Architecture and Design, Trivandrum. M.Des in New Media Design from NID Gandhinagar, with a foundation in architecture.</p><p>The work moves between installation, interactive media, oral history, sound and research.</p></div></section>
+<section class="resume" id="resume"><div><h2>Resume</h2><div class="dl"><a class="btn pri" href="resume/Anjal_B_Resume.pdf" download>Download PDF</a><a class="btn" href="resume/Anjal_B_Resume.pdf">View in browser</a></div></div><dl class="rs">
+<dt>Education</dt><dd><span>M.Des, New Media Design, National Institute of Design, Gandhinagar (2021-2025)</span><span>B.Arch, College of Engineering Trivandrum (2016-2021)</span></dd>
+<dt>Now</dt><dd>Assistant Professor, DC School of Architecture &amp; Design</dd>
+<dt>Before</dt><dd><span>Visiting Faculty, Srishti Manipal Institute of Art, Design and Technology</span><span>Graduation Researcher, Science Gallery Bangalore</span><span>New media designer, Charuvi Design Lab</span><span>Artist in Residence, Sensistan Tech Art Foundation</span></dd>
+<dt>Recognition</dt><dd><span>Special Jury Commendation, Installation Art, XIV Florence Biennale</span><span>Finalist, ARS Electronica European Digital Deal Residency</span><span>Shortlisted, top 30 of 730, Amsterdam Light Festival 15th Edition</span><span>Poster Presentation, Participatory Design Conference India 2022</span></dd>
+<dt>Skills</dt><dd>TouchDesigner, Arduino and sensor-based interaction, Figma, 3D modelling, photography, design research and user testing, AR/VR</dd>
+</dl></section>
 <footer class="mono"><span>Anjal B</span><span><a href="mailto:anjal2098@gmail.com">Email</a> &nbsp;/&nbsp; <a href="https://www.linkedin.com/in/anjal-b-496605155/" target="_blank" rel="noopener">LinkedIn</a> &nbsp;/&nbsp; <a href="https://medium.com/@anjal_b" target="_blank" rel="noopener">Medium</a></span></footer>
 <script>
 var TR=(function(){
