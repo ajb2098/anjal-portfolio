@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Secret Coterie of Subterranean Statuary</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;700&family=Playfair+Display:ital,wght@0,500;1,400;1,500&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#f7eedb; --paper:#fbf5e6; --pink:#f2b8b0; --blue:#a7c9d6; --mustard:#e6b24a; --red:#b5402f; --teal:#2f5d5a; --ink:#3a2a25; --mut:#7a665c;
+  --sans:"Jost","Futura","Century Gothic",sans-serif; --serif:"Playfair Display",Georgia,serif; --type:"Courier Prime","Courier New",monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font-family:var(--sans);font-size:19px;line-height:1.6;text-align:center;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{color:var(--red)}
+a:focus-visible,button:focus-visible{outline:3px solid var(--teal);outline-offset:3px}
+.wrap{max-width:980px;margin:0 auto;padding:0 28px}
+.narrow{max-width:620px;margin:0 auto}
+h1,h2,h3,h4{font-family:var(--sans);font-weight:700;text-transform:uppercase;letter-spacing:.14em;margin:0;line-height:1.15}
+h1{font-size:clamp(34px,6.4vw,70px);letter-spacing:.1em}
+h2{font-size:clamp(26px,4.4vw,44px);margin-bottom:14px}
+h3{font-size:14px;letter-spacing:.24em;color:var(--red);margin-bottom:10px}
+.it{font-family:var(--serif);font-style:italic;text-transform:none;letter-spacing:0;font-weight:400}
+.small{font-size:13px;letter-spacing:.2em;text-transform:uppercase;color:var(--mut)}
+p{margin:0 0 1em}
+
+/* top bar */
+.bar{position:sticky;top:0;z-index:20;background:var(--ink);color:var(--cream);display:flex;justify-content:center;gap:clamp(10px,2.4vw,30px);flex-wrap:wrap;padding:11px 14px;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase}
+.bar a{color:var(--cream);text-decoration:none;opacity:.75}
+.bar a:hover{opacity:1;color:var(--mustard)}
+.bar .home{opacity:1;color:var(--mustard)}
+
+/* hero: symmetrical stage */
+.hero{background:var(--pink);padding:64px 0 0;position:relative;border-bottom:10px solid var(--ink)}
+.hero .small{color:var(--ink);opacity:.7}
+.stage{display:grid;grid-template-columns:1fr minmax(260px,420px) 1fr;align-items:end;gap:0;margin:44px auto 0;max-width:1000px}
+.lamp{justify-self:center;width:14px;background:var(--ink);height:210px;position:relative}
+.lamp::before{content:"";position:absolute;left:-14px;top:-24px;width:42px;height:30px;background:var(--mustard);border:3px solid var(--ink);border-radius:50% 50% 4px 4px}
+.centre{display:flex;flex-direction:column;align-items:center}
+.billboard{width:100%;aspect-ratio:16/10;background:var(--teal);border:8px solid var(--ink);outline:6px solid var(--mustard);display:grid;place-items:center;padding:20px;color:var(--cream);transition:background .2s}
+.billboard .msg{font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:clamp(16px,2.2vw,26px);line-height:1.2}
+.billboard .sub{font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;margin-top:12px;opacity:.8}
+.billboard.leak{background:var(--red)}
+.pole{width:14px;height:34px;background:var(--ink)}
+.pedestal{width:62%;background:var(--mustard);border:4px solid var(--ink)}
+.pedestal .body{height:84px;display:grid;place-items:center;font-size:12px;letter-spacing:.3em;text-transform:uppercase;font-weight:700}
+.pedestal .step{height:14px;background:var(--cream);border-top:4px solid var(--ink)}
+.pedestal.base{width:84%;border-top:0}
+.floor{height:16px;width:100%;background:repeating-linear-gradient(90deg,var(--ink) 0 40px,var(--cream) 40px 80px)}
+.hero .lede{margin:34px auto 0;max-width:30ch;font-size:23px}
+.byline{padding:26px 0 40px}
+
+/* chapters */
+.chapter{padding:84px 0 20px}
+.card{display:inline-block;border:3px solid var(--ink);padding:5px;background:var(--cream);margin-bottom:34px}
+.card>div{border:1px solid var(--ink);padding:12px 38px 11px}
+.card .no{display:block;font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--red);font-weight:700}
+.card .nm{display:block;font-family:var(--serif);font-style:italic;font-size:21px;margin-top:2px}
+.band{padding:80px 0;margin-top:70px}
+.band.blue{background:var(--blue)}.band.pink{background:var(--pink)}.band.mustard{background:var(--mustard)}.band.teal{background:var(--teal);color:var(--cream)}
+.band.teal>.wrap>h3{color:var(--mustard)}.band.teal .finding h3,.band.teal .next h3{color:var(--red)}
+.lede{font-size:22px;line-height:1.5}
+
+.qs{list-style:none;padding:0;margin:28px auto;max-width:520px;display:grid;gap:12px}
+.qs li{border:2px solid var(--ink);background:var(--paper);padding:12px 18px;font-size:20px}
+.qs b{color:var(--red);letter-spacing:.2em;margin-right:12px;font-size:13px}
+
+.plate{display:inline-block;max-width:100%;border:3px solid var(--ink);padding:10px;background:var(--paper);box-shadow:8px 8px 0 var(--ink)}
+.plate svg,.plate img{display:block;width:100%;height:auto}
+.plate figcaption{font-family:var(--serif);font-style:italic;font-size:15px;color:var(--mut);margin-top:10px}
+figure{margin:0}
+.duo .plate{display:block}.duo{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start;margin-top:36px}
+
+.notices{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:34px}
+.notice{border:3px solid var(--ink);padding:5px;background:var(--cream);color:var(--ink)}
+.notice>div{border:1px solid var(--ink);padding:22px 18px 20px;height:100%}
+.notice:nth-child(1)>div{background:var(--blue)}.notice:nth-child(2)>div{background:var(--paper)}.notice:nth-child(3)>div{background:var(--pink)}.notice:nth-child(4)>div{background:var(--mustard)}
+.notice .no{font-size:11px;letter-spacing:.3em;font-weight:700;color:var(--red)}
+.notice h4{font-size:19px;margin:8px 0 10px;letter-spacing:.1em}
+.notice p{font-size:16.5px;margin:0}
+.stamp{display:inline-block;margin-top:12px;border:2px solid var(--red);color:var(--red);font-size:10px;font-weight:700;letter-spacing:.24em;padding:2px 8px;transform:rotate(-4deg)}
+.bar-w{background:var(--ink);color:transparent;cursor:help;transition:.2s;padding:0 2px}
+.bar-w:hover,.bar-w:focus{background:transparent;color:var(--red);outline:none;font-weight:700}
+
+.toggle{display:flex;justify-content:center;gap:10px;margin:22px 0 8px}
+.toggle button{font:700 12px var(--sans);letter-spacing:.22em;text-transform:uppercase;padding:11px 20px;border:3px solid var(--ink);background:var(--cream);color:var(--ink);cursor:pointer}
+.toggle button[aria-pressed="true"]{background:var(--ink);color:var(--cream)}
+.viewer .billboard{max-width:520px;margin:0 auto}
+
+.letter{background:var(--paper);border:3px solid var(--ink);padding:5px;max-width:760px;margin:0 auto;box-shadow:10px 10px 0 var(--ink);text-align:left;color:var(--ink)}
+.letter>div{border:1px solid var(--ink);padding:clamp(26px,5vw,56px)}
+.letter header{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;border-bottom:2px solid var(--ink);padding-bottom:12px;margin-bottom:26px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;font-weight:700}
+.letter h2{text-align:center;margin-bottom:22px}
+.meta{display:grid;grid-template-columns:max-content 1fr;gap:4px 20px;font-family:var(--type);font-size:14px;margin:0 0 28px}
+.meta dt{color:var(--mut);letter-spacing:.14em}.meta dd{margin:0}
+.meta .redact{display:inline-block;width:150px;height:1em;background:var(--ink);vertical-align:-2px}
+.speech{font-family:var(--type);font-size:16px;line-height:1.75}
+.speech p{margin:0 0 1.2em}
+.speech mark{background:rgba(230,178,74,.55);color:inherit;font-weight:700;padding:0 2px}
+
+.reels{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-top:30px}
+.reel{display:block;text-decoration:none;color:var(--ink);border:3px solid var(--ink);padding:5px;background:var(--cream);transition:transform .15s}
+.reel:hover,.reel:focus-visible{transform:translateY(-6px)}
+.reel>div{border:1px solid var(--ink);aspect-ratio:3/4;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px}
+.reel:nth-child(1)>div{background:var(--pink)}.reel:nth-child(2)>div{background:var(--blue)}.reel:nth-child(3)>div{background:var(--mustard)}.reel:nth-child(4)>div{background:var(--paper)}.reel:nth-child(5)>div{background:var(--teal);color:var(--cream)}
+.reel .n{font-family:var(--serif);font-style:italic;font-size:46px;line-height:1}
+.reel .play{width:0;height:0;border-left:18px solid currentColor;border-top:11px solid transparent;border-bottom:11px solid transparent}
+.reel .l{font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;font-weight:700}
+
+.steps{list-style:none;padding:0;margin:34px auto 0;display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.steps li{border:3px solid var(--ink);padding:5px;background:var(--cream)}
+.steps li>div{border:1px solid var(--ink);padding:16px 8px;height:100%}
+.steps .no{font-family:var(--serif);font-style:italic;font-size:30px;color:var(--red);line-height:1}
+.steps strong{display:block;font-size:12px;letter-spacing:.18em;text-transform:uppercase;margin:8px 0 6px}
+.steps p{font-size:14px;line-height:1.4;margin:0;color:var(--mut)}
+.steps li.pivot>div{background:var(--mustard)}.steps li.pivot p{color:var(--ink)}
+
+.findings{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:30px}
+.finding{border:3px solid var(--ink);padding:5px;background:var(--cream)}
+.finding>div{border:1px solid var(--ink);padding:26px 20px;height:100%}
+.finding h4{font-size:17px;letter-spacing:.1em;margin:6px 0 12px}
+.finding p{font-size:16.5px;margin:0;color:var(--ink)}
+.finding:nth-child(1)>div{background:var(--blue)}.finding:nth-child(2)>div{background:var(--pink)}.finding:nth-child(3)>div{background:var(--paper)}
+.next{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:3px solid var(--ink);margin-top:34px}
+.next div{padding:20px 14px;border-right:3px solid var(--ink);background:var(--paper)}
+.next div:last-child{border-right:0}
+.next div:nth-child(even){background:var(--cream)}
+.next h3{margin-bottom:6px}
+.next p{font-size:15px;margin:0}
+
+footer{background:var(--ink);color:var(--cream);padding:80px 0 60px;margin-top:90px}
+footer .end{font-family:var(--serif);font-style:italic;font-size:clamp(26px,4.6vw,48px);line-height:1.2;max-width:20ch;margin:0 auto 26px}
+footer a{color:var(--mustard)}
+.back{display:inline-block;margin-top:18px;border:2px solid var(--mustard);color:var(--mustard);padding:10px 20px;font-size:12px;letter-spacing:.24em;text-transform:uppercase;text-decoration:none;font-weight:700}
+.back:hover{background:var(--mustard);color:var(--ink)}
+
+@media (max-width:860px){
+  .duo,.notices,.findings{grid-template-columns:1fr}
+  .reels{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .next{grid-template-columns:1fr 1fr}
+  .next div:nth-child(2){border-right:0}.next div:nth-child(-n+2){border-bottom:3px solid var(--ink)}
+  .stage{grid-template-columns:1fr}
+  .lamp{display:none}
+  body{font-size:17px}
+}
+@media (prefers-reduced-motion:reduce){.reel{transition:none}}
+/* ---- the glitch: a perfect surface with a darker past ---- */
+.glitch{position:relative;display:block}
+.glitch::before,.glitch::after{content:attr(data-text);position:absolute;left:0;right:0;top:0;pointer-events:none;opacity:0}
+.glitch::before{color:var(--red);mix-blend-mode:multiply}
+.glitch::after{color:var(--teal);mix-blend-mode:multiply}
+@media (prefers-reduced-motion:no-preference){
+  .glitch.live::before{animation:tearA 5s infinite steps(1)}
+  .glitch.live::after{animation:tearB 5s infinite steps(1)}
+}
+@keyframes tearA{0%,90%,100%{opacity:0}91%{opacity:.9;clip-path:inset(8% 0 60% 0);transform:translate(-10px,0)}93%{opacity:.9;clip-path:inset(55% 0 14% 0);transform:translate(8px,0)}96%{opacity:.9;clip-path:inset(30% 0 40% 0);transform:translate(-5px,0)}}
+@keyframes tearB{0%,91%,100%{opacity:0}92%{opacity:.9;clip-path:inset(45% 0 22% 0);transform:translate(10px,0)}94%{opacity:.9;clip-path:inset(6% 0 72% 0);transform:translate(-8px,0)}97%{opacity:.9;clip-path:inset(68% 0 4% 0);transform:translate(5px,0)}}
+.nm.tearing{color:var(--red);animation:jit .09s steps(2) 5}
+@keyframes jit{0%{transform:translateX(-3px)}50%{transform:translateX(3px)}}
+.billboard.tear{animation:bjit .1s steps(2) 4}
+@keyframes bjit{0%{transform:translateX(-4px);filter:hue-rotate(60deg)}50%{transform:translateX(4px)}}
+.slip{position:fixed;inset:0;z-index:60;background:#0b0c0d;color:#f7eedb;display:grid;place-items:center;opacity:0;visibility:hidden;pointer-events:none}
+.slip.on{opacity:1;visibility:visible}
+.slip::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.07) 0 1px,transparent 1px 4px)}
+.slip div{position:relative;font-weight:700;text-transform:uppercase;letter-spacing:.18em;font-size:clamp(26px,6.5vw,84px);text-align:center;padding:0 24px;line-height:1.15;text-shadow:5px 0 var(--red),-5px 0 #4fe3d2}
+.slip small{display:block;margin-top:18px;font-size:12px;letter-spacing:.3em;color:#8d887c;text-shadow:none}
+.floor i{display:inline-block}
+.band.pink{background:linear-gradient(180deg,var(--pink) 0%,var(--pink) 55%,#c98c86 100%)}
+
+.trail{margin-top:46px;text-align:center}
+.stops{display:grid;gap:26px;margin-top:30px;text-align:left}
+.stop{border:3px solid var(--ink);padding:5px;background:var(--cream)}
+.stop>div{border:1px solid var(--ink);padding:26px clamp(18px,4vw,40px) 28px;display:grid;grid-template-columns:130px 1fr;gap:6px 30px;align-items:start}
+.stop:nth-child(1)>div{background:var(--paper)}.stop:nth-child(2)>div{background:var(--blue)}.stop:nth-child(3)>div{background:var(--pink)}.stop:nth-child(4)>div{background:var(--paper)}.stop:nth-child(5)>div{background:var(--mustard)}.stop:nth-child(6)>div{background:var(--blue)}.stop:nth-child(7)>div{background:var(--paper)}.stop:nth-child(8)>div{background:var(--pink)}.stop:nth-child(9)>div{background:var(--mustard)}.stop:nth-child(10)>div{background:var(--paper)}
+.stop .sn{font-family:var(--serif);font-style:italic;font-size:64px;line-height:.9;color:var(--red)}
+.stop .sn small{display:block;font:700 10.5px var(--sans);font-style:normal;letter-spacing:.3em;text-transform:uppercase;color:var(--ink);margin-top:10px}
+.stop h4{font-size:20px;letter-spacing:.1em;margin:0 0 10px}
+.stop p{font-size:17px;margin:0 0 .8em}
+.stop .did{border-top:2px solid var(--ink);padding-top:10px;margin-top:6px;font-size:15.5px}
+.stop .did b{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--red);margin-right:8px}
+.stop figure{margin:16px 0 4px}
+.stop figure img{width:100%;height:auto;border:2px solid var(--ink)}
+.stop figcaption{font-family:var(--serif);font-style:italic;font-size:14.5px;color:var(--mut);margin-top:8px}
+.facts{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:14px 0 8px;padding:0;list-style:none}
+.facts li{border:2px solid var(--ink);background:var(--cream);padding:11px 14px;font-size:15px;line-height:1.45}
+.facts li b{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:3px}
+.six{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:14px 0 8px;padding:0;list-style:none;counter-reset:s}
+.six li{border:2px solid var(--ink);background:var(--cream);padding:10px 13px;font-size:14.5px;line-height:1.45;counter-increment:s}
+.six li b{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:3px}
+.six li b::before{content:counter(s) ". "}
+.stop .pair{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+@media (max-width:860px){.stop>div{grid-template-columns:1fr}.stop .sn{font-size:48px}.facts,.six,.stop .pair{grid-template-columns:1fr}}
+</style>
+<script>if(/[?&]from=/.test(location.search)){var s=document.createElement('style');s.id='sx-hide';s.textContent='html{background:#f4f3ef}body{opacity:0!important}';document.head.appendChild(s)}</script></head>
+<body>
+
+<nav class="bar" aria-label="Chapters">
+  <a class="home" href="#top">Doshire</a>
+  <a href="#c1">I Origin</a><a href="#c2">II Record</a><a href="#c3">III Glitch</a><a href="#c4">IV Pandora</a><a href="#c5">V Exhibit</a><a href="#c6">VI Footage</a><a href="#c7">VII Notes</a><a href="#c8">VIII Findings</a>
+</nav>
+
+<div class="slip" id="slip" aria-hidden="true"><div id="slipTxt"></div></div>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="small">A design fiction in eight chapters</div>
+    <h1 style="margin-top:18px"><span class="glitch live" data-text="Secret Coterie">Secret Coterie</span><span class="glitch live" data-text="of Subterranean">of Subterranean</span><span class="glitch live" data-text="Statuary">Statuary</span></h1>
+    <div class="stage" aria-hidden="true">
+      <div class="lamp"></div>
+      <div class="centre">
+        <div class="billboard" id="surfaceBoard"><div><div class="msg" id="surfaceMsg">Doshire is a peaceful place</div><div class="sub">Public notice &middot; Renaissance Plaza</div></div></div>
+        <div class="pole"></div>
+        <div class="pedestal"><div class="body">Statue removed</div><div class="step"></div></div>
+        <div class="pedestal base"><div class="step" style="border-top:0"></div></div>
+      </div>
+      <div class="lamp"></div>
+    </div>
+    <div class="floor" aria-hidden="true"></div>
+  </div>
+  <div style="background:var(--cream)">
+    <div class="wrap">
+      <p class="lede narrow it" style="margin:0 auto;padding-top:38px;max-width:36ch">A design fiction about statues, suppressed history, and the public screens that decide what each of us gets to see.</p>
+      <p class="small byline">Anjal B &middot; Speculative design &middot; 2023 &middot; <a href="https://www.anjal.in">anjal.in</a></p>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- I -->
+<section class="chapter" id="c1"><div class="wrap">
+  <div class="card"><div><span class="no">Chapter one</span><span class="nm" data-alt="A city of plinths">A city of statues</span></div></div>
+  <div class="narrow">
+    <p class="lede">The statue of T. Madhava Rao has stood in front of the Government Secretariat for almost 150 years. Trivandrum is often called India's land of statues, with figures at nearly every junction.</p>
+    <p>The project began by reading these statues as media: things that broadcast who mattered, to people who mostly walk past. Three questions came out of it.</p>
+    <ol class="qs" style="counter-reset:q">
+      <li><b>Q1</b>Are they actually being remembered?</li>
+      <li><b>Q2</b>Is their history conveyed as intended?</li>
+      <li><b>Q3</b>What is the future of the public statue?</li>
+    </ol>
+    <p class="small">Sculpture &middot; urban experience &middot; navigability &middot; visual pollution &middot; landmarks</p>
+  </div>
+</div></section>
+
+<!-- II -->
+<div class="band blue" id="c2"><div class="wrap">
+  <div class="card"><div><span class="no">Chapter two</span><span class="nm" data-alt="A city told to forget">A city that calls itself peaceful</span></div></div>
+  <p class="small">The official record &middot; Doshire, 2030</p>
+  <div class="notices">
+    <article class="notice"><div><div class="no">NOTICE 01</div><h4>All statues removed</h4><p>Taken down on allegations from an <span class="bar-w" tabindex="0" title="unknown">unknown</span> cancel culture. No one asked why.</p><span class="stamp">Enacted</span></div></article>
+    <article class="notice"><div><div class="no">NOTICE 02</div><h4>Tea banned</h4><p>A health measure, we were told. It dulled curiosity, critical thinking and <span class="bar-w" tabindex="0" title="political discourse">political discourse</span>.</p><span class="stamp">Enacted</span></div></article>
+    <article class="notice"><div><div class="no">NOTICE 03</div><h4>History closed</h4><p>The rebellion of 1900, the subaltern resistance and a hidden <span class="bar-w" tabindex="0" title="artistic renaissance">artistic renaissance</span> are no longer taught.</p><span class="stamp">Sealed</span></div></article>
+    <article class="notice"><div><div class="no">NOTICE 04</div><h4>By order of</h4><p>The Federal <span class="bar-w" tabindex="0" title="Autocrat">Autocrat</span> Association.</p><span class="stamp">In force</span></div></article>
+  </div>
+  <p class="small" style="margin-top:22px">Hover or tab to the blacked-out words to read them</p>
+</div></div>
+
+<!-- III -->
+<section class="chapter" id="c3"><div class="wrap viewer">
+  <div class="card"><div><span class="no">Chapter three</span><span class="nm" data-alt="The malfunction is a witness">The interface is a malfunction</span></div></div>
+  <div class="narrow">
+    <p class="lede">Digital billboards stand beside the empty pedestals. Some citizens begin to see them glitch, and the glitches show fragments of the suppressed past.</p>
+  </div>
+  <div class="billboard" id="pBoard" aria-live="polite" style="margin-top:30px"><div><div class="msg" id="pMsg">Doshire is a peaceful place</div><div class="sub" id="pSub">Seen by viewer A</div></div></div>
+  <div class="toggle" role="group" aria-label="Choose a viewer"><button type="button" id="vA" aria-pressed="true">Viewer A</button><button type="button" id="vB" aria-pressed="false">Viewer B</button></div>
+  <p class="small">Same billboard, same moment</p>
+  <div class="narrow" style="margin-top:30px">
+    <p>Parallel reality displays let a single screen show different content to different people. Most of Doshire sees the official message. A few see something else, and follow it underground.</p>
+  </div>
+  <figure style="margin-top:34px"><div class="plate" style="max-width:680px"><img src="img/glitch.jpg" alt="Glitching billboards in a plaza, one showing a corrupted image"><figcaption>Frame from the glitch sequence</figcaption></div></figure>
+</div></section>
+
+<!-- IV -->
+<div class="band pink" id="c4"><div class="wrap">
+  <div class="card"><div><span class="no">Chapter four</span><span class="nm" data-alt="Where the history went">Where the statues went</span></div></div>
+  <p class="small">Pandora &middot; the archive beneath the pedestals</p>
+  <div class="duo">
+    <figure><div class="plate"><img src="img/tunnel.jpg" alt="Cutaway of a vertical shaft with stacked rooms and a library below the street"><figcaption>The descent</figcaption></div></figure>
+    <figure><div class="plate"><img src="img/library.jpg" alt="Cutaway of underground rooms stacked like shelves beside a long tunnel"><figcaption>The community hall and its rooms</figcaption></div></figure>
+  </div>
+  <div class="narrow" style="margin-top:40px">
+    <p class="lede">Abandoned statues link a network of underground libraries holding banned books, lost music and poetry, and the records of a forgotten resistance.</p>
+    <p>The community hall is where strangers who followed the glitches meet, and where the archive is opened together. Nobody knows who the coterie are.</p>
+  </div>
+</div></div>
+
+<!-- V -->
+<section class="chapter" id="c5"><div class="wrap">
+  <div class="card"><div><span class="no">Chapter five</span><span class="nm" data-alt="Evidence">Exhibit A</span></div></div>
+  <p class="small" style="margin-bottom:34px">Recovered audio, transcribed</p>
+  <article class="letter" aria-labelledby="exTitle"><div>
+    <header><span>Exhibit A &middot; Transcript</span><span>Unit 5-Pandora &middot; 11.12.2030</span></header>
+    <h2 id="exTitle">Forbidden echoes and forgotten Doshire</h2>
+    <dl class="meta">
+      <dt>SPEAKER</dt><dd>Abel Vattoly, a resident of Doshire</dd>
+      <dt>LOCATION</dt><dd>Unit 5-Pandora, Renaissance Plaza</dd>
+      <dt>RECORDED</dt><dd>22:30, 11 December 2030</dd>
+      <dt>STATUS</dt><dd><span class="redact" aria-label="redacted"></span></dd>
+    </dl>
+    <div class="speech" id="speech"></div>
+  </div></article>
+</div></section>
+
+<!-- VI -->
+<div class="band mustard" id="c6"><div class="wrap">
+  <div class="card"><div><span class="no">Chapter six</span><span class="nm" data-alt="Footage they removed">The experience in motion</span></div></div>
+  <p class="small">Five reels, each opens on Google Drive</p>
+  <div class="reels" id="reels"></div>
+</div></div>
+
+<!-- VII -->
+<section class="chapter" id="c7"><div class="wrap">
+  <div class="card"><div><span class="no">Chapter seven</span><span class="nm" data-alt="From fiction to fieldwork">From fieldwork to fiction</span></div></div>
+  <p class="small">How it was made</p>
+  <ol class="steps">
+    <li><div><span class="no">i</span><strong>Fieldwork</strong><p>Reading the city's statues as media</p></div></li>
+    <li><div><span class="no">ii</span><strong>Questions</strong><p>Memory, intent, and the statue's future</p></div></li>
+    <li><div><span class="no">iii</span><strong>Precedents</strong><p>Subterranean architecture, impossible spaces</p></div></li>
+    <li class="pivot"><div><span class="no">iv</span><strong>World</strong><p>Doshire, 2030: map, laws, history</p></div></li>
+    <li><div><span class="no">v</span><strong>Artifacts</strong><p>Glitch displays, Pandora, the coterie</p></div></li>
+    <li><div><span class="no">vi</span><strong>Film</strong><p>Moving-image prototypes</p></div></li>
+  </ol>
+</div></section>
+
+<!-- VII-b research trail -->
+<section class="chapter" id="c7b" style="padding-top:30px"><div class="wrap">
+  <div class="card"><div><span class="no">Chapter seven, continued</span><span class="nm" data-alt="What the research left behind">The research trail</span></div></div>
+  <div class="narrow"><p class="lede">The project grew on a large research board. These are the ten stops that shaped Doshire, from the first question to the drawings of the underground.</p></div>
+  <div class="stops">
+    <article class="stop"><div>
+      <div class="sn">1<small>The question</small></div>
+      <div><h4>Do statues push ideology over development?</h4>
+        <p>The board opens with a handful of blunt prompts: are statues inflicting ideologies over development, do they force the public to meet them every day, and do they change histories.</p>
+        <p class="did"><b>Led to</b>The three questions of chapter one, and the idea that a statue is a broadcast.</p></div>
+    </div></article>
+    <article class="stop"><div>
+      <div class="sn">2<small>The inventory</small></div>
+      <div><h4>Over thirty-five statues, logged</h4>
+        <p>Each statue in Trivandrum was recorded with a photograph, a location and a note on who the person was. The list is mostly politicians, poets and reformers, standing at junctions, campuses and government compounds.</p>
+        <figure><img src="img/inventory.jpg" alt="A spreadsheet of Trivandrum statues with photographs, locations and a short note on each person" loading="lazy"><figcaption>The statue inventory, as kept on the board</figcaption></figure>
+        <p class="did"><b>Led to</b>Doshire's cast of removed statues, and the choice to treat them as a set rather than one monument.</p></div>
+    </div></article>
+    <article class="stop"><div>
+      <div class="sn">3<small>Precedents</small></div>
+      <div><h4>The pedestal that stays</h4>
+        <p>A set of references on plinths left empty, defaced or reclaimed after the figure came down. In each, the base keeps speaking after the statue is gone.</p>
+        <figure><img src="img/pedestals.jpg" alt="A collage of empty statue pedestals in streets and parks, some graffitied, one beside a row of white blocks" loading="lazy"><figcaption>Reference images from the research board. Sources to be credited.</figcaption></figure>
+        <p class="did"><b>Led to</b>The empty pedestal in Renaissance Plaza, and the box on it that opens downward.</p></div>
+    </div></article>
+    <article class="stop"><div>
+      <div class="sn">4<small>Underground</small></div>
+      <div><h4>Cities and libraries below the street</h4>
+        <p>A long run of notes on real subterranean architecture, collected to make Pandora believable.</p>
+        <ul class="facts">
+          <li><b>Derinkuyu, Turkey</b>An underground city dating to around the 8th to 7th century BCE, with room for about 20,000 people and over 600 entrances across the region.</li>
+          <li><b>Gotthard Base Tunnel</b>35 miles long, opened in 2016, with its deepest point about 8,040 feet below the surface.</li>
+          <li><b>Jinping laboratory, China</b>A physics lab 7,900 feet down, where the rock shields experiments from cosmic noise.</li>
+          <li><b>Underground bookstore</b>Chu Chih-Kang, 2015, 5,280 square metres, built to feel like an ancient depository.</li>
+        </ul>
+        <p class="did"><b>Led to</b>A network with many entrances, and a library as a place of reflection rather than storage.</p></div>
+    </div></article>
+    <article class="stop"><div>
+      <div class="sn">5<small>Public space</small></div>
+      <div><h4>Who owns the square?</h4>
+        <p>Two opposed readings sit side by side. One is the pocket park, a small publicly accessible space above a building that people attach and detach to form larger public spaces. The other is a manifesto arguing that streets, squares and parks should be privatised.</p>
+        <p class="did"><b>Led to</b>The question under the plaza: when public space is managed, who decides which past it is allowed to show.</p></div>
+    </div></article>
+    <article class="stop"><div>
+      <div class="sn">6<small>One event, many tellings</small></div>
+      <div><h4>The Rashomon effect</h4>
+        <p>Two story drafts sit under this heading. In the first, statues of controversial figures are removed worldwide and the local government keeps the pedestals as a reminder, leaving the city to wonder what to do with its past. In the second, history becomes a biased medium: textbooks are rewritten, media follow an ideology, and people begin to revolt against explanation bias.</p>
+        <p>Both end on the same turn, that a society needs to hold all the perspectives and decide for itself, rather than lean on a single unreliable narrator.</p>
+        <p class="did"><b>Led to</b>The coterie's method: not to replace the official story, but to offer several.</p></div>
+    </div></article>
+    <article class="stop"><div>
+      <div class="sn">7<small>Hidden pasts</small></div>
+      <div><h4>Subaltern history</h4>
+        <p>The reading starts with Ranajit Guha's critique that conventional Indian histories were shaped by colonial and ruling-class views and left out the marginalised. From there the board turns to Kerala: peasant movements, the Mappila peasantry of 1921, and Theyyam as an archive of a subaltern community in Northern Kerala. The notes also record that this archive carries mostly men's versions and leaves out women's voices.</p>
+        <p class="did"><b>Led to</b>The forgotten rebellion of 1900, and a hidden record that is partial even when it is kept.</p></div>
+    </div></article>
+    <article class="stop"><div>
+      <div class="sn">8<small>Myth and code</small></div>
+      <div><h4>Pandora's jar and cryptographic urbanism</h4>
+        <p>The board keeps the Pandora myth: every trouble escapes the jar, and one spirit, hope, stays inside when the lid shuts. Beside it sits a note on cryptography, which preserves the idea of an original plain message and offers an image of history as a journey into a hidden past.</p>
+        <p class="did"><b>Led to</b>The name Pandora, and a city whose surface is a cipher for what lies below it.</p></div>
+    </div></article>
+    <article class="stop"><div>
+      <div class="sn">9<small>How protests unfold</small></div>
+      <div><h4>A six-stage protest</h4>
+        <p>A plain model of how a protest moves from a spark to its aftermath.</p>
+        <ul class="six">
+          <li><b>Trigger</b>An event or policy sparks discontent in a group.</li>
+          <li><b>Awareness and mobilisation</b>Activists spread word and gather a critical mass.</li>
+          <li><b>Planning and organisation</b>Logistics, permissions, transport and a message.</li>
+          <li><b>Action and demonstration</b>People gather in public with signs, marches or strikes.</li>
+          <li><b>Engagement and negotiation</b>Talks with decision-makers, petitions, open letters.</li>
+          <li><b>Evaluation and reflection</b>The group reviews what worked and what to carry forward.</li>
+        </ul>
+        <p class="did"><b>Led to</b>The protest scenes Abel sees in Pandora, and the order in which the suppressed past is staged.</p></div>
+    </div></article>
+    <article class="stop"><div>
+      <div class="sn">10<small>Drawing it</small></div>
+      <div><h4>The underground, in section</h4>
+        <p>Section studies of the buried world: a long tunnel run with statues at its ends, a branching network with figures in its rooms, and spiral descents that pass through the ground. Two further frames on the board, titled Time capsule and House of faith, hold renders of a circular pool with a glass monolith.</p>
+        <div class="pair">
+          <figure><img src="img/sections.jpg" alt="Four cutaway drawings of underground tunnels with statues, branching halls and spiral ramps beneath a grassy surface" loading="lazy"><figcaption>Section studies of the underground</figcaption></figure>
+          <figure><img src="img/renders.jpg" alt="Two renders of a circular stepped pool with a glass monolith, one on paving and one on grass" loading="lazy"><figcaption>Renders filed under Time capsule and House of faith</figcaption></figure>
+        </div>
+        <p class="did"><b>Led to</b>The vertical staircase and the dark tunnel of the story scene.</p></div>
+    </div></article>
+  </div>
+</div></section>
+
+<!-- VIII -->
+<div class="band teal" id="c8"><div class="wrap">
+  <div class="card" style="background:var(--teal);border-color:var(--cream)"><div style="border-color:var(--cream)"><span class="no" style="color:var(--mustard)">Chapter eight</span><span class="nm" data-alt="What the fiction exposes">What the fiction provokes</span></div></div>
+  <div class="findings">
+    <div class="finding"><div style="color:var(--ink)"><h3>Finding 01</h3><h4>Monuments are media</h4><p>A statue is a broadcast about who mattered. Removing one is also an editorial act, never a neutral one.</p></div></div>
+    <div class="finding"><div style="color:var(--ink)"><h3>Finding 02</h3><h4>Screens decide whose truth you see</h4><p>Public technology can split a crowd into private versions of reality, or reveal something to all of them at once.</p></div></div>
+    <div class="finding"><div style="color:var(--ink)"><h3>Finding 03</h3><h4>A glitch can gather strangers</h4><p>In Doshire, a malfunction becomes a reason for people who do not know each other to meet and act together.</p></div></div>
+  </div>
+  <h3 style="margin-top:70px">Next: staging the glitch in a real city</h3>
+  <p class="narrow it" style="font-size:22px">The fiction becomes a research instrument when it leaves the screen and enters a public square.</p>
+  <div class="next" style="color:var(--ink)">
+    <div><h3>01 Stage</h3><p>A monument or public screen malfunctions, as a performative intervention with theatre artists.</p></div>
+    <div><h3>02 Observe</h3><p>Who stops, who gathers, who talks to a stranger, and for how long.</p></div>
+    <div><h3>03 Ask</h3><p>Short interviews with passers-by about what they saw and why they stayed.</p></div>
+    <div><h3>04 Iterate</h3><p>Change the glitch, the place and the time, then compare the encounters.</p></div>
+  </div>
+</div></div>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="end">Doshire should be and will be a peaceful place.</p>
+    <p class="small" style="color:var(--cream);opacity:.8">Anjal B &middot; Designer-researcher &middot; <a href="https://www.anjal.in">www.anjal.in</a></p>
+    <a class="back" href="#top">Back to the surface</a>
+  </div>
+</footer>
+
+<script>
+const SPEECH = [
+  "I had a vision. Today, my eyes have been opened wide. I am merely just one of the residents of the city of Doshire. Recently, I experienced what at first I dismissed as a mere hallucination. But something about it felt undeniably authentic, real, and terrifying. It brought clarity to the puzzle that had long been obscured, and I felt compelled to {{uncover the suppressed truths}} that lay hidden beneath the manipulative hands of the Federal Autocrat Association.",
+  "Doshire, for a long time, masqueraded as a haven of contentment, where everyone seemed satisfied with their mundane lives. We celebrated the so-called pioneers who were placed on pedestals for us, and we relished the retelling of historical moments. {{Even when all the statues were removed}}, based on allegations from an unknown cancel culture, we didn't question the motives. Under the guise of health concerns, we applauded our forefathers for banning the consumption of tea, unaware of the detrimental impact it had on our curiosity, critical thinking, and political discourse. We never raised our voices, and we turned a blind eye to the struggles of our fellow Doshirites. After all, Doshire was deemed a peaceful place.",
+  "We remain oblivious to the forgotten rebellion of 1900 and the subaltern resistance movement that may sound like distant tales from foreign lands. The current generation of artists may be unaware of the hidden artistic renaissance that once flourished. Previous attempts to revive forgotten heroines and foster intellectual symposiums were swiftly extinguished. Yet, all this history lingers with us in the present, coexisting but suppressed, {{banished to the darkest corners of our society}}. And still, Doshire is heralded as a peaceful place.",
+  "Here we are, {{guided by the glitching visuals on the billboards by the pedestals}} all around, standing inside the very Pandora, finding this hidden artifact, astonished and shocked at our society, at ourselves, reading through every hardship faced by our predecessors to get this information to us. Delving into the abyss of history, we can unravel the profound truth about our society. Here we find relics banned from the past, forgotten authors and their works, and lost culture of poetry and music.",
+  "The abandoned statues that connect these libraries serve as silent witnesses, reminding us of our past and providing insights into a better future. {{Mistakes should not be hidden away but learned from.}}",
+  "Pandora is not merely a collection of dusty books and artifacts. It is a living, breathing entity, {{a gateway that connects the past, present, and future}}. It carries the voices of the marginalized, amplifies the cries of the oppressed, and ignites the flames of revolution in the hearts of the disenfranchised. Pandora itself represents the myth, concealed by those in power, containing the pain, anguish, and trauma of the people. Now, we stand on the precipice of opening that box, unearthing the forgotten narratives, and exposing them to the world.",
+  "As my voice echoes through these chambers to share my knowledge, I am here fully aware that some may perceive my words as seditious and rebellious. Yet, history will ultimately vindicate me. However, this is not solely about me, you, or any individual. It is about our {{collective conditioning to take pride in a distorted version of our country's history}}. We have been raised and educated to accept this deceptive propaganda, disguised as freedom, righteousness, and justice: qualities that should be inherent, not begged for. We were taught that it is honorable to comply with unjust laws and mistreat the land of our birth, encouraged to cherish and defend the flag and sing the verses of our national anthem every morning.",
+  "Through Pandora, we will join them, to share the fate of that forgotten voice if that is what it takes to make us see what's happening around. We don't know who the members of the secret coterie of the subterranean statuary are. We do not know if we were chosen or just happen to experience the glitches by mere coincidence. This is the day we mark ourselves as the next generation of revolutionaries, the one that has become the quiet need of the moment for the country of Doshire. This is the day that will be marked as the day when history is rewritten. Later they may condemn us, criticize us and exile us. It doesn't matter if they even remove our traces of existence. After all, all that matters is that {{Doshire should be and will be a peaceful place.}}"
+];
+const esc = s => s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+document.getElementById("speech").innerHTML = SPEECH.map(p => "<p>" + esc(p).replace(/\{\{(.*?)\}\}/g, "<mark>$1</mark>") + "</p>").join("");
+
+const REELS = ["1nVX8yVZeYEJc7zBf7Z5sNhpufW1B9NVI","1Z_hQy6Vyr_dWdbw0S334HkBnKMnCTbtq","1L_f_5MJxe2bPz7SECiRBD7o0X15FkUzV","1KDfULm7jZ2jj0R_FJEBIZz1fZHyC6CNH","1JWU1q5oZzKKWmmqmzok3-UtxI-hDTDK1"];
+const NUM = ["i","ii","iii","iv","v"];
+document.getElementById("reels").innerHTML = REELS.map((id, i) =>
+  `<a class="reel" href="https://drive.google.com/file/d/${id}/view" target="_blank" rel="noopener" aria-label="Reel ${i+1}, opens on Google Drive"><div><span class="n">${NUM[i]}</span><span class="play" aria-hidden="true"></span><span class="l">Reel ${String(i+1).padStart(2,"0")}</span></div></a>`).join("");
+
+const views = {
+  A: ["Doshire is a peaceful place", "Seen by viewer A", false],
+  B: ["Who removed the statues?", "Seen by viewer B", true]
+};
+function setView(k){
+  const [m,s,leak]=views[k];
+  pMsg.textContent=m; pSub.textContent=s; pBoard.classList.toggle("leak",leak);
+  vA.setAttribute("aria-pressed",k==="A"); vB.setAttribute("aria-pressed",k==="B");
+}
+vA.addEventListener("click",()=>setView("A")); vB.addEventListener("click",()=>setView("B"));
+
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  setInterval(()=>{
+    surfaceMsg.textContent="Who removed the statues?"; surfaceBoard.classList.add("leak");
+    setTimeout(()=>{surfaceMsg.textContent="Doshire is a peaceful place"; surfaceBoard.classList.remove("leak");},700);
+  },4200);
+}
+
+// the surface slips: composed on top, something darker underneath
+if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  const FRAG=[["1900","the rebellion they stopped teaching"],["Who removed the statues?","ask the empty pedestal"],["Tea banned","curiosity, dulled"],["Pandora","-27 m"],["Doshire is a peaceful place","is it?"],["Exhibit A","recovered audio"]];
+  const slip=document.getElementById("slip"), st=document.getElementById("slipTxt");
+  function flash(){
+    const [a,b]=FRAG[Math.floor(Math.random()*FRAG.length)];
+    st.innerHTML=a+"<small>"+b+"</small>";
+    let n=0; const seq=[1,0,1,0,1,0]; const iv=setInterval(()=>{ slip.classList.toggle("on",!!seq[n]); if(++n>=seq.length){clearInterval(iv);slip.classList.remove("on");} },70);
+  }
+  function loop(){ setTimeout(()=>{ flash(); loop(); }, 9000+Math.random()*8000); }
+  setTimeout(()=>{flash();loop();},4500);
+  // chapter names slip into their suppressed twins
+  const nms=[...document.querySelectorAll(".nm[data-alt]")];
+  setInterval(()=>{
+    const vis=nms.filter(n=>{const r=n.getBoundingClientRect();return r.top>0&&r.bottom<innerHeight});
+    if(!vis.length) return; const n=vis[Math.floor(Math.random()*vis.length)], o=n.textContent;
+    n.classList.add("tearing"); n.textContent=n.dataset.alt;
+    setTimeout(()=>{n.textContent=o; n.classList.remove("tearing");},900);
+  },3600);
+  // billboards judder as they leak
+  document.querySelectorAll(".billboard").forEach(b=>{ let was=b.classList.contains("leak"); new MutationObserver(()=>{const now=b.classList.contains("leak"); if(now===was) return; was=now; b.classList.remove("tear");void b.offsetWidth;b.classList.add("tear");setTimeout(()=>b.classList.remove("tear"),500);}).observe(b,{attributes:true,attributeFilter:["class"]}); });
+}
+</script>
+<script src="sx.js"></script></body>
+</html>

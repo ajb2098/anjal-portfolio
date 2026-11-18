@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Memoir to public benches</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300&family=Inter:wght@400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#fff7ef; --muted:#c3cbe0; --line:rgba(255,247,239,.2);
+  --night:#0f1a33; --amber:#ffc58a; --wood:#7a4e2c; --panel:rgba(14,24,52,.6);
+  --display:'Fraunces',Georgia,serif; --body:'Inter',system-ui,sans-serif; --mono:'DM Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{background:var(--night);color:var(--ink)}
+body{margin:0;font-family:var(--body);line-height:1.55;-webkit-font-smoothing:antialiased}
+#track{position:relative;height:520vh}
+#stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden}
+#c{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y}
+.layer{position:absolute;inset:0;pointer-events:none}
+.title{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;text-align:center;padding:3.5vh 6vw 0;will-change:transform,opacity;text-shadow:0 2px 30px rgba(30,50,110,.45)}
+.award{display:inline-flex;align-items:center;gap:9px;height:34px;padding:0 16px 0 12px;border-radius:999px;background:rgba(255,247,239,.18);border:1px solid rgba(255,247,239,.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;font:500 11.5px var(--mono);letter-spacing:.1em;text-transform:uppercase;margin-bottom:3vh;opacity:0;animation:rise 1.4s .1s ease forwards;text-shadow:none}
+.title .eye{font:400 12px var(--mono);letter-spacing:.3em;text-transform:uppercase;color:#fff;opacity:0;margin-bottom:20px;animation:rise 1.4s .3s ease forwards}
+.title h1{margin:0;font:300 clamp(44px,8.4vw,120px)/.96 var(--display);letter-spacing:-.02em;opacity:0;animation:rise 1.8s .6s ease forwards}
+.title h1 em{font-style:italic;color:#ffe3bd}
+.title p{margin:22px 0 0;max-width:34ch;color:#fff;font-size:clamp(15px,1.6vw,18px);opacity:0;animation:rise 1.6s 1.3s ease forwards}
+.cue{position:absolute;left:50%;bottom:3.5vh;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:10px;font:400 11px var(--mono);letter-spacing:.24em;text-transform:uppercase;color:#fff;opacity:0;animation:rise 1.4s 2.2s ease forwards;text-shadow:0 1px 10px rgba(0,0,0,.5)}
+.cue i{display:block;width:1px;height:38px;background:linear-gradient(#fff,transparent);animation:drip 2.2s ease-in-out infinite}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.cap{display:flex;align-items:flex-start;justify-content:center;padding-top:12vh;text-align:center;opacity:0;transition:opacity .5s}
+.cap span{font:300 clamp(26px,4.2vw,54px)/1.1 var(--display);letter-spacing:-.01em;text-shadow:0 2px 26px rgba(30,50,110,.5);padding:0 6vw}
+.cap span small{display:block;margin-top:12px;font:400 12px var(--mono);letter-spacing:.2em;text-transform:uppercase}
+.hud{position:absolute;left:0;right:0;bottom:0;padding:0 clamp(14px,3vw,36px) clamp(14px,3vh,28px);display:flex;gap:14px;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;opacity:0;transform:translateY(12px);transition:opacity .6s,transform .6s;pointer-events:none}
+.hud.on{opacity:1;transform:none}
+.hud>*{pointer-events:auto}
+.panel{background:var(--panel);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid var(--line);border-radius:16px;padding:12px 16px}
+.hint{max-width:36ch;font-size:14px}
+.hint>b{display:block;font:500 11px var(--mono);letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:5px}
+.hint-m{display:none}
+.legend{display:flex;gap:8px;align-items:center;margin-top:8px;font:400 11px var(--mono);color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:14px;border-radius:2px;margin-left:6px}.legend i:first-child{margin-left:0}
+.stat{font:400 12px var(--mono);color:var(--muted);min-height:1.4em;margin-top:4px}
+.stat b{color:var(--amber);font-weight:500}
+.ctrls{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px}
+.seg button{all:unset;cursor:pointer;padding:6px 14px;border-radius:999px;font:500 12px var(--mono);letter-spacing:.06em;color:var(--muted)}
+.seg button[aria-pressed=true]{background:var(--amber);color:#1b1230}
+.seg button:focus-visible,input:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+label.sl{display:flex;flex-direction:column;gap:4px;font:400 10.5px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+input[type=range]{width:120px;accent-color:var(--amber)}
+/* after the scene */
+main{position:relative;background:linear-gradient(#0f1a33,#131f3d 45%,#0f1a33);padding:clamp(60px,10vw,140px) clamp(18px,5vw,72px) 80px}
+.wrap{max-width:1120px;margin:0 auto}
+.k{font:400 12px var(--mono);letter-spacing:.24em;text-transform:uppercase;color:var(--amber);margin:0 0 14px}
+h2{margin:0 0 16px;font:300 clamp(32px,5vw,58px)/1.05 var(--display);letter-spacing:-.015em}
+.lede{max-width:58ch;color:var(--muted);font-size:clamp(16px,1.6vw,19px);margin:0 0 34px}
+.prize{display:flex;gap:22px;align-items:center;padding:26px 28px;border:1px solid rgba(255,197,138,.5);border-radius:20px;background:linear-gradient(120deg,rgba(255,197,138,.16),rgba(255,255,255,.03));margin:0 0 6px}
+.prize .medal{flex:none;width:76px;height:76px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#1b1230;background:var(--amber)}
+.prize b{display:block;font:300 clamp(26px,4vw,40px)/1.1 var(--display)}
+.prize p{margin:6px 0 0;font:500 13px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--amber)}
+.prize small{display:block;margin-top:12px;color:var(--muted);font-size:15px;max-width:60ch}
+@media (max-width:560px){.prize{flex-direction:column;align-items:flex-start}}
+.ruler{position:relative;margin:0 0 70px;padding-top:44px}
+.ruler .sec{display:grid;grid-template-columns:repeat(10,1fr);border:1px solid var(--line);border-radius:12px;overflow:hidden;background:rgba(255,255,255,.03)}
+.ruler .sec span{padding:16px 0;text-align:center;font:400 12px var(--mono);color:var(--muted);border-right:1px solid var(--line)}
+.ruler .sec span:last-child{border:0}
+.ruler .m{position:absolute;top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;font:500 12px var(--mono);color:#1b1230}
+.ruler .m b{background:var(--amber);border-radius:6px;padding:3px 8px;font-weight:500}
+.ruler .m::after{content:"";width:2px;height:24px;background:var(--amber)}
+.ruler .p{position:absolute;bottom:-34px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;font:500 12px var(--mono);color:#fff}
+.ruler .p::before{content:"";width:2px;height:16px;background:#fff;opacity:.5}
+.ruler .p i{width:10px;height:10px;border-radius:50%;background:#fff;margin-top:-2px;box-shadow:0 0 0 5px rgba(255,255,255,.14)}
+.ruler .p b{margin-top:5px;font-weight:500}
+.map{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.map div{padding:18px;border:1px solid var(--line);border-radius:16px;background:rgba(255,255,255,.03)}
+.map b{display:block;font:500 11px var(--mono);letter-spacing:.2em;color:var(--amber);margin-bottom:8px}
+.map p{margin:0;font:300 24px/1.2 var(--display)}
+.map small{display:block;margin-top:8px;color:var(--muted);font-size:13.5px}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;margin-top:10px}
+.rule{padding:22px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.03)}
+.rule .n{font:400 12px var(--mono);color:var(--amber);letter-spacing:.2em}
+.rule h3{margin:10px 0 8px;font:500 21px/1.2 var(--display)}
+.rule p{margin:0;color:var(--muted);font-size:15.5px}
+.ff{margin:30px 0 0;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:rgba(255,255,255,.03)}
+.ff>b{display:flex;gap:9px;align-items:center;padding:10px 16px;border-bottom:1px solid var(--line);font:500 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--amber)}
+.ff>b::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--amber)}
+.ff>div{display:flex;flex-wrap:wrap}
+.ff span{flex:1 1 170px;padding:16px 18px;border-right:1px solid var(--line);color:var(--muted);font-size:14px;line-height:1.4}
+.ff span:last-child{border:0}
+.ff strong{display:block;font:300 36px/1 var(--display);color:var(--ink);margin-bottom:6px}
+.films{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-top:34px}
+.films figure{margin:0}
+.films img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;border-radius:14px;border:1px solid var(--line)}
+.films figcaption{margin-top:8px;font:400 12px var(--mono);letter-spacing:.06em;color:var(--muted)}
+.cn{margin-top:56px;display:grid;grid-template-columns:1.1fr .9fr;gap:36px;align-items:start}.cn h3{font:300 clamp(26px,3.4vw,38px)/1.15 var(--display);margin:6px 0 18px}.cn p{color:var(--muted);font-size:16px;line-height:1.7;margin:0 0 14px}.cn figure{margin:0 0 14px}.cn img{width:100%;border-radius:14px;display:block}@media(max-width:800px){.cn{grid-template-columns:1fr}}
+.tabs{display:inline-flex;gap:4px;padding:4px;border-radius:999px;background:rgba(255,255,255,.07);border:1px solid var(--line);margin:56px 0 34px}
+.tabs button{background:transparent;color:var(--ink);border:0;border-radius:999px;padding:10px 20px;font:500 14px var(--body);cursor:pointer;min-height:40px}
+.tabs button[aria-pressed="true"]{background:var(--amber);color:#1b1230}
+#v-quick>.k{margin-top:0}
+.journey{position:relative;max-width:860px}
+.journey:before{content:"";position:absolute;left:21px;top:8px;bottom:8px;width:1px;background:linear-gradient(var(--amber),rgba(255,197,138,.1))}
+.st{position:relative;display:grid;grid-template-columns:44px 1fr;gap:22px;margin-bottom:40px}
+.st .sn{width:44px;height:44px;border-radius:50%;background:var(--night);border:1px solid var(--amber);color:var(--amber);display:flex;align-items:center;justify-content:center;font:500 13px var(--mono);z-index:1}
+.st h3{margin:6px 0 8px;font:300 clamp(24px,3vw,32px)/1.15 var(--display)}
+.st p{margin:0 0 14px;color:var(--muted);font-size:16px;line-height:1.65;max-width:62ch}
+.st .two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.st figure{margin:0}.st img{width:100%;border-radius:12px;display:block}
+.st figcaption{font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:8px}
+.film{margin-top:72px}
+.vwrap{border-radius:18px;overflow:hidden;border:1px solid var(--line);background:#000;max-width:1000px}
+.vwrap video{display:block;width:100%;height:auto}
+.vcap{color:var(--muted);font-size:14px;margin:12px 0 0}
+@media(max-width:560px){.st{grid-template-columns:36px 1fr;gap:14px}.st .sn{width:36px;height:36px}.journey:before{left:17px}.st .two{grid-template-columns:1fr}.tabs button{padding:10px 12px;font-size:13px}}
+.note{margin-top:40px;padding-top:22px;border-top:1px solid var(--line);color:var(--muted);font-size:14px;max-width:72ch}
+.credit{margin-top:60px;font:400 12px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+.credit b{color:var(--ink);font-weight:500}
+@media (max-width:640px){.hud{gap:8px}.panel{padding:10px 12px}.hint{max-width:none;width:100%}.hint-t{display:none}.hint-m{display:inline}.ctrls{width:100%;justify-content:space-between;gap:8px}label.sl{display:none}.ruler .sec span{font-size:9px}}
+@media (prefers-reduced-motion:reduce){.award,.title .eye,.title h1,.title p,.cue{animation:none;opacity:1}.cue i{animation:none}}
+</style>
+<script>if(/[?&]from=/.test(location.search)){var s=document.createElement('style');s.id='sx-hide';s.textContent='html{background:#f4f3ef}body{opacity:0!important}';document.head.appendChild(s)}</script></head>
+<body>
+<section id="track" aria-label="Scroll to explore the bench">
+  <div id="stage">
+    <canvas id="c" role="img" aria-label="A timber bench on a grassy hill in the evening. Its slats slide along the bench. Moving the pointer along the bench wakes the nearest sensor, and two motor slats close in to form a seat."></canvas>
+    <div class="layer title" id="title">
+      <div class="award"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="9" r="5.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 13.5 7 21l5-2.6 5 2.6-1.5-7.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 6.4l.9 1.9 2 .3-1.5 1.4.4 2-1.8-1-1.8 1 .4-2-1.5-1.4 2-.3z" fill="currentColor"/></svg>Special Jury Commendation · XIV Florence Biennale</div>
+      <div class="eye">An interactive study</div>
+      <h1>Memoir to<br><em>public benches</em></h1>
+      <p>A bench that makes room for whoever arrives.</p>
+      <div class="cue"><span>Scroll</span><i></i></div>
+    </div>
+    <div class="layer cap" id="cap2"><span>A bench on a hill.<small>2.4 metres, always shifting</small></span></div>
+    <div class="layer cap" id="cap3"><span>Walk toward it.</span></div>
+    <div class="hud" id="hud">
+      <div class="panel hint"><b>Try it</b><span class="hint-t">Move your pointer along the bench. The nearest sensor wakes two motor slats. They close in and pack the slats between them into one solid seat, then return home when you leave.</span><span class="hint-m">Drag along the bench.</span>
+        <div class="legend"><i style="background:#4a2c16"></i>motor slat S1-S6 <i style="background:#9a6b3c"></i>free slat</div>
+        <div class="stat" id="stat" aria-live="polite"></div></div>
+      <div class="panel ctrls">
+        
+        <label class="sl">Patrol speed<input type="range" id="spd" min="0.3" max="2.5" step="0.1" value="1"></label>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main>
+  <div class="wrap">
+    <p class="k">Recognition</p>
+    <div class="prize"><div class="medal"><svg viewBox="0 0 24 24" width="40" height="40" aria-hidden="true"><circle cx="12" cy="9" r="5.5" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 13.5 7 21l5-2.6 5 2.6-1.5-7.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 6.4l.9 1.9 2 .3-1.5 1.4.4 2-1.8-1-1.8 1 .4-2-1.5-1.4 2-.3z" fill="currentColor"/></svg></div><div><b>Special Jury Commendation</b><p>XIV Florence Biennale</p><small>A shape-shifting bench that keeps moving so a stranger can have solitude, and lets only people who are comfortable with each other sit together, facing the same direction.</small></div></div>
+    <section class="cn"><div><p class="k">Concept note</p><h3>A Memoir to public benches</h3><p>After an eventful day, month, or year, one might want to take some ‘me time’. The need for this short personal break surely has its significance in today's nomadic and productivity-driven lifestyle. The solitude of “me time” affords a certain subjectivity that cannot be bound by any single mental framework and demands to be individually experienced. In today’s socio-political landscape, solitude and tranquil experiences have been commercialized as exclusive to the upper class and its very essence is tainted by capitalistic agenda. This project takes a step back in today’s perception of solitude by directing one’s attention to such experiences that are universally accessible, simple and mundane, here and now.</p><p>By using the park bench as the universal figure of solitary experiences and a symbol of contemplation and respite, the installation facilitates a playful experience of both solitude and social engagement.  It is simultaneously a fortress of solitude and an invitation to socialize within one’s own comfort zone. The shape shifting nature alludes to the ever changing concept of personal space and lets the user experience time alone while also sharing their solitude with others on the same bench. Blending the user into its parts, landscape, fresh air, and surrounding helps one to truly experience oneself. The anonymity provided by the bench and the power of tranquility through the dual nature of being in solitude and social at the same time is the beauty that lies in such a mundane artifact in attaining solitude or at least a micro version of it.</p><p>The changing dynamics of the concept of personal space, and the transforming capability is what makes such a common entity stand out. As they mount up to reach this particular artifact, it transforms in form. In this way it accommodates people and their shifting dynamics about the idea of personal space in a peaceful environment by letting them with thyself or along-with based on the camaraderie. In those moments of truthfulness and contemplation, the bench transforms into a setting that can accommodate the shared quality of solitude by facing in the same direction as in each other’s shoes. In a way, the bench itself is a fortress of solitude. After all, it's not just Clark Kent who needs time to contemplate in between the mundane and the extraordinary but everyone who desires it.</p></div><div><figure><img src="img/n_1.jpg" alt="Two people at the bench at dusk, one seated and one standing"></figure><figure><img src="img/n_2.jpg" alt="The bench on the hill, slats set apart"></figure></div></section>
+    <div class="tabs" role="group" aria-label="Choose a view"><button type="button" data-v="quick" aria-pressed="true">Quick overview</button><button type="button" data-v="deep" aria-pressed="false">Deep dive: the journey</button></div>
+    <div id="v-quick">
+    <p class="k">The bench, in detail</p>
+    <h2>Ten sections, five sensors,<br>six motors.</h2>
+    <p class="lede">Six motor slats, S1 to S6, run along the 2.4 m bench with S1 and S6 at the two ends. Five proximity sensors sit at the ends of sections P1, P3, P5, P7 and P9, and each one wakes the pair of motors on either side of it.</p>
+    <div class="rules">
+      <div class="rule"><div class="n">01</div><h3>Idle</h3><p>Each motor slat shuttles a short way and back at its own speed. S1 and S6 move inward from the ends and return. The free slats on castors are knocked about, so the spacing ripples along the bench.</p></div>
+      <div class="rule"><div class="n">02</div><h3>Sense</h3><p>When a sensor is triggered, its two motor slats stop shuttling and head toward each other.</p></div>
+      <div class="rule"><div class="n">03</div><h3>Seat</h3><p>The pair sweeps the free slats between them into a tight bunch. That bunch is the seat.</p></div>
+      <div class="rule"><div class="n">04</div><h3>Release</h3><p>When the sensor clears, the motors go back to their original places and the slats spread out again.</p></div>
+    </div>
+    <div class="ff"><b>Fact file</b><div>
+      <span><strong>2.4 m</strong>length of the bench</span>
+      <span><strong>10</strong>sections of 240 mm</span>
+      <span><strong>6</strong>motor slats, S1 to S6</span>
+      <span><strong>5</strong>sensors: P1, P3, P5, P7, P9</span>
+    </div></div>
+    <div class="films">
+      <figure><img src="img/f_17.jpg" alt="Drone view looking straight down on the bench: timber slats of different widths across a dark base, on grass" loading="lazy"><figcaption>From above: slats across a dark base</figcaption></figure>
+      <figure><img src="img/f_41.jpg" alt="Close view inside a slat showing a small motor and wheel on the base" loading="lazy"><figcaption>Inside a slat: motor and wheel</figcaption></figure>
+      <figure><img src="img/f_49.jpg" alt="A woman in a pink top standing beside the bench at dusk" loading="lazy"><figcaption>Someone arrives</figcaption></figure>
+      <figure><img src="img/f_121.jpg" alt="Two friends sitting together on the bench against a purple dusk sky" loading="lazy"><figcaption>The seat has formed</figcaption></figure>
+    </div>
+    </div>
+    <div id="v-deep" hidden>
+    <div class="journey"><article class="st"><div class="sn">01</div><div class="sb"><h3>The question</h3><p>After a long day, month or year, people want a little time to themselves. Solitude has been packaged as something only the well-off can buy. The project asks what happens if it is made simple, mundane and open to everyone, here and now.</p></div></article><article class="st"><div class="sn">02</div><div class="sb"><h3>The figure</h3><p>The park bench is the everyday symbol of solitary contemplation and respite. It is the universal figure of solitary experience, and it can hold both being alone and being near others.</p></div></article><article class="st"><div class="sn">03</div><div class="sb"><h3>The behaviour</h3><p>The bench is never fixed. It shifts shape as people approach and closes into a seat for whoever arrives. People who are comfortable together can sit side by side, facing the same way. Idle, sense, seat, release.</p></div></article><article class="st"><div class="sn">04</div><div class="sb"><h3>The mechanism</h3><p>Six motor slats run along a 2.4 m bench. Between them, free slats on castor wheels are pushed about. Five proximity sensors decide which pair of motors closes.</p><div class="two"><figure><img src="img/f_17.jpg" alt="Drone view straight down on the bench" loading="lazy"><figcaption>From above</figcaption></figure><figure><img src="img/f_41.jpg" alt="A motor and wheel inside a slat" loading="lazy"><figcaption>Motor and wheel</figcaption></figure></div></div></article><article class="st"><div class="sn">05</div><div class="sb"><h3>On the hill</h3><p>The bench stands on a grassy mound at dusk, with glass behind the slats so the sky shows through. Filmed with people arriving, sitting and talking.</p><div class="two"><figure><img src="img/f_49.jpg" alt="A woman standing beside the bench at dusk" loading="lazy"><figcaption>Someone arrives</figcaption></figure><figure><img src="img/f_121.jpg" alt="Two friends sitting together on the bench" loading="lazy"><figcaption>The seat has formed</figcaption></figure></div></div></article><article class="st"><div class="sn">06</div><div class="sb"><h3>Recognition</h3><p>The project received a Special Jury Commendation at the XIV Florence Biennale.</p></div></article></div>
+    </div>
+    <section class="film"><p class="k">The film</p><h2>Watch it work.</h2><div class="vwrap"><video controls preload="metadata" playsinline poster="img/film_poster.jpg"><source src="img/film.mp4" type="video/mp4">Your browser cannot play this video.</video></div><p class="vcap">The project film: the bench on its mound, slats shifting as people arrive.</p></section>
+    <p class="note">The page is a sketch of the behaviour, not the firmware. Slats are modelled as bodies on one line, the bench's length. Speeds, slat widths and how far the idle shuttling travels are approximations. Free slats ease back toward even spacing between their two neighbouring motors, so the bunches loosen once the motors leave. Stills are from the project film.</p>
+    <p class="credit">Concept and design <b>Anjal B</b></p>
+  </div>
+</main>
+
+<noscript><main><div class="wrap"><p class="lede">This page animates a bench whose slats slide together into a seat. It needs JavaScript to run.</p></div></main></noscript>
+
+<script>
+(()=>{
+'use strict';
+const $=id=>document.getElementById(id);
+const cv=$('c'), ctx=cv.getContext('2d');
+const track=$('track');
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const lerp=(a,b,t)=>a+(b-a)*t;
+const smooth=t=>t*t*(3-2*t);
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let W=0,H=0,DPR=1,gtex=null;
+const fr=x=>x-Math.floor(x);
+const hash=(i,k)=>fr(Math.sin(i*12.9898+k*78.233)*43758.5453);
+
+/* ---------- bench model, millimetres along its length ---------- */
+const L=2400, SECT=240, BENCH_H=440, BASE_H=70;
+const SENS=[1,3,5,7,9].map(k=>k*SECT);            // ends of P1,P3,P5,P7,P9
+const MOTOR_HOME=[0,480,960,1440,1920,2400];       // S1..S6
+const IDLE_A=[240,150,150,150,150,240];            // shuttle reach (mm)
+const IDLE_T=[11,15,12,17,13,10];                  // seconds per cycle
+let speedScale=1, tIdle=0;
+const bodies=[]; const motors=[];
+(function init(){
+  const arr=[];
+  MOTOR_HOME.forEach((h,i)=>{
+    const w=46; const home=i===0?w/2:i===5?L-w/2:h;
+    const m={main:true,idx:i,w,x:home,home,v:0,target:null,goal:home,sp:40+hash(i,4)*80,timer:hash(i,5)*4,returning:false,wasActive:false};
+    motors.push(m); arr.push(m);
+  });
+  let n=0;
+  for(let g=0;g<5;g++){
+    for(let j=0;j<5;j++){
+      const w=Math.round(30+hash(n,3)*24);
+      const f=(j+.5)/5+(hash(n,8)-.5)*.1;
+      arr.push({main:false,w,g,x:MOTOR_HOME[g]+480*((j+.5)/5)+(hash(n,8)-.5)*30,v:0,vd:(hash(n,6)-.5)*90,timer:hash(n,9)*5});
+      n++;
+    }
+  }
+  arr.sort((a,b)=>a.x-b.x); arr.forEach(b=>bodies.push(b));
+})();
+
+let activeS=-1;   // 0..4 or -1
+function pickGoal(m){
+  const i=m.idx, A=reduce?0:IDLE_A[i];
+  const lo=i===0?m.home:m.home-A, hi=i===5?m.home:m.home+A;
+  m.goal=lo+Math.random()*(hi-lo);
+  m.sp=35+Math.random()*95;
+  m.timer=3+Math.random()*6;
+}
+function setTargets(){
+  motors.forEach(m=>m.target=null);
+  if(activeS<0) return;
+  const cx=SENS[activeS], a=motors[activeS], b=motors[activeS+1];
+  let packed=0; for(const s of bodies) if(!s.main && s.g===activeS) packed+=s.w;
+  a.target=Math.max(a.w/2,cx-packed/2-a.w/2);
+  b.target=Math.min(L-b.w/2,cx+packed/2+b.w/2);
+}
+function step(dt){
+  const n=bodies.length;
+  for(const s of bodies){
+    if(s.main){
+      const active=s.target!=null;
+      if(active){ s.wasActive=true; s.returning=false; }
+      else if(s.wasActive){ s.wasActive=false; s.returning=true; }
+      if(active){
+        const d=s.target-s.x;
+        s.v=Math.abs(d)<1?0:Math.sign(d)*Math.min(300,Math.abs(d)*7);
+      } else if(s.returning){
+        const d=s.home-s.x;
+        s.v=Math.sign(d)*Math.min(220,Math.abs(d)*6);
+        if(Math.abs(d)<3){ s.returning=false; pickGoal(s); }
+      } else {
+        s.timer-=dt*speedScale;
+        const d=s.goal-s.x;
+        if(Math.abs(d)<3||s.timer<=0) pickGoal(s);
+        s.v=Math.sign(d)*Math.min(s.sp*speedScale,Math.abs(d)*4);
+      }
+    } else {
+      // free slats on castors: each drifts its own way, at its own pace
+      const inSeat=activeS>=0 && s.g===activeS;
+      s.timer-=dt;
+      if(s.timer<=0){ s.vd=(Math.random()-.5)*2*(35+Math.random()*60); s.timer=2+Math.random()*6; }
+      const goal=inSeat?0:s.vd*speedScale;
+      s.v+=(goal-s.v)*Math.min(1,dt*3);
+    }
+    s.x+=s.v*dt;
+  }
+  bodies.sort((a,b)=>a.x-b.x);
+  for(let pass=0;pass<14;pass++){
+    for(let i=0;i<n-1;i++){
+      const a=bodies[i], c=bodies[i+1];
+      const ov=(a.x+a.w/2)-(c.x-c.w/2);
+      if(ov>0){
+        const ia=a.main?.02:1, ic=c.main?.02:1, t=ia+ic;
+        a.x-=ov*ia/t; c.x+=ov*ic/t;
+        if(pass===0){
+          if(a.main&&!c.main) c.v=Math.max(c.v,a.v*.9);
+          else if(c.main&&!a.main) a.v=Math.min(a.v,c.v*.9);
+          else if(!a.main&&!c.main){ const m=(a.v+c.v)/2; a.v=m; c.v=m; a.vd=-Math.abs(a.vd); c.vd=Math.abs(c.vd); }
+          if(!a.main&&c.main) a.vd=-Math.abs(a.vd);
+          if(a.main&&!c.main) c.vd=Math.abs(c.vd);
+        }
+      }
+    }
+    const f=bodies[0], l=bodies[n-1];
+    if(f.x-f.w/2<0){ f.x=f.w/2; f.v=Math.max(0,f.v); }
+    if(l.x+l.w/2>L){ l.x=L-l.w/2; l.v=Math.min(0,l.v); }
+  }
+}
+
+
+document.querySelectorAll('.tabs button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('.tabs button').forEach(x=>x.setAttribute('aria-pressed',x===b?'true':'false'));
+  document.getElementById('v-quick').hidden=b.dataset.v!=='quick';
+  document.getElementById('v-deep').hidden=b.dataset.v!=='deep';
+}));
+/* ---------- scene state ---------- */
+let p=0, ppm=60, crestY=0, planMix=0, planOn=false, t=0, benchHalfPx=0;
+const CL=Array.from({length:18},(_,i)=>({x:hash(i,11),y:.05+hash(i,12)*.55,w:.07+hash(i,13)*.17,r:.05+hash(i,16)*.08,s:.003+hash(i,14)*.006,a:.16+hash(i,15)*.18}));
+
+function camera(){
+  const e=smooth(clamp((p-.12)/.72));
+  const f=W<700?.92:.76;
+  const wide=(W<700?.62:.40)*W/2.4, near=f*W/2.4;
+  ppm=Math.exp(lerp(Math.log(wide),Math.log(near),e));
+  crestY=lerp(.70*H,(W<700?.50:.60)*H,e);
+  benchHalfPx=1200*ppm/1000;
+  return e;
+}
+function dropAt(sx){
+  const d=Math.max(0,Math.abs(sx-W/2)-benchHalfPx*.9);
+  const R=W*1.5;
+  return Math.min(.11*H,d*d/(2*R));
+}
+
+/* ---------- grass texture (static) ---------- */
+function makeTex(){
+  gtex=document.createElement('canvas'); gtex.width=W; gtex.height=H;
+  const g=gtex.getContext('2d');
+  const gr=g.createLinearGradient(0,H*.45,0,H);
+  gr.addColorStop(0,'#8ea23c'); gr.addColorStop(.3,'#5f8a2f'); gr.addColorStop(1,'#1f4020');
+  g.fillStyle=gr; g.fillRect(0,0,W,H);
+  const pal=[['#2f5a24',.30],['#4f7d2b',.30],['#79a038',.22],['#a9b24a',.10],['#d6bb62',.08]];
+  const N=Math.round(W*H/38);
+  g.lineCap='round';
+  for(let i=0;i<N;i++){
+    const x=hash(i,41)*W, y=H*.4+hash(i,42)*H*.6;
+    const depth=(y-H*.4)/(H*.6);
+    const len=(4+hash(i,43)*9)*(.6+depth*.8)*(H/760);
+    const a=.3+hash(i,44)*.45;
+    let r=hash(i,45),acc=0,col=pal[0][0];
+    for(const [c,w] of pal){ acc+=w; if(r<=acc){col=c;break;} }
+    g.strokeStyle=col; g.globalAlpha=.55+hash(i,46)*.4; g.lineWidth=.8+hash(i,47)*1.1*(.6+depth);
+    g.beginPath(); g.moveTo(x,y);
+    g.quadraticCurveTo(x+Math.sin(a)*len*.3,y-len*.6,x+Math.sin(a)*len,y-Math.cos(a)*len);
+    g.stroke();
+  }
+  g.globalAlpha=1;
+}
+function resize(){
+  DPR=Math.min(window.devicePixelRatio||1,2);
+  W=cv.clientWidth; H=cv.clientHeight;
+  cv.width=Math.round(W*DPR); cv.height=Math.round(H*DPR);
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  makeTex();
+}
+
+/* ---------- sky ---------- */
+function sky(){
+  const bot=crestY+H*.08;
+  const g=ctx.createLinearGradient(0,0,0,bot);
+  g.addColorStop(0,'#4a80d2'); g.addColorStop(.35,'#7ea6e4'); g.addColorStop(.68,'#b9c9ec'); g.addColorStop(.86,'#f1d5c8'); g.addColorStop(1,'#ffd7a6');
+  ctx.fillStyle=g; ctx.fillRect(0,0,W,H);
+  const sx=W*.1, sy=crestY-H*.02;
+  const sg=ctx.createRadialGradient(sx,sy,0,sx,sy,W*.7);
+  sg.addColorStop(0,'rgba(255,214,150,.75)'); sg.addColorStop(.35,'rgba(255,200,150,.25)'); sg.addColorStop(1,'rgba(255,200,150,0)');
+  ctx.fillStyle=sg; ctx.fillRect(0,0,W,H);
+  for(const c of CL){
+    const cx=((c.x+t*c.s*(reduce?.2:1))%1.6-.3)*W, cy=c.y*crestY, rw=c.w*W;
+    const warm=c.y>.3;
+    ctx.save(); ctx.translate(cx,cy); ctx.rotate(-.36); ctx.scale(1,c.r);
+    const g2=ctx.createRadialGradient(0,0,0,0,0,rw);
+    const col=warm?'255,226,205':'255,255,255';
+    g2.addColorStop(0,`rgba(${col},${c.a})`); g2.addColorStop(.55,`rgba(${col},${c.a*.4})`); g2.addColorStop(1,`rgba(${col},0)`);
+    ctx.fillStyle=g2; ctx.beginPath(); ctx.arc(0,0,rw,0,6.283); ctx.fill(); ctx.restore();
+  }
+}
+/* ---------- hill + grass ---------- */
+function hillPath(){
+  ctx.beginPath(); ctx.moveTo(0,H);
+  for(let sx=0;sx<=W+6;sx+=6) ctx.lineTo(sx,crestY+dropAt(sx));
+  ctx.lineTo(W,H); ctx.closePath();
+}
+function windAt(sx){ return .5+.5*Math.sin(t*1.25-sx*.0042)*(reduce?.3:1)+.15*Math.sin(t*.4); }
+function hill(){
+  ctx.save(); hillPath(); ctx.clip();
+  ctx.drawImage(gtex,0,0,W,H);
+  // evening light from the left, deeper green toward the bottom
+  const lg=ctx.createLinearGradient(0,0,W,0);
+  lg.addColorStop(0,'rgba(255,205,120,.34)'); lg.addColorStop(.55,'rgba(255,205,120,.06)'); lg.addColorStop(1,'rgba(40,70,140,.12)');
+  ctx.fillStyle=lg; ctx.fillRect(0,crestY-10,W,H);
+  const dg=ctx.createLinearGradient(0,crestY,0,H);
+  dg.addColorStop(0,'rgba(0,0,0,0)'); dg.addColorStop(1,'rgba(8,24,12,.42)');
+  ctx.fillStyle=dg; ctx.fillRect(0,crestY,W,H);
+  // gusts: soft pale bands travelling across the hill
+  for(let i=0;i<5;i++){
+    const bx=((t*(.05+i*.012)*W+i*W*.37)%(W*1.6))-W*.3, by=crestY+(H-crestY)*(.15+.17*i);
+    const bg=ctx.createRadialGradient(bx,by,0,bx,by,W*.22);
+    bg.addColorStop(0,'rgba(255,236,160,.13)'); bg.addColorStop(1,'rgba(255,236,160,0)');
+    ctx.save(); ctx.translate(bx,by); ctx.scale(1,.16); ctx.translate(-bx,-by);
+    ctx.fillStyle=bg; ctx.beginPath(); ctx.arc(bx,by,W*.22,0,6.283); ctx.fill(); ctx.restore();
+  }
+  ctx.restore();
+}
+const COLS=['#2c5a26','#4c8030','#8fae45'];
+function blades(rows,stepPx,minLen,maxLen,seed,big){
+  // rows: array of function(sx)->baseY
+  const sc=H/760;
+  const buckets=[[],[],[]], seeds=[];
+  rows.forEach((rowY,ri)=>{
+    for(let sx=-6,i=0;sx<W+10;sx+=stepPx,i++){
+      const hh=hash(i,ri+seed), h2=hash(i,ri+seed+9);
+      const bx=sx+(h2-.5)*stepPx;
+      const by=rowY(bx);
+      const len=lerp(minLen,maxLen,hh)*sc;
+      const w=windAt(bx);
+      const lean=len*(.18+.55*w)+(h2-.5)*len*.25;
+      const tipx=bx+lean, tipy=by-len*(1-.12*w);
+      buckets[hh<.34?0:hh<.78?1:2].push(bx,by,tipx,tipy,len);
+      if(hh>.86) seeds.push(tipx,tipy,lean,len);
+    }
+  });
+  ctx.lineCap='round';
+  for(let c=0;c<3;c++){
+    const b=buckets[c]; if(!b.length) continue;
+    ctx.strokeStyle=COLS[c]; ctx.lineWidth=Math.max(1,(big?2.4:1.4)*Math.max(.8,sc));
+    ctx.beginPath();
+    for(let j=0;j<b.length;j+=5){
+      ctx.moveTo(b[j],b[j+1]);
+      ctx.quadraticCurveTo(b[j]+(b[j+2]-b[j])*.1,b[j+1]-b[j+4]*.65,b[j+2],b[j+3]);
+    }
+    ctx.stroke();
+  }
+  if(seeds.length){
+    ctx.fillStyle='#e6c874';
+    for(let j=0;j<seeds.length;j+=4){
+      const ang=Math.atan2(-1,seeds[j+2]/ (seeds[j+3]||1));
+      ctx.save(); ctx.translate(seeds[j],seeds[j+1]); ctx.rotate(ang+Math.PI/2);
+      ctx.beginPath(); ctx.ellipse(0,-3*sc,1.6*sc*(big?1.7:1),5*sc*(big?1.7:1),0,0,6.283); ctx.fill(); ctx.restore();
+    }
+  }
+}
+function grassBack(){
+  blades([sx=>crestY+dropAt(sx)+1,sx=>crestY+dropAt(sx)+4],3.4,7,17,1,false);
+}
+function grassFront(){
+  const sc=H/760;
+  const top=sx=>crestY+dropAt(sx);
+  blades([sx=>top(sx)+10*sc,sx=>top(sx)+17*sc,sx=>top(sx)+25*sc,sx=>top(sx)+34*sc],3.6,8,22,20,false);
+  blades([sx=>top(sx)+(H-top(sx))*.30,sx=>top(sx)+(H-top(sx))*.48,sx=>top(sx)+(H-top(sx))*.66],6,13,32,40,false);
+  blades([sx=>H+8,sx=>H-14*sc,sx=>H-30*sc,sx=>H-48*sc],13,28,72,60,true);
+}
+
+/* ---------- bench: front elevation ---------- */
+const sensorLabel=i=>'P'+(2*i+1);
+function benchElev(){
+  const s=ppm/1000, X=mm=>W/2+(mm-1200)*s, Y=mm=>crestY-mm*s;
+  const hpx=(BENCH_H-BASE_H)*s, yb=Y(BASE_H), yt=Y(BENCH_H);
+  // soft contact shadow, stretched away from the low sun (to the right)
+  ctx.save(); ctx.translate(W/2+L*s*.06,Y(0)+4*s); ctx.scale(1,.07);
+  const sg=ctx.createRadialGradient(0,0,0,0,0,L*s*.62); sg.addColorStop(0,'rgba(12,28,14,.62)'); sg.addColorStop(1,'rgba(12,28,14,0)');
+  ctx.fillStyle=sg; ctx.beginPath(); ctx.arc(0,0,L*s*.62,0,6.283); ctx.fill(); ctx.restore();
+  // glass: sky reflection, faint tint, soft diagonal sheens
+  const gg=ctx.createLinearGradient(0,yt,0,yb);
+  gg.addColorStop(0,'rgba(176,205,245,.82)'); gg.addColorStop(.55,'rgba(228,220,226,.72)'); gg.addColorStop(1,'rgba(255,206,160,.66)');
+  ctx.fillStyle=gg; ctx.fillRect(X(0),yt,L*s,hpx);
+  ctx.save(); ctx.beginPath(); ctx.rect(X(0),yt,L*s,hpx); ctx.clip();
+  for(let k=0;k<3;k++){
+    const gx=X(L*(.16+k*.33)), gw=L*s*(.05+.03*k);
+    const sh=ctx.createLinearGradient(gx,0,gx+gw,0); sh.addColorStop(0,'rgba(255,255,255,0)'); sh.addColorStop(.5,'rgba(255,255,255,.22)'); sh.addColorStop(1,'rgba(255,255,255,0)');
+    ctx.fillStyle=sh; ctx.beginPath(); ctx.moveTo(gx,yt); ctx.lineTo(gx+gw,yt); ctx.lineTo(gx+gw-hpx*.35,yb); ctx.lineTo(gx-hpx*.35,yb); ctx.closePath(); ctx.fill();
+  }
+  // slat shadows thrown onto the glass, toward the right
+  for(const b of bodies){
+    const x0=X(b.x+b.w/2), sw=Math.max(1,b.w*s*.9);
+    ctx.fillStyle='rgba(40,34,60,.09)'; ctx.fillRect(x0,yt,sw+8*s,hpx);
+  }
+  ctx.restore();
+  ctx.strokeStyle='rgba(255,255,255,.55)'; ctx.lineWidth=1; ctx.strokeRect(X(0),yt,L*s,hpx);
+  // base: brushed metal with bevel and bolts
+  const bg=ctx.createLinearGradient(0,yb,0,Y(0)); bg.addColorStop(0,'#4a5568'); bg.addColorStop(.12,'#38424f'); bg.addColorStop(1,'#151b24');
+  ctx.fillStyle=bg; ctx.fillRect(X(-8),yb,(L+16)*s,BASE_H*s);
+  ctx.fillStyle='rgba(255,255,255,.34)'; ctx.fillRect(X(-8),yb,(L+16)*s,Math.max(1,3*s));
+  ctx.fillStyle='rgba(0,0,0,.35)'; ctx.fillRect(X(-8),Y(0)-Math.max(1,4*s),(L+16)*s,Math.max(1,4*s));
+  if(s>.12){ ctx.fillStyle='rgba(255,255,255,.22)'; for(let k=0;k<=12;k++){ ctx.beginPath(); ctx.arc(X(-4+k*(L+8)/12),yb+BASE_H*s*.45,Math.max(1,2.4*s),0,6.283); ctx.fill(); } }
+  // slats: backlit timber, warm rim on the sunward (left) edge, grain, end-grain cap
+  bodies.forEach((b,bi)=>{
+    const x0=X(b.x-b.w/2), wpx=Math.max(1.5,b.w*s);
+    const wg=ctx.createLinearGradient(x0,0,x0+wpx,0);
+    if(b.main){ wg.addColorStop(0,'#6b4426'); wg.addColorStop(.5,'#4a2c16'); wg.addColorStop(1,'#2b180b'); } else { wg.addColorStop(0,'#b88652'); wg.addColorStop(.45,'#8a5e35'); wg.addColorStop(1,'#5a3a20'); }
+    ctx.fillStyle=wg; ctx.fillRect(x0,yt,wpx,hpx);
+    if(wpx>5){
+      ctx.strokeStyle=b.main?'rgba(0,0,0,.22)':'rgba(55,30,12,.28)'; ctx.lineWidth=1;
+      for(let k=0;k<3;k++){ const gx=x0+wpx*(.2+.3*k+.08*Math.sin(bi*3.1+k*1.7)); ctx.beginPath(); ctx.moveTo(gx,yt+2); ctx.lineTo(gx+Math.sin(bi+k)*wpx*.05,yb-2); ctx.stroke(); }
+    }
+    ctx.fillStyle='rgba(255,214,160,.55)'; ctx.fillRect(x0,yt,Math.max(1,Math.min(2,wpx*.14)),hpx);
+    ctx.fillStyle=b.main?'#7a5230':'#cfa06a'; ctx.fillRect(x0,yt-Math.max(1.5,10*s),wpx,Math.max(1.5,10*s));
+    ctx.fillStyle='rgba(0,0,0,.28)'; ctx.fillRect(x0,yb-Math.max(1,6*s),wpx,Math.max(1,6*s));
+    if(b.main){
+      const on=b.target!=null;
+      ctx.fillStyle=`rgba(255,190,110,${on?.95:.4+.25*Math.sin(t*3+b.idx)})`;
+      ctx.beginPath(); ctx.arc(x0+wpx/2,yt+Math.max(3,18*s),Math.max(1.2,Math.min(wpx*.26,7*s)),0,6.283); ctx.fill();
+    }
+  });
+  // top rail and end posts
+  const rh=Math.max(2,18*s);
+  const rg=ctx.createLinearGradient(0,yt-rh,0,yt); rg.addColorStop(0,'#5a3a20'); rg.addColorStop(1,'#2a180b');
+  ctx.fillStyle=rg; ctx.fillRect(X(-26),yt-rh,(L+52)*s,rh);
+  ctx.fillStyle='rgba(255,214,160,.4)'; ctx.fillRect(X(-26),yt-rh,(L+52)*s,Math.max(1,2*s));
+  for(const px of [X(-26),X(L)]){
+    const pg=ctx.createLinearGradient(px,0,px+26*s,0); pg.addColorStop(0,'#566174'); pg.addColorStop(.4,'#3a4454'); pg.addColorStop(1,'#232b38');
+    ctx.fillStyle=pg; ctx.fillRect(px,yt-rh,26*s,BENCH_H*s+rh);
+  }
+  // warm evening light washing over the sunward side
+  const wl=ctx.createLinearGradient(X(-26),0,X(L+26),0); wl.addColorStop(0,'rgba(255,190,120,.16)'); wl.addColorStop(.6,'rgba(255,190,120,0)');
+  ctx.fillStyle=wl; ctx.fillRect(X(-26),yt-rh,(L+52)*s,BENCH_H*s+rh);
+}
+function benchLabels(){
+  const s=ppm/1000, X=mm=>W/2+(mm-1200)*s, Y=mm=>crestY-mm*s;
+  const fs=clamp(ppm*.034,9,13);
+  if(ppm<250) return;
+  ctx.font=`500 ${fs}px "DM Mono",ui-monospace,monospace`; ctx.textAlign='center'; ctx.textBaseline='bottom';
+  motors.forEach(m=>{
+    const lab='S'+(m.idx+1), x=X(m.x), y=Y(BENCH_H)-Math.max(4,22*s);
+    const on=m.target!=null;
+    ctx.fillStyle=on?'#ffc58a':'rgba(255,255,255,.92)'; ctx.shadowColor='rgba(20,30,70,.7)'; ctx.shadowBlur=6;
+    ctx.fillText(lab,x,y); ctx.shadowBlur=0;
+  });
+  SENS.forEach((sx,i)=>{
+    const cx=X(sx), cy=Y(BASE_H*.5), on=i===activeS;
+    ctx.fillStyle=on?'#ffc58a':'#8a93a3'; ctx.beginPath(); ctx.arc(cx,cy,Math.max(2,17*s),0,6.283); ctx.fill();
+    if(on){
+      for(let r=0;r<3;r++){
+        const ph=((t*.9+r/3)%1);
+        ctx.strokeStyle=`rgba(255,197,138,${(1-ph)*.8})`; ctx.lineWidth=Math.max(1.2,3*s);
+        ctx.beginPath(); ctx.arc(cx,cy,(40+ph*340)*s,Math.PI*1.1,Math.PI*1.9); ctx.stroke();
+      }
+    }
+    ctx.textBaseline='middle'; ctx.textAlign='left'; ctx.fillStyle='#fff';
+    ctx.font=`500 ${Math.max(8,fs-2)}px "DM Mono",ui-monospace,monospace`;
+    ctx.fillText(sensorLabel(i),cx+Math.max(5,26*s),cy);
+    ctx.textAlign='center';
+  });
+}
+function rr(x,y,w,h,r){ r=Math.min(r,w/2,h/2); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+/* ---------- plan view ---------- */
+function planScale(){ return Math.min(.84*W,1500)/L; }
+function benchPlan(){
+  const s=planScale(), ox=W/2-1200*s, oy=H*.5;
+  const X=mm=>ox+mm*s, Y=mm=>oy+mm*s;
+  ctx.save(); ctx.globalAlpha=planMix;
+  const pg=ctx.createLinearGradient(0,0,0,H); pg.addColorStop(0,'#5f8431'); pg.addColorStop(1,'#2d5726');
+  ctx.fillStyle=pg; ctx.fillRect(0,0,W,H);
+  ctx.drawImage(gtex,0,H*.4,W,H*.6,0,0,W,H);
+  ctx.fillStyle='rgba(16,40,20,.3)'; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='rgba(0,0,0,.3)'; rr(X(-30)+6,Y(-210)+10,(L+60)*s,440*s,6); ctx.fill();
+  ctx.fillStyle='#232c3a'; rr(X(-20),Y(-210),(L+40)*s,420*s,6); ctx.fill();
+  ctx.fillStyle='#364154'; ctx.fillRect(X(0),Y(-120),L*s,240*s);
+  // sections
+  ctx.strokeStyle='rgba(255,255,255,.22)'; ctx.lineWidth=1; ctx.setLineDash([4,4]);
+  for(let k=1;k<10;k++){ ctx.beginPath(); ctx.moveTo(X(k*SECT),Y(-215)); ctx.lineTo(X(k*SECT),Y(215)); ctx.stroke(); }
+  ctx.setLineDash([]);
+  ctx.font=`500 ${clamp(s*70,10,14)}px "DM Mono",ui-monospace,monospace`; ctx.textAlign='center'; ctx.textBaseline='top'; ctx.fillStyle='rgba(255,255,255,.8)';
+  for(let k=0;k<10;k++) ctx.fillText('P'+(k+1),X(k*SECT+SECT/2),Y(250));
+  for(const b of bodies){
+    const x0=X(b.x-b.w/2), wpx=Math.max(1.8,b.w*s);
+    ctx.fillStyle=b.main?'#4a2c16':'#b9854f'; ctx.fillRect(x0,Y(-190),wpx,380*s);
+    ctx.fillStyle=b.main?'#2e1a0c':'#8a6035'; ctx.fillRect(x0,Y(-190),wpx*.25,380*s);
+    if(b.main){ ctx.fillStyle=b.target!=null?'#ffc58a':'rgba(255,197,138,.5)'; ctx.fillRect(x0+wpx*.25,Y(-190)+3,wpx*.5,Math.max(2,10*s)); }
+  }
+  ctx.textBaseline='bottom'; ctx.fillStyle='#fff';
+  motors.forEach(m=>ctx.fillText('S'+(m.idx+1),X(m.x),Y(-225)));
+  SENS.forEach((sx,i)=>{
+    const cx=X(sx), cy=Y(215), on=i===activeS;
+    ctx.fillStyle=on?'#ffc58a':'#8a93a3'; ctx.beginPath(); ctx.arc(cx,cy,Math.max(3,20*s),0,6.283); ctx.fill();
+    if(on) for(let r=0;r<3;r++){ const ph=((t*.9+r/3)%1); ctx.strokeStyle=`rgba(255,197,138,${(1-ph)*.8})`; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(cx,cy,(40+ph*360)*s,.1,Math.PI-.1); ctx.stroke(); }
+  });
+  ctx.restore();
+}
+
+/* ---------- input: the pointer is the person ---------- */
+const ptr={x:0,y:0,inside:false,mm:1200,on:false};
+function toMM(px){ return planMix>.5?1200+(px-W/2)/planScale():1200+(px-W/2)/ppm*1000; }
+function inBand(py){
+  if(planMix>.5) return Math.abs(py-H*.5)<H*.36;
+  return py>crestY-1.5*ppm && py<crestY+1.8*ppm;
+}
+function upd(e){ const r=cv.getBoundingClientRect(); ptr.x=e.clientX-r.left; ptr.y=e.clientY-r.top; ptr.inside=true; }
+cv.addEventListener('pointermove',upd);
+cv.addEventListener('pointerdown',upd);
+cv.addEventListener('pointerleave',()=>{ptr.inside=false;});
+cv.addEventListener('pointercancel',()=>{ptr.inside=false;});
+if($('vFront'))$('vFront').onclick=()=>{ planOn=false; $('vFront').setAttribute('aria-pressed','true'); $('vPlan').setAttribute('aria-pressed','false'); };
+if($('vPlan'))$('vPlan').onclick=()=>{ planOn=true; $('vPlan').setAttribute('aria-pressed','true'); $('vFront').setAttribute('aria-pressed','false'); };
+$('spd').oninput=e=>speedScale=+e.target.value;
+
+/* ---------- loop ---------- */
+const capEls=[[$('cap2'),.30,.50],[$('cap3'),.54,.74]];
+const titleEl=$('title'), hud=$('hud'), stat=$('stat');
+let last=performance.now(), visible=true, statT=0;
+new IntersectionObserver(es=>{visible=es[0].isIntersecting;}).observe($('stage'));
+function readScroll(){
+  const r=track.getBoundingClientRect();
+  p=clamp(-r.top/Math.max(1,track.offsetHeight-innerHeight));
+}
+function frame(now){
+  requestAnimationFrame(frame);
+  const dt=Math.min(.05,(now-last)/1000); last=now;
+  if(!visible) return;
+  t+=dt; readScroll(); camera();
+  const tf=smooth(clamp(p/.12));
+  titleEl.style.opacity=String(1-tf);
+  titleEl.style.transform=`translateY(${-tf*70}px)`;
+  titleEl.style.visibility=tf>=1?'hidden':'visible';
+  for(const [el,a,b] of capEls) el.style.opacity=String(clamp((p-a)/.04)*clamp((b-p)/.04));
+  hud.classList.toggle('on',p>.6);
+  planMix+=((planOn?1:0)-planMix)*Math.min(1,dt*6);
+  // sensor logic: the pointer along the bench wakes the nearest of P1,P3,P5,P7,P9
+  const mm=toMM(ptr.x);
+  ptr.on=ptr.inside && inBand(ptr.y) && mm>-60 && mm<L+60;
+  ptr.mm=mm;
+  activeS=ptr.on?clamp(Math.round((mm-SENS[0])/480),0,4):-1;
+  setTargets();
+  for(let i=0;i<3;i++) step(dt/3);
+  sky(); hill(); grassBack();
+  if(planMix<.999) benchElev();
+  grassFront();
+  if(planMix<.999) benchLabels();
+  if(planMix>.001) benchPlan();
+  // the pointer: a small ring on the bench line, nothing more
+  if(ptr.on && planMix<.5){
+    ctx.strokeStyle='rgba(255,255,255,.85)'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(ptr.x,ptr.y,13,0,6.283); ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,.9)'; ctx.beginPath(); ctx.arc(ptr.x,ptr.y,2.5,0,6.283); ctx.fill();
+  }
+  statT+=dt;
+  if(statT>.15 && p>.55){
+    statT=0;
+    stat.innerHTML = activeS>=0
+      ? `<b>${sensorLabel(activeS)}</b> active · <b>S${activeS+1}</b> and <b>S${activeS+2}</b> closing in`
+      : 'No one in front · motor slats shuttle, free slats drift';
+  }
+}
+addEventListener('resize',resize);
+resize(); readScroll();
+requestAnimationFrame(frame);
+})();
+</script>
+<script src="sx.js"></script></body>
+</html>

@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Capturing Play - Photography by Anjal B</title>
+<style>:root{--paper:#f3f2ee;--ink:#111;--mut:#77776f;--acc:#ff4b1f;--line:#111;--sans:'Helvetica Neue',Helvetica,Arial,'Segoe UI',system-ui,sans-serif;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;--ml:var(--sans);--serif:var(--sans)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.55;font-size:17px;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px}
+.kas{height:0;border-top:1px solid var(--line)}.kas.d{display:none}
+nav{position:sticky;top:0;z-index:40;background:var(--paper);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:10px 22px;padding-top:10px;padding-bottom:10px;flex-wrap:wrap}
+.brand{font-family:var(--mono);font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;font-weight:700}
+.links{display:flex;gap:18px;font-size:.82rem}
+.links a{text-decoration:none;color:var(--ink);border-bottom:1px solid transparent}
+.links a:hover{border-color:var(--ink)}
+.modes{display:flex;gap:0;align-items:center;font-family:var(--mono);font-size:.7rem;overflow-x:auto;max-width:100%}
+.modes span{letter-spacing:.08em;text-transform:uppercase;color:var(--mut);margin-right:10px;white-space:nowrap}
+.modes button{font:inherit;background:transparent;border:1px solid var(--ink);margin-left:-1px;color:var(--ink);padding:6px 12px;cursor:pointer;white-space:nowrap;text-transform:uppercase;letter-spacing:.04em}
+.modes button[aria-pressed=true]{background:var(--ink);color:var(--paper)}
+@media(max-width:760px){.links{display:none}nav .wrap{justify-content:flex-start}}
+.hero{padding:60px 0 70px;text-align:left}
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);max-width:none;margin:0}
+.hero h1{font-size:clamp(3rem,12.5vw,10.5rem);line-height:.86;margin:18px 0 22px;font-weight:800;letter-spacing:-.055em}
+.hero h1 i{font-style:normal;color:var(--acc)}
+.mlh{font-family:var(--mono);font-size:.82rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink)}
+.lead{max-width:38em;margin:24px 0 0;font-size:1.15rem}
+.doors{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:48px 0 0}
+.door{text-decoration:none;display:block;color:inherit}
+.arch{aspect-ratio:4/5;overflow:hidden;background:#000}
+.arch img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1s}
+.door:hover .arch img{transform:scale(1.04)}
+.door .cap{margin-top:12px;display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--ink);padding-top:8px}
+.door .cap b{font-size:1rem;font-weight:700;letter-spacing:-.01em}
+.door .cap span{font-family:var(--mono);font-size:.66rem;letter-spacing:.04em;text-transform:uppercase;color:var(--mut);text-align:right}
+@media(max-width:640px){.doors{gap:8px}.door .cap{flex-direction:column}.door .cap span{display:none}.door .cap b{font-size:.8rem}}
+.tag{font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);font-weight:700}
+h2{font-size:clamp(1.9rem,4.6vw,3.2rem);line-height:1;font-weight:800;letter-spacing:-.04em;margin:8px 0 18px}
+p{margin-bottom:1em;max-width:62ch}
+.intro{padding:70px 0 70px;display:grid;grid-template-columns:1.1fr 1fr;gap:56px;align-items:start}
+@media(max-width:820px){.intro{grid-template-columns:1fr;gap:30px}}
+.obj{border-top:1px solid var(--ink);padding:12px 0 18px}
+.obj b{display:block;font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);margin-bottom:6px}
+.obj p{font-size:.92rem;line-height:1.5;margin:0}
+.exh{padding:80px 0 90px;background:var(--bg);color:var(--fg);--acc:#ff4b1f}
+.exh.cr{--bg:#f3f2ee;--fg:#111;--wall:#fbfaf7;--wall2:#eceae3;--rail:#111;--mat:#d6d5cf;--mat2:#c4c3bc;--frame:#111;--matc:#fff}
+.exh.te{--bg:#0d0d0d;--fg:#eeede8;--wall:#1b1b1a;--wall2:#101010;--rail:#000;--mat:#262625;--mat2:#1a1a19;--frame:#e9e7df;--matc:#0d0d0d}
+.exh.bu{--bg:#dfe2dd;--fg:#111;--wall:#eef0ec;--wall2:#d3d7d1;--rail:#111;--mat:#bfc4bd;--mat2:#aab0a8;--frame:#111;--matc:#fff}
+.exhead{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:end;margin-bottom:26px;border-top:1px solid currentColor;padding-top:14px}
+@media(max-width:760px){.exhead{grid-template-columns:1fr}}
+.exhead h2{font-size:clamp(2.4rem,7vw,5.4rem);letter-spacing:-.05em}
+.mltitle{font-family:var(--mono);font-size:clamp(1rem,2vw,1.3rem);color:var(--mut);opacity:1}
+.statline{display:flex;gap:30px;font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;flex-wrap:wrap;margin-top:18px}
+.statline b{display:block;font-size:2.2rem;font-family:var(--sans);font-weight:800;color:var(--acc);letter-spacing:-.04em;text-transform:none;line-height:1.1}
+.best{margin:34px -28px 14px;padding:0 28px}
+.best h3{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;font-family:var(--mono);color:var(--acc);margin-bottom:12px}
+.strip{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 2px 16px}
+.strip figure{flex:0 0 auto;scroll-snap-align:start;position:relative;height:min(58vh,420px);cursor:zoom-in}
+.strip img{height:100%;width:auto;display:block}
+.badge{position:absolute;top:10px;left:10px;background:var(--acc);color:#fff;font-family:var(--mono);font-size:.6rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;z-index:2}
+.chip{font-family:var(--mono);font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;background:transparent;border:1px solid currentColor;color:inherit;padding:8px 16px;cursor:pointer;margin:18px 0 6px}
+.chip[aria-pressed=true]{background:var(--acc);border-color:var(--acc);color:#fff}
+.chap{margin-top:64px}
+.ct{display:grid;grid-template-columns:90px 1fr;gap:6px 18px;align-items:baseline;margin-bottom:22px;border-top:1px solid currentColor;padding-top:12px}
+.ct .no{font-family:var(--mono);font-size:.9rem;color:var(--acc);font-weight:700}
+.ct h3{font-size:1.7rem;font-weight:800;letter-spacing:-.03em;line-height:1.1}
+.ct .tx{grid-column:2;max-width:60ch;font-size:1.02rem}
+.ct .tx p{margin-bottom:.7em}
+@media(max-width:560px){.ct{grid-template-columns:1fr}.ct .tx{grid-column:1}}
+.onlypicks .ph:not(.pick){display:none}
+.onlypicks .chap.nopick{display:none}
+.ph{cursor:zoom-in}
+.ph img{display:block;width:100%;height:auto}
+/* WALL */
+.wallbg{margin:0 -28px;padding:70px 28px 80px;background:radial-gradient(ellipse at 50% 0,rgba(255,255,255,.55),transparent 65%),linear-gradient(var(--wall),var(--wall2));box-shadow:inset 0 -1px 0 rgba(0,0,0,.12)}
+.exh.te .wallbg{background:radial-gradient(ellipse at 50% 0,rgba(255,255,255,.08),transparent 65%),linear-gradient(var(--wall),var(--wall2))}
+.salon{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:52px 44px;max-width:1120px;margin:0 auto}
+.fr{--h:190px;position:relative;width:min(100%,calc(var(--ar)*var(--h) + 36px));padding:0;background:var(--matc);border:5px solid var(--frame);box-shadow:0 22px 30px -14px rgba(0,0,0,.35),0 2px 4px rgba(0,0,0,.18)}
+.fr .mat{background:var(--matc);padding:16px}
+.fr.pick{--h:290px;margin-bottom:30px}
+.fr.pick .mat{padding:22px}
+.plq{position:absolute;left:0;bottom:-34px;font-family:var(--mono);font-size:.62rem;letter-spacing:.06em;text-transform:uppercase;color:var(--acc);white-space:nowrap;font-weight:700}
+.fr:hover{box-shadow:0 26px 34px -14px rgba(0,0,0,.5),0 0 0 2px var(--acc)}
+@media(max-width:640px){.fr{--h:120px;border-width:3px}.fr.pick{--h:200px}.fr .mat{padding:8px}.wallbg{padding:48px 14px}.salon{gap:36px 16px}}
+/* RAILS (film strips) */
+.railwrap{position:relative}
+.rail{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:46px 32px;margin:0 -28px;position:relative;align-items:center;background:var(--rail);
+ background-image:repeating-linear-gradient(90deg,#f3f2ee 0 10px,transparent 10px 24px),repeating-linear-gradient(90deg,#f3f2ee 0 10px,transparent 10px 24px);background-size:100% 10px,100% 10px;background-position:0 12px,0 calc(100% - 12px);background-repeat:no-repeat}
+.rail .ph{flex:0 0 auto;scroll-snap-align:center;height:300px;position:relative}
+.rail .ph img{height:100%;width:auto}
+.rail .ph.pick{height:380px;outline:3px solid var(--acc);outline-offset:3px}
+.rail .ph .no{position:absolute;left:6px;bottom:6px;font-family:var(--mono);font-size:.62rem;letter-spacing:.08em;color:#fff;text-shadow:0 1px 4px #000}
+.rarr{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:44px;height:44px;border:1px solid #fff;background:var(--acc);color:#fff;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.rarr.l{left:10px}.rarr.r{right:10px}
+@media(max-width:640px){.rail .ph{height:210px}.rail .ph.pick{height:270px}.rarr{display:none}}
+/* STORY */
+.story{display:flex;flex-direction:column;gap:22px}
+.band{margin:0 -28px;padding:46px 28px;background:#000;text-align:center;position:relative;color:#fff}
+.band .ph{display:inline-block;position:relative;max-width:100%}
+.band img{max-height:86vh;width:auto;max-width:100%;margin:0 auto}
+.band .cp{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--acc);margin-top:14px}
+.pairrow{display:flex;gap:18px;justify-content:center;align-items:flex-start}
+.pairrow .ph{flex:var(--ar) 1 0;min-width:0}
+.pairrow .ph.solo{flex:0 1 auto;max-width:min(100%,calc(var(--ar)*520px))}
+@media(max-width:560px){.pairrow{flex-direction:column;align-items:stretch}.pairrow .ph{flex:none}}
+/* TABLE */
+.matbg{margin:0 -28px;padding:56px 28px 74px;background:repeating-linear-gradient(0deg,rgba(0,0,0,.03) 0 1px,transparent 1px 3px),radial-gradient(ellipse at 50% 30%,rgba(255,255,255,.18),transparent 70%),var(--mat);box-shadow:inset 0 0 80px rgba(0,0,0,.12);position:relative}
+.spread{position:relative;display:grid;grid-auto-flow:dense;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:34px 22px;max-width:1100px;margin:0 auto;align-items:center;justify-items:center}
+.pr{position:relative;background:#fff;padding:10px 10px 32px;box-shadow:0 12px 22px -6px rgba(0,0,0,.4);transition:box-shadow .3s;cursor:grab;touch-action:pan-y;width:100%;max-width:300px;transform:translate(var(--dx,0),var(--dy,0)) rotate(var(--r,0deg))}
+.exh.te .pr{background:#e9e7df}
+.pr:hover{z-index:20;box-shadow:0 22px 34px -6px rgba(0,0,0,.5)}
+.pr.drag{cursor:grabbing;z-index:30;transition:none}
+.pr img{pointer-events:none}
+.pr .no{position:absolute;left:12px;bottom:9px;font-family:var(--mono);font-size:.6rem;letter-spacing:.08em;color:#555}
+.pr.pick{grid-column:span 2;max-width:560px;padding:12px 12px 38px}
+.pr.pick::before{content:'';position:absolute;top:-11px;left:50%;width:84px;height:22px;margin-left:-42px;transform:rotate(-3deg);background:rgba(255,75,31,.8);z-index:2}
+.pr.pick .badge{top:auto;left:auto;right:12px;bottom:8px}
+@media(max-width:560px){.spread{grid-template-columns:1fr 1fr;gap:26px 12px}.pr.pick{grid-column:span 2}}
+.hint{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;text-align:center;margin-bottom:22px;color:var(--fg);opacity:.7}
+footer{background:#111;color:#cfcdc4;padding:36px 28px 44px;font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;text-transform:uppercase}
+footer b{color:var(--acc)}
+.lb{position:fixed;inset:0;background:rgba(8,8,8,.97);z-index:100;display:none;align-items:center;justify-content:center;flex-direction:column;color:#eee}
+.lb.on{display:flex}
+.lb img{max-width:94vw;max-height:80vh;object-fit:contain}
+.lb .bar{display:flex;gap:16px;align-items:center;margin-top:14px;font-family:var(--mono);font-size:.74rem;letter-spacing:.06em;text-transform:uppercase}
+.lb button{background:transparent;color:inherit;border:1px solid #eee;padding:8px 18px;cursor:pointer;font:inherit}
+.lb button:hover{background:var(--acc);border-color:var(--acc)}
+.lb .x{position:absolute;top:16px;right:16px}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .9s,transform .9s}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.arch img{transition:none}html{scroll-behavior:auto}}
+</style><script>if(/[?&]from=/.test(location.search)){var s=document.createElement('style');s.id='sx-hide';s.textContent='html{background:#f4f3ef}body{opacity:0!important}';document.head.appendChild(s)}</script></head>
+<body>
+<nav><div class="wrap"><span class="brand">Anjal B · Photography</span>
+<div class="links"><a href="#cricket">Changing Grounds</a><a href="#theyyam">Theyyam</a><a href="#bus">Bus Conductor</a></div>
+<div class="modes" role="group" aria-label="Choose a composition"><span>Composition</span>
+<button data-m="wall" aria-pressed="true">Gallery wall</button><button data-m="rails" aria-pressed="false">Film strips</button><button data-m="story" aria-pressed="false">Story scroll</button><button data-m="mat" aria-pressed="false">Table of prints</button></div></div></nav>
+
+<header class="hero"><div class="wrap">
+  <p class="eyebrow">Open elective · Photography explorations</p>
+  <h1>Capturing<br>Play<i>.</i></h1>
+  <p class="mlh">01 Cricket &nbsp;/&nbsp; 02 Theyyam &nbsp;/&nbsp; 03 Bus conductor</p>
+  <p class="lead">Through an elective called Capturing Play, a two-week photography module, I tried to build narratives using photographs as the medium. These are the three stories that came out of it.</p>
+  <div class="doors">
+    <a class="door" href="#cricket"><div class="arch"><img src="img/c16.jpg" alt="A bowler in a yellow shirt on a red-earth ground"></div><div class="cap"><b>Changing Grounds</b><span>County cricket and a group of mates</span></div></a>
+    <a class="door" href="#theyyam"><div class="arch"><img src="img/t16.jpg" alt="A Theyyam artist in full costume with fire in front"></div><div class="cap"><b>Artists of Theyyam</b><span>A ritual, documented</span></div></a>
+    <a class="door" href="#bus"><div class="arch"><img src="img/u10.jpg" alt="A bus conductor smiling at the depot"></div><div class="cap"><b>The Bus Conductor</b><span>A profession, documented</span></div></a>
+  </div>
+</div></header>
+<div class="kas"></div>
+
+<section class="wrap intro">
+  <div class="reveal"><p class="tag">About the module</p><h2>Two assignments, three stories</h2>
+  <p>Capturing Play asked for photographs as narrative: first an open theme built around the idea of play, then a short documentary story about a person, a profession or a place. I chose a cricket team that keeps losing its grounds for the first, and for the second, the artists who become gods in Theyyam and the conductor on a bus.</p>
+  <p style="font-size:.95rem">Use the <b>Composition</b> switch at the top to see the same photographs hung four different ways.</p></div>
+  <div class="reveal">
+    <div class="obj"><b>Objective 1 · Changing Grounds</b><p>Research and shoot on a selected theme with the idea of capturing play: games people play in different locations and situations, theatre, or any theme that documents "play". Every image to be aesthetically captured, with around 40 final photographs.</p></div>
+    <div class="obj"><b>Objective 2 · Theyyam and Bus Conductor</b><p>Document and tell a story in approximately 20 photographs about a person, a profession or a place.</p></div>
+  </div>
+</section>
+<div class="kas"></div>
+<div id="exhibits"></div>
+<div class="kas d"></div>
+<footer><p><b>Capturing Play</b> · Photography by Anjal B</p><p style="margin-top:6px">Open elective, two-week photography module.</p></footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photograph viewer"><button class="x" id="lx">Close ✕</button><img id="li" alt=""><div class="bar"><button id="lp" aria-label="Previous photograph">←</button><span id="lc"></span><button id="ln" aria-label="Next photograph">→</button></div></div>
+
+<script>
+var DATA={"cricket": [{"f": "img/c01.jpg", "w": 1500, "h": 691, "ch": "team", "pick": false, "n": 1}, {"f": "img/c02.jpg", "w": 1500, "h": 1125, "ch": "team", "pick": false, "n": 2}, {"f": "img/c03.jpg", "w": 1500, "h": 654, "ch": "lost", "pick": false, "n": 3}, {"f": "img/c04.jpg", "w": 1152, "h": 864, "ch": "lost", "pick": false, "n": 4}, {"f": "img/c05.jpg", "w": 1500, "h": 1125, "ch": "lost", "pick": false, "n": 5}, {"f": "img/c06.jpg", "w": 1500, "h": 1000, "ch": "lost", "pick": true, "n": 6}, {"f": "img/c07.jpg", "w": 1500, "h": 1000, "ch": "inter", "pick": false, "n": 7}, {"f": "img/c08.jpg", "w": 1500, "h": 1000, "ch": "inter", "pick": false, "n": 8}, {"f": "img/c09.jpg", "w": 1500, "h": 1125, "ch": "play", "pick": false, "n": 9}, {"f": "img/c10.jpg", "w": 1500, "h": 1000, "ch": "play", "pick": true, "n": 10}, {"f": "img/c11.jpg", "w": 1500, "h": 1125, "ch": "play", "pick": false, "n": 11}, {"f": "img/c12.jpg", "w": 1500, "h": 1125, "ch": "play", "pick": false, "n": 12}, {"f": "img/c13.jpg", "w": 1500, "h": 1000, "ch": "play", "pick": false, "n": 13}, {"f": "img/c14.jpg", "w": 1500, "h": 1500, "ch": "play", "pick": false, "n": 14}, {"f": "img/c15.jpg", "w": 1500, "h": 1000, "ch": "play", "pick": false, "n": 15}, {"f": "img/c16.jpg", "w": 1500, "h": 1000, "ch": "play", "pick": true, "n": 16}, {"f": "img/c17.jpg", "w": 1500, "h": 1125, "ch": "play", "pick": true, "n": 17}, {"f": "img/c18.jpg", "w": 1500, "h": 1000, "ch": "play", "pick": false, "n": 18}, {"f": "img/c19.jpg", "w": 1500, "h": 1000, "ch": "play", "pick": false, "n": 19}, {"f": "img/c20.jpg", "w": 1500, "h": 1000, "ch": "play", "pick": false, "n": 20}, {"f": "img/c21.jpg", "w": 1500, "h": 1000, "ch": "play", "pick": false, "n": 21}, {"f": "img/c22.jpg", "w": 1125, "h": 1500, "ch": "play", "pick": true, "n": 22}, {"f": "img/c23.jpg", "w": 1125, "h": 1500, "ch": "play", "pick": false, "n": 23}, {"f": "img/c24.jpg", "w": 1500, "h": 1125, "ch": "play", "pick": false, "n": 24}, {"f": "img/c25.jpg", "w": 1500, "h": 1125, "ch": "play", "pick": false, "n": 25}, {"f": "img/c26.jpg", "w": 1500, "h": 1000, "ch": "play", "pick": false, "n": 26}, {"f": "img/c27.jpg", "w": 1500, "h": 1094, "ch": "play", "pick": false, "n": 27}, {"f": "img/c28.jpg", "w": 1500, "h": 888, "ch": "play", "pick": true, "n": 28}, {"f": "img/c29.jpg", "w": 1500, "h": 1000, "ch": "play", "pick": false, "n": 29}, {"f": "img/c30.jpg", "w": 1500, "h": 1125, "ch": "play", "pick": false, "n": 30}, {"f": "img/c31.jpg", "w": 1500, "h": 1000, "ch": "play", "pick": false, "n": 31}, {"f": "img/c32.jpg", "w": 1500, "h": 1000, "ch": "play", "pick": false, "n": 32}, {"f": "img/c33.jpg", "w": 1500, "h": 1000, "ch": "play", "pick": false, "n": 33}, {"f": "img/c34.jpg", "w": 1500, "h": 1000, "ch": "why", "pick": true, "n": 34}], "tey": [{"f": "img/t01.jpg", "w": 1500, "h": 1000, "ch": "before", "pick": false, "n": 1}, {"f": "img/t02.jpg", "w": 1500, "h": 1000, "ch": "before", "pick": false, "n": 2}, {"f": "img/t03.jpg", "w": 1500, "h": 1000, "ch": "before", "pick": false, "n": 3}, {"f": "img/t04.jpg", "w": 1500, "h": 1000, "ch": "before", "pick": false, "n": 4}, {"f": "img/t05.jpg", "w": 1500, "h": 1000, "ch": "before", "pick": false, "n": 5}, {"f": "img/t06.jpg", "w": 1500, "h": 1000, "ch": "before", "pick": true, "n": 6}, {"f": "img/t07.jpg", "w": 1500, "h": 1000, "ch": "before", "pick": true, "n": 7}, {"f": "img/t08.jpg", "w": 1500, "h": 1010, "ch": "before", "pick": false, "n": 8}, {"f": "img/t09.jpg", "w": 1500, "h": 1000, "ch": "before", "pick": true, "n": 9}, {"f": "img/t10.jpg", "w": 1500, "h": 1000, "ch": "before", "pick": false, "n": 10}, {"f": "img/t11.jpg", "w": 1500, "h": 1000, "ch": "becoming", "pick": false, "n": 11}, {"f": "img/t12.jpg", "w": 1000, "h": 1500, "ch": "becoming", "pick": false, "n": 12}, {"f": "img/t13.jpg", "w": 1500, "h": 1000, "ch": "becoming", "pick": false, "n": 13}, {"f": "img/t14.jpg", "w": 1500, "h": 1000, "ch": "becoming", "pick": true, "n": 14}, {"f": "img/t15.jpg", "w": 1500, "h": 1000, "ch": "becoming", "pick": false, "n": 15}, {"f": "img/t16.jpg", "w": 1133, "h": 1700, "ch": "becoming", "pick": true, "n": 16}, {"f": "img/t17.jpg", "w": 1000, "h": 1500, "ch": "becoming", "pick": false, "n": 17}, {"f": "img/t18.jpg", "w": 1500, "h": 1000, "ch": "people", "pick": false, "n": 18}, {"f": "img/t19.jpg", "w": 1500, "h": 1000, "ch": "people", "pick": true, "n": 19}, {"f": "img/t20.jpg", "w": 1000, "h": 1500, "ch": "people", "pick": false, "n": 20}, {"f": "img/t21.jpg", "w": 1500, "h": 1125, "ch": "people", "pick": false, "n": 21}, {"f": "img/t22.jpg", "w": 1500, "h": 1125, "ch": "people", "pick": true, "n": 22}, {"f": "img/t23.jpg", "w": 1500, "h": 1000, "ch": "after", "pick": false, "n": 23}], "bus": [{"f": "img/u01.jpg", "w": 1500, "h": 1125, "ch": "depot", "pick": false, "n": 1}, {"f": "img/u02.jpg", "w": 1500, "h": 1125, "ch": "depot", "pick": false, "n": 2}, {"f": "img/u03.jpg", "w": 1500, "h": 1125, "ch": "depot", "pick": false, "n": 3}, {"f": "img/u04.jpg", "w": 1500, "h": 1125, "ch": "depot", "pick": true, "n": 4}, {"f": "img/u05.jpg", "w": 1500, "h": 886, "ch": "depot", "pick": false, "n": 5}, {"f": "img/u06.jpg", "w": 1500, "h": 1125, "ch": "depot", "pick": true, "n": 6}, {"f": "img/u07.jpg", "w": 1500, "h": 1125, "ch": "depot", "pick": false, "n": 7}, {"f": "img/u08.jpg", "w": 1500, "h": 1125, "ch": "stand", "pick": false, "n": 8}, {"f": "img/u09.jpg", "w": 1500, "h": 1125, "ch": "stand", "pick": false, "n": 9}, {"f": "img/u10.jpg", "w": 1500, "h": 1127, "ch": "stand", "pick": true, "n": 10}, {"f": "img/u11.jpg", "w": 1155, "h": 661, "ch": "ticket", "pick": false, "n": 11}, {"f": "img/u12.jpg", "w": 1500, "h": 1125, "ch": "ticket", "pick": true, "n": 12}, {"f": "img/u13.jpg", "w": 1500, "h": 1125, "ch": "ticket", "pick": false, "n": 13}, {"f": "img/u14.jpg", "w": 1500, "h": 1125, "ch": "ticket", "pick": true, "n": 14}, {"f": "img/u15.jpg", "w": 1365, "h": 1500, "ch": "ticket", "pick": false, "n": 15}, {"f": "img/u16.jpg", "w": 1500, "h": 1125, "ch": "bus", "pick": false, "n": 16}, {"f": "img/u17.jpg", "w": 1500, "h": 1254, "ch": "bus", "pick": false, "n": 17}, {"f": "img/u18.jpg", "w": 1500, "h": 1016, "ch": "bus", "pick": false, "n": 18}, {"f": "img/u19.jpg", "w": 1500, "h": 1125, "ch": "bus", "pick": false, "n": 19}, {"f": "img/u20.jpg", "w": 1500, "h": 1125, "ch": "bus", "pick": true, "n": 20}, {"f": "img/u21.jpg", "w": 1500, "h": 1125, "ch": "bus", "pick": false, "n": 21}, {"f": "img/u22.jpg", "w": 1500, "h": 1125, "ch": "bus", "pick": false, "n": 22}, {"f": "img/u23.jpg", "w": 1500, "h": 1125, "ch": "bus", "pick": true, "n": 23}, {"f": "img/u24.jpg", "w": 1500, "h": 1126, "ch": "bus", "pick": false, "n": 24}]};
+var EX=[
+ {k:'cricket',id:'cricket',cls:'cr',eyebrow:'Exhibit one · Objective 1',title:'Changing grounds',sub:'County cricket and a group of mates.',ml:'01 / 03',intro:[],
+  ch:[{id:'team',t:'A group of mates',x:['They are a group of people in their mid-twenties and early-thirties. While their peers are preoccupied with their burdens, they find a few hours in their busy lives to squeeze a tiny cricket match into the day.','Every day for the past couple of years, they have managed...']},
+  {id:'lost',t:'The grounds disappear',x:['Where they used to play is now private property with a huge fence.','One day it might be in front of a local temple, or on the ground in front of a local political party hall.','Now they are always in motion, looking for new grounds.']},
+  {id:'inter',t:'Interruptions',x:['Once everything is settled, they begin to play, only to be interrupted by the next round of disruptions, which vary from a car passing over the pitch to football nearby fiddling with the stumps. The main issue with the current ground is the unexpected local committee meetings.']},
+  {id:'play',t:'The game',x:[]},
+  {id:'why',t:'Why they play',x:['They formed a team and lost every tournament they participated in, but it doesn\'t actually matter. They\'ll give it their all to keep it going for another ten years, adjusting to whatever spaces are available, since they\'ve discovered the genuine spirit of play lies in having a great, enjoyable time together.']}]},
+ {k:'tey',id:'theyyam',cls:'te',eyebrow:'Exhibit two · Objective 2',title:'Artists of Theyyam',sub:'',ml:'02 / 03',
+  intro:['Theyyam (also Teyyam, Theyam or Theyyattam) is a popular ritual form of dance worship in Kerala, India, predominantly seen in the northern part of the state. Theyyam consists of thousand-year-old traditions, rituals and customs. It can be interpreted as a representation of an old folklore, a representation of a particular god, a conduit to a god, or a memoir to someone who lived long ago.','The process, the transition and the changes in the artist\'s behaviour are all observed and documented through this activity.'],
+  ch:[{id:'before',t:'Before the god',x:['The face is painted, the costume is assembled, the tools are laid out.']},{id:'becoming',t:'Becoming',x:['The artist changes: in posture, in presence, in behaviour.']},{id:'people',t:'Among the people',x:[]},{id:'after',t:'After',x:[]}]},
+ {k:'bus',id:'bus',cls:'bu',eyebrow:'Exhibit three · Objective 2',title:'The bus conductor',sub:'A profession, documented.',ml:'03 / 03',intro:[],
+  ch:[{id:'depot',t:'The depot',x:[]},{id:'stand',t:'At the stand',x:[]},{id:'ticket',t:'The ticket',x:[]},{id:'bus',t:'On the bus',x:[]}]}
+];
+var NAME={cricket:'Changing Grounds',tey:'Theyyam',bus:'Bus Conductor'};
+var mode='wall',ALL={};
+function el(h){var d=document.createElement('div');d.innerHTML=h;return d.firstChild}
+/* build exhibit shells once */
+var mount=document.getElementById('exhibits');
+EX.forEach(function(e,xi){
+ var arr=DATA[e.k];ALL[e.k]=arr;arr.forEach(function(p,i){p.i=i});
+ var pk=arr.filter(function(p){return p.pick});
+ var s=document.createElement('section');s.className='exh '+e.cls;s.id=e.id;
+ s.innerHTML='<div class="wrap"><div class="exhead"><div class="reveal"><p class="tag">'+e.eyebrow+'</p><h2>'+e.title+'</h2>'+(e.sub?'<p style="font-size:1.15rem">'+e.sub+'</p>':'')+'</div><div class="mltitle reveal" aria-hidden="true">'+e.ml+'</div></div>'+
+ (e.intro.length?'<div class="reveal" style="max-width:66ch">'+e.intro.map(function(t){return '<p>'+t+'</p>'}).join('')+'</div>':'')+
+ '<div class="statline"><span><b>'+arr.length+'</b>photographs</span><span><b>'+pk.length+'</b>best frames</span><span><b>'+e.ch.length+'</b>chapters</span></div>'+
+ '<div class="best"><h3>● Best frames</h3><div class="strip">'+pk.map(function(p){return '<figure data-k="'+e.k+'" data-i="'+p.i+'" tabindex="0" role="button" aria-label="Open best frame '+p.n+'"><img src="'+p.f+'" width="'+p.w+'" height="'+p.h+'" loading="lazy" alt="Best frame, photograph '+p.n+'"><span class="badge">● Best</span></figure>'}).join('')+'</div></div>'+
+ '<button class="chip" aria-pressed="false">Show best frames only</button><div class="chaps"></div></div>';
+ mount.appendChild(s);
+ if(xi<EX.length-1){var k=document.createElement('div');k.className='kas'+(xi>=0?' d':'');mount.appendChild(k)}
+ var chip=s.querySelector('.chip');chip.addEventListener('click',function(){var on=s.classList.toggle('onlypicks');chip.setAttribute('aria-pressed',on);chip.textContent=on?'Showing best frames only':'Show best frames only'});
+});
+function ph(p,key,cls,extra){return '<figure class="ph'+(p.pick?' pick':'')+(cls?' '+cls:'')+'" data-k="'+key+'" data-i="'+p.i+'" tabindex="0" role="button" aria-label="Open photograph '+p.n+'" style="--ar:'+(p.w/p.h).toFixed(3)+'">'+(extra&&extra.pre||'')+'<img src="'+p.f+'" width="'+p.w+'" height="'+p.h+'" loading="lazy" decoding="async" alt="Photograph '+p.n+'">'+(extra&&extra.post||'')+'</figure>'}
+function pad(n){return ('0'+n).slice(-2)}
+var seed=7;function rnd(){seed=(seed*9301+49297)%233280;return seed/233280}
+function renderPhotos(key,ps,c){
+ if(mode==='wall'){
+  return '<div class="wallbg"><div class="salon">'+ps.map(function(p){
+   return '<figure class="fr'+(p.pick?' pick':'')+' ph'+(p.pick?' pick':'')+'" data-k="'+key+'" data-i="'+p.i+'" tabindex="0" role="button" aria-label="Open photograph '+p.n+'" style="--ar:'+(p.w/p.h).toFixed(3)+'"><div class="mat"><img src="'+p.f+'" width="'+p.w+'" height="'+p.h+'" loading="lazy" decoding="async" alt="Photograph '+p.n+'"></div>'+(p.pick?'<span class="plq">● Best · '+pad(p.n)+'</span>':'')+'</figure>'}).join('')+'</div></div>';
+ }
+ if(mode==='rails'){
+  return '<div class="railwrap"><button class="rarr l" aria-label="Scroll left">←</button><div class="rail">'+ps.map(function(p){return ph(p,key,'',{post:(p.pick?'<span class="badge">● Best</span>':'')+'<span class="no">'+pad(p.n)+'</span>'})}).join('')+'</div><button class="rarr r" aria-label="Scroll right">→</button></div>';
+ }
+ if(mode==='story'){
+  var out='',buf=[];
+  function flush(){for(var i=0;i<buf.length;i+=2){var a=buf[i],b=buf[i+1];
+    if(!b){out+='<div class="pairrow">'+ph(a,key,'solo')+'</div>'}else{out+='<div class="pairrow">'+ph(a,key)+ph(b,key)+'</div>'}}buf=[]}
+  ps.forEach(function(p){if(p.pick){flush();out+='<div class="band">'+ph(p,key,'',{})+'<div class="cp">● Best frame · '+pad(p.n)+'</div></div>'}else buf.push(p)});flush();
+  return '<div class="story">'+out+'</div>';
+ }
+ if(mode==='mat'){
+  seed=ps.length*13+c;
+  return '<div class="matbg"><p class="hint">Drag the prints around. Tap one to look closer.</p><div class="spread">'+ps.map(function(p){
+   var r=((rnd()-.5)*9).toFixed(1),dx=((rnd()-.5)*18).toFixed(0),dy=((rnd()-.5)*22).toFixed(0);
+   return '<figure class="pr ph'+(p.pick?' pick':'')+'" data-k="'+key+'" data-i="'+p.i+'" tabindex="0" role="button" aria-label="Open photograph '+p.n+'" style="--r:'+r+'deg;--dx:'+dx+'px;--dy:'+dy+'px;--ar:'+(p.w/p.h).toFixed(3)+'"><img src="'+p.f+'" width="'+p.w+'" height="'+p.h+'" loading="lazy" decoding="async" alt="Photograph '+p.n+'">'+(p.pick?'<span class="badge">● Best</span>':'')+'<span class="no">'+pad(p.n)+'</span></figure>'}).join('')+'</div></div>';
+ }
+}
+function render(){
+ EX.forEach(function(e){
+  var arr=ALL[e.k],h='';
+  e.ch.forEach(function(c,ci){
+   var ps=arr.filter(function(p){return p.ch===c.id});
+   h+='<div class="chap'+(ps.some(function(p){return p.pick})?'':' nopick')+'"><div class="ct"><span class="no">'+(ci+1)+'</span><h3>'+c.t+'</h3>'+(c.x.length?'<div class="tx">'+c.x.map(function(s){return '<p>'+s+'</p>'}).join('')+'</div>':'')+'</div>'+renderPhotos(e.k,ps,ci)+'</div>';
+  });
+  document.getElementById(e.id).querySelector('.chaps').innerHTML=h;
+ });
+ document.querySelectorAll('.rarr').forEach(function(b){b.addEventListener('click',function(){var r=b.parentNode.querySelector('.rail');r.scrollBy({left:(b.classList.contains('l')?-1:1)*r.clientWidth*.8,behavior:'smooth'})})});
+ initDrag();
+}
+var cur0=null;
+document.querySelectorAll('.modes button').forEach(function(b){b.addEventListener('click',function(){
+ if(b.dataset.m===mode)return;
+ var vis=null;document.querySelectorAll('.exh').forEach(function(s){var r=s.getBoundingClientRect();if(r.top<innerHeight*.6&&r.bottom>innerHeight*.3)vis=s});
+ mode=b.dataset.m;document.querySelectorAll('.modes button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});
+ render();if(vis){var t=vis.querySelector('.chap');(t||vis).scrollIntoView()}
+})});
+/* drag for mat */
+var dragged=false;
+function initDrag(){
+ document.querySelectorAll('.pr').forEach(function(p){
+  var sx,sy,ox,oy,on=false;
+  p.addEventListener('pointerdown',function(e){if(e.pointerType==='touch')return;on=true;dragged=false;sx=e.clientX;sy=e.clientY;ox=parseFloat(getComputedStyle(p).getPropertyValue('--dx'))||0;oy=parseFloat(getComputedStyle(p).getPropertyValue('--dy'))||0;p.setPointerCapture(e.pointerId)});
+  p.addEventListener('pointermove',function(e){if(!on)return;var dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>6){dragged=true;p.classList.add('drag')}if(dragged){p.style.setProperty('--dx',(ox+dx)+'px');p.style.setProperty('--dy',(oy+dy)+'px')}});
+  p.addEventListener('pointerup',function(){on=false;p.classList.remove('drag');setTimeout(function(){dragged=false},0)});
+ });
+}
+/* lightbox */
+var lb=document.getElementById('lb'),li=document.getElementById('li'),lc=document.getElementById('lc'),cur={k:null,i:0},last=null;
+function show(k,i){var a=ALL[k];i=(i+a.length)%a.length;cur={k:k,i:i};li.src=a[i].f;li.alt='Photograph '+a[i].n;lc.textContent=NAME[k]+' · '+(i+1)+' / '+a.length+(a[i].pick?' · ● best frame':'')}
+function openLb(k,i,e){last=e;show(k,i);lb.classList.add('on');document.body.style.overflow='hidden';document.getElementById('lx').focus()}
+function closeLb(){lb.classList.remove('on');document.body.style.overflow='';if(last&&document.contains(last))last.focus()}
+document.addEventListener('click',function(e){if(dragged)return;var f=e.target.closest('figure[data-k]');if(f)openLb(f.dataset.k,+f.dataset.i,f)});
+document.addEventListener('keydown',function(e){
+ if(!lb.classList.contains('on')){var a=document.activeElement;if((e.key==='Enter'||e.key===' ')&&a&&a.dataset&&a.dataset.k){e.preventDefault();openLb(a.dataset.k,+a.dataset.i,a)}return}
+ if(e.key==='Escape')closeLb();if(e.key==='ArrowRight')show(cur.k,cur.i+1);if(e.key==='ArrowLeft')show(cur.k,cur.i-1)});
+document.getElementById('lx').onclick=closeLb;document.getElementById('lp').onclick=function(){show(cur.k,cur.i-1)};document.getElementById('ln').onclick=function(){show(cur.k,cur.i+1)};
+lb.addEventListener('click',function(e){if(e.target===lb)closeLb()});
+var sx0=0;lb.addEventListener('touchstart',function(e){sx0=e.touches[0].clientX},{passive:true});lb.addEventListener('touchend',function(e){var d=e.changedTouches[0].clientX-sx0;if(Math.abs(d)>50)show(cur.k,cur.i+(d<0?1:-1))});
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(function(x){io.observe(x)});
+render();
+</script>
+<script src="sx.js"></script></body></html>

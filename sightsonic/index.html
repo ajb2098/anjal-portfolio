@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sightsonic - audio description for every language, on any screen</title>
+<style>
+:root{--bg:#f3eee3;--panel:#fbf8f1;--line:#15120f;--tx:#15120f;--mut:#5b544a;--ac:#d9381e;--ok:#17694a;--bad:#b3261e;--fs:18px;--serif:'Iowan Old Style','Palatino Linotype',Palatino,'Book Antiqua',Georgia,serif}
+body.hc{--bg:#fff;--panel:#fff;--line:#000;--tx:#000;--mut:#000;--ac:#b00020;--ok:#005a2b;--bad:#b00020}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;font-size:var(--fs)}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:var(--serif);line-height:1.6}
+body.big{--fs:22px}
+a{color:var(--ac)}
+:focus-visible{outline:3px solid var(--ac);outline-offset:3px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--tx);color:var(--bg);padding:8px 14px;z-index:99;font-family:system-ui}
+.skip:focus{left:8px}
+.sans{font-family:system-ui,-apple-system,'Segoe UI',sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+header.bar{position:sticky;top:0;z-index:20;background:var(--bg);border-bottom:2px solid var(--line)}
+header.bar .wrap{display:flex;gap:14px;align-items:center;justify-content:space-between;padding-top:10px;padding-bottom:10px;flex-wrap:wrap}
+.brand{font-family:system-ui;font-weight:800;letter-spacing:.12em;font-size:.85rem}
+.brand b{color:var(--ac)}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+button,select,input{font:inherit;font-family:system-ui,sans-serif}
+.btn{text-decoration:none;display:inline-block;background:transparent;color:var(--tx);border:2px solid var(--line);border-radius:999px;padding:6px 14px;cursor:pointer;font-size:.78rem;font-weight:600}
+.btn:hover,.btn[aria-pressed=true]{background:var(--tx);color:var(--bg)}
+.btn.solid{background:var(--ac);color:#fff;border-color:var(--ac);font-weight:700;padding:10px 22px;font-size:.9rem}
+.btn.solid:hover{filter:brightness(1.1);background:var(--ac);color:#fff}
+.hero{padding:70px 0 0;border-bottom:2px solid var(--line);position:relative;overflow:hidden}
+.hero .meta{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:system-ui;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;border-bottom:2px solid var(--line);padding-bottom:12px;margin-bottom:34px}
+.hero h1{font-size:clamp(3.4rem,15vw,11rem);line-height:.88;margin:0 0 26px;font-weight:700;letter-spacing:-.04em;font-style:italic}
+.hero h1 span{color:var(--ac)}
+.hero p.lede{font-size:1.35rem;max-width:40ch;margin:0 0 28px;line-height:1.45}
+.hero .cta{display:flex;gap:18px;align-items:center;flex-wrap:wrap;margin-bottom:46px}
+.wave{display:flex;gap:3px;align-items:flex-end;height:90px;margin:0 -28px;padding:0 28px;border-top:2px solid var(--line);background:var(--tx);overflow:hidden;align-items:center}
+.wave i{display:block;width:5px;flex:none;border-radius:3px;background:var(--bg);height:10px;animation:w 1.6s ease-in-out infinite}
+.wave i:nth-child(5n){background:var(--ac)}
+@keyframes w{0%,100%{height:8px}50%{height:64px}}
+@media (prefers-reduced-motion:reduce){.wave i{animation:none;height:28px}html{scroll-behavior:auto}}
+.band{background:var(--ac);color:#fff;padding:54px 0;border-bottom:2px solid var(--line)}
+body.hc .band{background:#000}
+.band p{font-size:clamp(1.6rem,4.2vw,2.9rem);line-height:1.15;max-width:22ch;margin:0;font-style:italic;font-weight:700;letter-spacing:-.02em}
+.band small{display:block;margin-top:16px;font-family:system-ui;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;opacity:.85}
+.tag{display:inline-block;font-family:system-ui;font-size:.68rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;background:var(--tx);color:var(--bg);padding:3px 10px;border-radius:999px}
+section{padding:80px 0;border-bottom:2px solid var(--line)}
+h2{font-size:clamp(2rem,5vw,3.4rem);margin:16px 0 18px;line-height:1.05;letter-spacing:-.02em;max-width:20ch}
+h3{font-family:system-ui;font-size:.95rem;margin:0 0 6px}
+p{max-width:68ch}
+.grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin-top:30px}
+.card{background:var(--panel);border:2px solid var(--line);border-radius:6px;padding:20px 22px;box-shadow:6px 6px 0 var(--line)}
+.card .n{font-size:2.6rem;font-weight:700;color:var(--ac);line-height:1;letter-spacing:-.03em;font-style:italic}
+.card p{margin:8px 0 0;font-size:.88rem;color:var(--mut)}
+.conf{font-family:system-ui;font-size:.64rem;font-weight:700;border:1.5px solid currentColor;border-radius:4px;padding:0 5px;white-space:nowrap}
+table{border-collapse:collapse;width:100%;margin-top:26px;font-size:.86rem}
+th,td{text-align:left;vertical-align:top;border-bottom:1.5px solid var(--line);padding:12px 14px 12px 8px}
+th{font-family:system-ui;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;background:var(--tx);color:var(--bg)}
+td:first-child{font-weight:700;font-family:system-ui}
+td.x{color:var(--bad)}td.v{color:var(--ok)}
+.tblwrap{overflow-x:auto}
+.tblwrap table{min-width:720px}
+ol.pipe{list-style:none;counter-reset:s;padding:0;margin:30px 0 0;display:grid;gap:0;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));border:2px solid var(--line)}
+ol.pipe li{counter-increment:s;background:var(--panel);border:1px solid var(--line);padding:16px 18px 18px;position:relative}
+ol.pipe li::before{content:counter(s,decimal-leading-zero);font-family:var(--serif);font-style:italic;font-weight:700;color:var(--ac);font-size:2rem;line-height:1;display:block}
+ol.pipe li b{display:block;font-family:system-ui;margin:6px 0 4px}
+ol.pipe li span.k{position:absolute;top:16px;right:14px;font-family:system-ui;font-size:.6rem;font-weight:700;letter-spacing:.1em;padding:2px 8px;border-radius:999px;border:1.5px solid}
+.k.ai{color:#3a4fb0}.k.hu{color:var(--ok)}.k.au{color:var(--mut)}
+ol.pipe li p{margin:0;font-size:.82rem;color:var(--mut)}
+pre{background:#15120f;border-radius:6px;padding:18px;overflow:auto;font-size:.78rem;line-height:1.5;color:#f3eee3;border:2px solid var(--line)}
+/* dark cinema blocks */
+.demo,.phone{--bg:#0f0d0b;--panel:#1b1814;--line:#3d372e;--tx:#f3eee3;--mut:#b9b2a3;--ac:#ff6a4d;--ok:#6fe3a0;--bad:#ff8a7a}
+body.hc .demo,body.hc .phone{--bg:#000;--panel:#000;--line:#fff;--tx:#fff;--mut:#fff;--ac:#ffe600;--ok:#00ff88;--bad:#ff8a80}
+.demo{background:var(--panel);color:var(--tx);border:2px solid #15120f;border-radius:6px;padding:26px;margin-top:28px;box-shadow:8px 8px 0 #15120f}
+body.hc .demo{border-color:#000}
+.demo .btn{color:var(--tx);border-color:var(--line)}
+.demo .btn:hover{background:var(--tx);color:var(--bg)}
+.demo .btn.solid{background:var(--ac);color:#000;border-color:var(--ac)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.row label{font-family:system-ui;font-size:.8rem;color:var(--mut)}
+select,input[type=range]{background:var(--bg);color:var(--tx);border:2px solid var(--line);border-radius:8px;padding:5px 8px}
+input[type=range]{padding:0;accent-color:var(--ac)}
+.seg{display:inline-flex;border:2px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{background:transparent;border:0;color:var(--tx);padding:7px 14px;cursor:pointer;font-size:.8rem}
+.seg button[aria-pressed=true]{background:var(--ac);color:#000;font-weight:700}
+.tl{position:relative;height:124px;background:var(--bg);border:1px solid var(--line);border-radius:6px;overflow:hidden;margin:6px 0}
+.tl .lane{position:absolute;left:0;right:0;height:42px;font-family:system-ui;font-size:.68rem}
+.tl .l1{top:20px}.tl .l2{top:76px}
+.tl .lab{position:absolute;left:6px;font-size:.58rem;letter-spacing:.12em;color:var(--mut);z-index:2;font-family:system-ui}
+.blk{position:absolute;top:0;height:100%;border-radius:4px;padding:4px 6px;overflow:hidden;white-space:nowrap}
+.blk.d{background:#2b3558;border:1px solid #5b6cb0;color:#dbe4ff}
+.blk.c{background:rgba(255,106,77,.22);border:1px solid var(--ac);color:var(--tx)}
+.blk.c.over{background:rgba(255,138,122,.35);border:2px solid var(--bad)}
+body.hc .blk.d{background:#000;border-color:#fff}
+.ph{position:absolute;top:0;bottom:0;width:3px;background:#fff;z-index:5;left:0}
+.cap{min-height:3.4em;margin:16px 0 6px;font-size:1.1rem;border-left:4px solid var(--ac);padding-left:14px}
+.cap small{display:block;font-family:system-ui;font-size:.7rem;color:var(--mut);letter-spacing:.1em;text-transform:uppercase}
+.cues{display:grid;gap:10px;margin-top:14px}
+.cue{border:1px solid var(--line);border-radius:6px;padding:12px 14px;background:var(--bg)}
+.cue .meta{display:flex;gap:10px;flex-wrap:wrap;font-family:system-ui;font-size:.72rem;color:var(--mut);margin-bottom:4px}
+.pill{border-radius:999px;padding:1px 9px;border:1.5px solid;font-size:.68rem;font-weight:700}
+.pill.ok{color:var(--ok)}.pill.bad{color:var(--bad)}
+.cue p{margin:2px 0;font-size:.92rem}
+.cue .why{font-family:system-ui;font-size:.75rem;color:var(--bad)}
+.phone{width:300px;max-width:100%;background:#0f0d0b;color:var(--tx);border:3px solid #15120f;border-radius:36px;padding:24px 16px;margin:0 auto;font-family:system-ui;box-shadow:8px 8px 0 var(--ac)}
+.phone h3{text-align:center;font-size:.8rem;letter-spacing:.2em;color:var(--mut);margin-bottom:14px}
+.big-btn{display:block;width:100%;background:var(--ac);color:#000;border:0;border-radius:20px;padding:24px 10px;font-weight:800;font-size:1.15rem;margin-bottom:12px;cursor:pointer}
+.big-btn.alt{background:transparent;color:var(--tx);border:2px solid var(--tx)}
+.phone .btn{color:var(--tx);border-color:var(--line)}
+.phone .stat{border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:.78rem;margin-bottom:12px;color:var(--mut)}
+.phone .stat b{color:var(--tx)}
+.two{display:grid;grid-template-columns:minmax(0,320px) 1fr;gap:44px;align-items:center;margin-top:30px}
+@media(max-width:760px){.two{grid-template-columns:1fr}.hero{padding-top:40px}}
+ul.clean{padding-left:1.1em;max-width:62ch}ul.clean li{margin:8px 0}
+footer{padding:44px 0 80px;font-size:.8rem;color:var(--mut)}
+.callout{border:2px solid var(--line);background:var(--panel);border-left:10px solid var(--ac);padding:16px 20px;margin:26px 0;max-width:72ch}
+.callout b{font-family:system-ui}
+.team{font-family:system-ui;font-size:.78rem;letter-spacing:.06em}
+</style>
+<script>if(/[?&]from=/.test(location.search)){var s=document.createElement('style');s.id='sx-hide';s.textContent='html{background:#f4f3ef}body{opacity:0!important}';document.head.appendChild(s)}</script></head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar"><div class="wrap">
+  <div class="brand">SIGHT<b>SONIC</b></div>
+  <div class="tools" role="group" aria-label="Display options for this page">
+    <button class="btn" id="hcBtn" aria-pressed="false">High contrast</button>
+    <button class="btn" id="bigBtn" aria-pressed="false">Larger text</button>
+  </div>
+</div></header>
+
+<main id="main">
+<div class="hero"><div class="wrap">
+  <div class="meta"><span>Concept proposal</span><span>Accessible entertainment</span><span class="team">Team: Anjal · Athulya</span></div>
+  <h1>Sight<span>sonic</span></h1>
+  <p class="lede">Audio description that people can actually enjoy - in Malayalam, Tamil, Hindi and beyond - made by AI drafts, shaped by human describers, and approved by blind and low-vision reviewers.</p>
+  <div class="cta"><a class="btn solid" href="#demo">Try the gap-fitting demo</a><a href="#rethink" class="sans" style="font-size:.85rem">How it works</a></div>
+</div><div class="wave" aria-hidden="true" style="margin:0"></div></div>
+<div class="band"><div class="wrap"><p>Describe what is seen. Let the voice carry the feeling.</p><small>The design rule behind every description</small></div></div>
+
+<section id="problem"><div class="wrap">
+  <p class="tag">01 · The problem, stated honestly</p>
+  <h2>The gap is language and quality, not just "availability"</h2>
+  <p>The WHO figure covers everyone with any vision impairment, including people who simply need glasses. The people Sightsonic serves are a smaller group, and the barrier they face is specific.</p>
+  <div class="grid">
+    <div class="card"><div class="n">2.2 bn</div><h3>People with a vision impairment</h3><p>WHO: at least 2.2 billion, of whom at least 1 billion have an impairment that could have been prevented or is unaddressed. Only a subset are blind or cannot use visuals. <span class="conf">Certain</span> <a href="https://www.who.int/news-room/fact-sheets/detail/blindness-and-visual-impairment" target="_blank" rel="noopener">WHO, 10 Feb 2026</a></p></div>
+    <div class="card"><div class="n">13,000+ h</div><h3>Netflix AD added in 2025</h3><p>Across 34 languages, up over 30% year on year, and Netflix says more languages are planned. <span class="conf">Certain</span> <a href="https://about.netflix.com/news/our-latest-steps-in-making-content-more-accessible" target="_blank" rel="noopener">Netflix, May 2026</a></p></div>
+    <div class="card"><div class="n">6 Feb 2026</div><h3>India OTT accessibility guidelines</h3><p>MIB finalised guidelines for accessibility of OTT content for viewers with hearing and visual impairment. New OTT content must carry at least one accessibility feature each for hearing and visual impairment within 36 months, as reported. <span class="conf">Likely</span> <a href="https://www.mib.gov.in/sites/default/files/2026-02/finalized-accessibility-guidelines-for-ott-platforms_0.pdf" target="_blank" rel="noopener">MIB text</a> · <a href="https://www.exchange4media.com/digital-news/ott-platforms-to-add-captions-audio-descriptions-under-new-mib-accessibility-rules-151823.html" target="_blank" rel="noopener">summary</a></p></div>
+  </div>
+  <div class="callout"><b>A note on figures.</b> Every number on this page is sourced or labelled as an assumption. Where a claim could not be sourced, it is left out.</div>
+  <p>The opening: a Malayalam, Tamil or Hindi film on a streaming service often has no description at all, and where it exists it can sound like a news bulletin read over the film. That is the problem Sightsonic takes on.</p>
+</div></section>
+
+<section id="rethink"><div class="wrap">
+  <p class="tag">02 · Design decisions</p>
+  <h2>A companion app that works with any screen today</h2>
+  <p>Building inside a streaming platform needs DRM access and platform cooperation. Sightsonic avoids that dependency, and each decision below follows the same logic: work with what exists today and keep humans in the loop.</p>
+  <div class="tblwrap"><table>
+    <thead><tr><th scope="col">Area</th><th scope="col">Common approach</th><th scope="col">Limit</th><th scope="col">Sightsonic</th></tr></thead>
+    <tbody>
+    <tr><td>Delivery</td><td>Integrate inside each streaming platform</td><td class="x">No access to protected streams; depends on platform buy-in</td><td class="v">Companion app that listens to the film's soundtrack and syncs a separate description track (the approach used by MovieReading-type apps). Manual offset as fallback. <span class="conf">Likely</span> feasible</td></tr>
+    <tr><td>Narration</td><td>AI-only narration</td><td class="x">Description standards say describe what is seen, not what a character feels; models invent names and backstory</td><td class="v">AI drafts, a trained describer edits against a style guide, a blind or low-vision reviewer signs off. Emotion comes from voice, not from guessing feelings</td></tr>
+    <tr><td>Timing</td><td>Fill gaps between dialogue</td><td class="x">Not specified how; long text collides with dialogue</td><td class="v">Word budget per gap from its length, checked automatically (demo below)</td></tr>
+    <tr><td>Interface</td><td>Visual-first interface</td><td class="x">Helps low vision, useless for blind users</td><td class="v">Blind-first: large targets, screen-reader labels, voice, haptics. High-contrast and large-text modes for low vision</td></tr>
+    <tr><td>Community</td><td>Volunteer-only community</td><td class="x">No training, pay or quality loop</td><td class="v">Tiered roles: trainee, describer, reviewer. Small honorarium for paid titles, volunteer for community titles</td></tr>
+    <tr><td>Content</td><td>Any film, any source</td><td class="x">Rights and licensing unaddressed</td><td class="v">Pilot on rights-cleared titles: indie and regional filmmakers who opt in. Descriptions are separate tracks, no film files hosted</td></tr>
+    <tr><td>Evidence</td><td>Claims without user testing</td><td class="x">Cannot defend the premise</td><td class="v">Pilot with blind and low-vision viewers; measure against existing AD or none</td></tr>
+    <tr><td>Technology</td><td>Tied to one model</td><td class="x">Models change every few months</td><td class="v">"A multimodal video model (for example Gemini)" so the design outlasts a model version</td></tr>
+    </tbody></table></div>
+</div></section>
+
+<section id="pipeline"><div class="wrap">
+  <p class="tag">03 · How a title gets described</p>
+  <h2>Eight steps, two of them human</h2>
+  <ol class="pipe">
+    <li><span class="k au">AUTO</span><b>Ingest</b><p>Rights-cleared film plus its subtitles or transcript.</p></li>
+    <li><span class="k au">AUTO</span><b>Find the gaps</b><p>Detect silence between dialogue and music; list each gap with its length.</p></li>
+    <li><span class="k au">AUTO</span><b>Set word budgets</b><p>Gap seconds times a reading pace. Assumed 2.5 words per second at normal speed - to be tuned per language and voice.</p></li>
+    <li><span class="k ai">AI</span><b>Draft</b><p>Video model proposes a description per gap, given a character glossary and the style guide.</p></li>
+    <li><span class="k hu">HUMAN</span><b>Describe</b><p>Describer fixes names, trims to budget, removes interpretation.</p></li>
+    <li><span class="k hu">HUMAN</span><b>Review</b><p>Blind or low-vision reviewer listens and rates clarity and pace. Their name and rating appear on the track.</p></li>
+    <li><span class="k au">AUTO</span><b>Voice</b><p>Synthetic voice of the viewer's choice, or a human narrator for premium titles.</p></li>
+    <li><span class="k au">AUTO</span><b>Publish a cue track</b><p>Time-coded file the app plays in sync. No film is hosted.</p></li>
+  </ol>
+  <h3 style="margin-top:28px">What the cue track looks like</h3>
+<pre>{
+  "title": "Night Bus (sample)",
+  "language": "ml-IN",
+  "style_guide": "v1",
+  "reviewed_by": [{"role":"describer"},{"role":"blind_reviewer","rating":4.5}],
+  "cues": [
+    {"start": 3.0, "end": 10.0, "budget_words": 17, "words": 16,
+     "text": "Night. Rain on a tin-roofed bus shelter. Meera, in a yellow raincoat, rises from the bench."}
+  ]
+}</pre>
+</div></section>
+
+<section id="workflow"><div class="wrap">
+  <p class="tag">04 · Workflow</p>
+  <h2>The workflow, and how each barrier is addressed</h2>
+  <h3 style="margin-top:22px">Who does what, from release to review</h3>
+  <div class="tblwrap"><table>
+    <thead><tr><th scope="col">Stage</th><th scope="col">Viewer</th><th scope="col">App</th><th scope="col">Describer's circle</th></tr></thead>
+    <tbody>
+    <tr><td>Before release</td><td>-</td><td>-</td><td>Describer and reviewer prepare the cue track (steps in section 03)</td></tr>
+    <tr><td>Choose</td><td>Picks a film and a language</td><td>Lists titles that have a track, with the reviewer's rating</td><td>-</td></tr>
+    <tr><td>Prepare</td><td>Starts the film on a TV, laptop or in a cinema</td><td>Downloads the small cue track in advance</td><td>-</td></tr>
+    <tr><td>Sync</td><td>Taps Listen and sync</td><td>Matches the room's soundtrack to the track; offset buttons if it drifts</td><td>-</td></tr>
+    <tr><td>Watch</td><td>Listens on headphones; sets voice and pace</td><td>Plays each cue inside its gap</td><td>-</td></tr>
+    <tr><td>After</td><td>Rates clarity and pace</td><td>Sends ratings to the title's page</td><td>Describers see ratings and revise the track</td></tr>
+    </tbody></table></div>
+  <h3 style="margin-top:34px">Barrier, response, evidence</h3>
+  <div class="tblwrap"><table>
+    <thead><tr><th scope="col">Barrier</th><th scope="col">How Sightsonic addresses it</th><th scope="col">Evidence</th></tr></thead>
+    <tbody>
+    <tr><td>Little description in Indian languages</td><td>Language-specific describers; each language gets its own cue track, independent of a platform's dubbing or licensing</td><td>Netflix reports 13,000+ hours of AD in 34 languages in 2025 and plans more (<a href="https://about.netflix.com/news/our-latest-steps-in-making-content-more-accessible" target="_blank" rel="noopener">Netflix</a>). The gap for Indian regional films is the hypothesis the pilot tests. <span class="conf">Likely</span></td></tr>
+    <tr><td>Description sounds flat or robotic</td><td>Viewer chooses narrator, voice and pace; human narration for premium titles; reviewer rating shown</td><td>A design choice, measured in the pilot through listening effort and enjoyment ratings</td></tr>
+    <tr><td>AI invents or interprets</td><td>Style guide: describe what is seen, no interpretation, present tense. A describer edits every draft and a blind or low-vision reviewer signs off</td><td>Standard guidance for describers (<a href="https://adp.acb.org/guidelines.html" target="_blank" rel="noopener">ACB Audio Description Project</a>). <span class="conf">Certain</span></td></tr>
+    <tr><td>Streaming platforms are closed</td><td>Companion app syncs by listening to the soundtrack; it needs no access to the stream</td><td>MovieReading uses the device microphone to find the film's position (<a href="https://www.laptopmag.com/au/articles/smartphone-app-helps-the-blind-go-to-the-movies" target="_blank" rel="noopener">Laptop Mag</a>) and works at the cinema or at home (<a href="https://apps.apple.com/us/app/moviereading/id460349347" target="_blank" rel="noopener">App Store listing</a>). <span class="conf">Certain</span> that the approach exists, <span class="conf">Guessing</span> on noisy-room reliability</td></tr>
+    <tr><td>Description collides with dialogue</td><td>Word budget per gap, checked before review (demo in section 05)</td><td>Description should not interfere with the soundtrack or dialogue (<a href="https://adp.acb.org/guidelines.html" target="_blank" rel="noopener">ACB guidelines</a>). Reading pace of 2.5 words per second is an assumption</td></tr>
+    <tr><td>Rights to the film</td><td>Pilot only with titles whose owners opt in; the cue track is a separate file and no film is hosted</td><td>A US partner of MovieReading notes that copyright-holder permission is needed to make material available (<a href="https://applevis.com/comment/19304" target="_blank" rel="noopener">AppleVis comment</a>)</td></tr>
+    <tr><td>Rules are arriving, tracks are not</td><td>Sightsonic supplies reviewed tracks that producers and platforms need</td><td>MIB guidelines dated 6 Feb 2026 (<a href="https://www.mib.gov.in/sites/default/files/2026-02/finalized-accessibility-guidelines-for-ott-platforms_0.pdf" target="_blank" rel="noopener">MIB text</a>); 36-month window as reported by <a href="https://www.exchange4media.com/digital-news/ott-platforms-to-add-captions-audio-descriptions-under-new-mib-accessibility-rules-151823.html" target="_blank" rel="noopener">exchange4media</a>. <span class="conf">Likely</span></td></tr>
+    </tbody></table></div>
+</div></section>
+
+<section id="demo"><div class="wrap">
+  <p class="tag">05 · Interactive</p>
+  <h2>Fit the description into the gaps</h2>
+  <p>A 40-second scene written for this page. Compare a naive "emotional" draft with a standards-based one. Press play to hear each, or step through the cues one at a time.</p>
+  <div class="demo">
+    <div class="row" role="group" aria-label="Description version">
+      <span class="sans" style="font-size:.8rem;color:var(--mut)">Version</span>
+      <div class="seg"><button id="vNaive" aria-pressed="true">Naive AI draft</button><button id="vStd" aria-pressed="false">Sightsonic reviewed</button></div>
+    </div>
+    <div class="row">
+      <button class="btn solid" id="play">Play</button>
+      <button class="btn" id="step">Next cue</button>
+      <button class="btn" id="reset">Reset</button>
+      <label for="voice">Voice</label><select id="voice"><option>Default</option></select>
+      <label for="rate">Pace</label><input id="rate" type="range" min="0.8" max="1.6" step="0.1" value="1.0">
+      <span class="sans" id="rateV" style="font-size:.8rem">1.0x</span>
+    </div>
+    <div class="tl" id="tl" aria-hidden="true">
+      <span class="lab" style="top:0">DIALOGUE</span><span class="lab" style="top:58px">DESCRIPTION</span>
+      <div class="lane l1" id="l1"></div><div class="lane l2" id="l2"></div><div class="ph" id="ph"></div>
+    </div>
+    <div class="cap" id="cap" aria-live="polite"><small>Now</small>Press play.</div>
+    <div class="cues" id="cues"></div>
+  </div>
+  <p class="sans" style="font-size:.78rem;color:var(--mut)">Browser voices differ by device. Malayalam, Tamil and Hindi voices depend on what your system provides. Pace budget assumption: 2.5 words per second at 1.0x. <span class="conf">Guessing</span> until tested with real listeners.</p>
+</div></section>
+
+<section id="app"><div class="wrap">
+  <p class="tag">06 · The app, blind-first</p>
+  <h2>One big button, then get out of the way</h2>
+  <div class="two">
+    <div class="phone" role="group" aria-label="App mockup">
+      <h3>SIGHTSONIC</h3>
+      <button class="big-btn" id="listen">Listen and sync</button>
+      <div class="stat" aria-live="polite" id="stat">Status: <b>waiting</b></div>
+      <div class="row" style="justify-content:center;margin:0 0 10px">
+        <button class="btn" id="earlier">Earlier 0.2s</button><button class="btn" id="later">Later 0.2s</button>
+      </div>
+      <div class="stat">Offset: <b id="off">0.0s</b><br>Voice: <b>Warm, medium pace</b><br>Reviewed by: <b>describer + blind reviewer</b></div>
+      <button class="big-btn alt">Choose another narrator</button>
+    </div>
+    <div>
+      <ul class="clean">
+        <li>Everything reachable by screen reader (VoiceOver, TalkBack) and by voice commands.</li>
+        <li>Phone sits next to the TV or laptop and listens; headphones carry the description, so sighted family hear the film normally.</li>
+        <li>Narrator, voice speed and description density are settings the viewer controls.</li>
+        <li>Low-vision users get high contrast and large text.</li>
+        <li>Reviewer profile and rating are shown on each title.</li>
+      </ul>
+      <p class="sans" style="font-size:.8rem;color:var(--mut)">Concept mockup. Screens are illustrative.</p>
+    </div>
+  </div>
+</div></section>
+
+<section id="pilot"><div class="wrap">
+  <p class="tag">07 · Making it real</p>
+  <h2>How it would be tested, funded and kept honest</h2>
+  <div class="grid">
+    <div class="card"><h3>Proposed pilot (8-10 weeks)</h3><p>3 to 5 short Malayalam films from consenting filmmakers. 6 describers, 4 blind or low-vision reviewers, 10 to 15 listeners.</p></div>
+    <div class="card"><h3>Measures</h3><p>Comprehension quiz per film, enjoyment rating, listening effort, and a side-by-side against existing AD or no AD. Target decided before the pilot, not after.</p></div>
+    <div class="card"><h3>Money</h3><p>Filmmakers and festivals pay a per-title production fee. Grants and NGO partnerships fund community titles. Always free for viewers. <span class="conf">Guessing</span></p></div>
+    <div class="card"><h3>Biggest risks</h3><p>AI mistakes names or events: mitigated by human review. Sync fails in noisy rooms: manual offset. Rights: opt-in titles only. Describer burnout: paid tiers, small batches.</p></div>
+  </div>
+  
+</div></section>
+<section id="sources"><div class="wrap"><p class="tag">08 · Sources</p><h2>Sources</h2><ol class="clean" style="max-width:80ch;font-size:.88rem"><li><a href="https://www.who.int/news-room/fact-sheets/detail/blindness-and-visual-impairment" target="_blank" rel="noopener">World Health Organization. Blindness and vision impairment (fact sheet), 10 February 2026.</a></li><li><a href="https://about.netflix.com/news/our-latest-steps-in-making-content-more-accessible" target="_blank" rel="noopener">Netflix. Our Latest Steps to Make Content More Accessible, May 2026.</a></li><li><a href="https://www.mib.gov.in/sites/default/files/2026-02/finalized-accessibility-guidelines-for-ott-platforms_0.pdf" target="_blank" rel="noopener">Ministry of Information and Broadcasting, India. Guidelines for Accessibility of Content on Platforms of Publishers of Online Curated Content (OTT Platforms) for Persons with Hearing and Visual Impairment, 6 February 2026.</a></li><li><a href="https://www.exchange4media.com/digital-news/ott-platforms-to-add-captions-audio-descriptions-under-new-mib-accessibility-rules-151823.html" target="_blank" rel="noopener">exchange4media. OTT platforms to add captions, audio descriptions under new MIB accessibility rules, 9 February 2026.</a></li><li><a href="https://adp.acb.org/guidelines.html" target="_blank" rel="noopener">American Council of the Blind, Audio Description Project. Guidelines for Audio Describers.</a></li><li><a href="https://adp.acb.org/docs/ADP_Standards.pdf" target="_blank" rel="noopener">American Council of the Blind, Audio Description Project. Audio Description Standards (2009, work in progress).</a></li><li><a href="https://apps.apple.com/us/app/moviereading/id460349347" target="_blank" rel="noopener">Universal Multimedia Access. MovieReading, App Store listing.</a></li><li><a href="https://www.laptopmag.com/au/articles/smartphone-app-helps-the-blind-go-to-the-movies" target="_blank" rel="noopener">Laptop Mag. Smartphone App Helps the Blind Go to the Movies.</a></li><li><a href="https://applevis.com/comment/19304" target="_blank" rel="noopener">AppleVis. MovieReading, comment by a US partner on rights and fees.</a></li></ol><p class="sans" style="font-size:.78rem;color:var(--mut)">Figures not listed here are assumptions and are labelled as such on the page. Links checked 18 November 2026.</p></div></section>
+</main>
+
+<footer><div class="wrap">
+  <p class="team">Concept by Anjal and Athulya.</p>
+</div></footer>
+
+<script>
+(function(){
+var b=document.body;
+function tog(id,cls){var el=document.getElementById(id);el.addEventListener('click',function(){var on=b.classList.toggle(cls);el.setAttribute('aria-pressed',on)})}
+tog('hcBtn','hc');tog('bigBtn','big');
+var w=document.querySelector('.wave');for(var i=0;i<170;i++){var s=document.createElement('i');s.style.animationDelay=(i*0.07)+'s';w.appendChild(s)}
+
+var DUR=40,WPS=2.5;
+var dialogue=[{s:0,e:3,t:'Meera: "You came back."'},{s:10,e:13,t:'Ravi: "The last bus was cancelled."'},{s:21,e:24,t:'Meera: "Then sit. It is raining harder."'},{s:33,e:36,t:'Ravi: "...Thank you."'}];
+var gaps=[{s:3,e:10},{s:13,e:21},{s:24,e:33},{s:36,e:40}];
+var texts={
+ naive:[
+  {t:'A lonely, heartbroken Meera waits in the rain, remembering the night Ravi left her years ago, as sadness fills the cold empty bus shelter.',why:'Invents backstory and states feelings that are not shown.'},
+  {t:'Ravi looks guilty and ashamed, clearly regretting everything, as he nervously decides whether to apologise for his terrible mistake.',why:'Interprets thoughts; adds a "mistake" the film never shows.'},
+  {t:'Their love is still alive; they both feel it deeply as he sits beside her, and the whole world seems to melt away in the rain.',why:'Tells the viewer what to feel instead of what happens.'},
+  {t:'Meera is secretly happy and hopeful, her heart finally healing after so many years of pain.',why:'Claims inner state; too long for a 4-second gap.'}],
+ std:[
+  {t:'Night. Rain on a tin-roofed bus shelter. Meera, in a yellow raincoat, rises from the bench.'},
+  {t:'Ravi, soaked, holds a closed umbrella. He glances at the empty road, then at her.'},
+  {t:'She moves her bag aside. He sits, leaving a hand\'s width between them. Headlights pass, and he watches them go.'},
+  {t:'Meera smiles at the road.'}]};
+var mode='naive',playing=false,t0=0,raf=0,spoken=-1,cur=0,startOffset=0,voices=[];
+function wc(s){return s.trim().split(/\s+/).length}
+function pc(x){return (x/DUR*100)+'%'}
+function build(){
+ var l1=document.getElementById('l1'),l2=document.getElementById('l2'),cs=document.getElementById('cues');
+ l1.innerHTML='';l2.innerHTML='';cs.innerHTML='';
+ dialogue.forEach(function(d){var e=document.createElement('div');e.className='blk d';e.style.left=pc(d.s);e.style.width=pc(d.e-d.s);e.textContent='dialogue';l1.appendChild(e)});
+ gaps.forEach(function(g,i){
+  var rate=parseFloat(document.getElementById('rate').value);
+  var budget=Math.floor((g.e-g.s)*WPS*rate);
+  var tx=texts[mode][i],n=wc(tx.t),over=n>budget;
+  var e=document.createElement('div');e.className='blk c'+(over?' over':'');e.style.left=pc(g.s);e.style.width=pc(g.e-g.s)+'';e.style.minWidth='0';e.textContent=n+'/'+budget;l2.appendChild(e);
+  var c=document.createElement('div');c.className='cue';
+  c.innerHTML='<div class="meta"><span>Gap '+(i+1)+': '+g.s+'s to '+g.e+'s ('+(g.e-g.s)+'s)</span><span>'+n+' words, budget '+budget+'</span><span class="pill '+(over?'bad':'ok')+'">'+(over?'Over budget by '+(n-budget):'Fits')+'</span></div><p></p>'+(mode==='naive'?'<div class="why"></div>':'');
+  c.querySelector('p').textContent=tx.t;
+  if(mode==='naive')c.querySelector('.why').textContent='Problem: '+tx.why;
+  cs.appendChild(c)});
+}
+function setMode(m){mode=m;document.getElementById('vNaive').setAttribute('aria-pressed',m==='naive');document.getElementById('vStd').setAttribute('aria-pressed',m==='std');stop();build();setCap('Press play.','')}
+document.getElementById('vNaive').onclick=function(){setMode('naive')};
+document.getElementById('vStd').onclick=function(){setMode('std')};
+function setCap(txt,lab){var c=document.getElementById('cap');c.innerHTML='<small></small><span></span>';c.querySelector('small').textContent=lab||'Now';c.querySelector('span').textContent=txt}
+function loadVoices(){if(!window.speechSynthesis)return;voices=speechSynthesis.getVoices();var s=document.getElementById('voice');s.innerHTML='';var o=document.createElement('option');o.value='-1';o.textContent='Default';s.appendChild(o);voices.forEach(function(v,i){var o=document.createElement('option');o.value=i;o.textContent=v.name+' ('+v.lang+')';s.appendChild(o)})}
+if(window.speechSynthesis){loadVoices();speechSynthesis.onvoiceschanged=loadVoices}
+function say(txt){if(!window.speechSynthesis)return;speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(txt);var vi=parseInt(document.getElementById('voice').value,10);if(vi>=0&&voices[vi])u.voice=voices[vi];u.rate=parseFloat(document.getElementById('rate').value);speechSynthesis.speak(u)}
+function tick(now){
+ var t=(now-t0)/1000+startOffset;
+ document.getElementById('ph').style.left=pc(Math.min(t,DUR));
+ var d=dialogue.filter(function(x){return t>=x.s&&t<x.e})[0];
+ gaps.forEach(function(g,i){if(t>=g.s&&t<g.e&&spoken<i){spoken=i;cur=i;say(texts[mode][i].t);setCap(texts[mode][i].t,'Description - gap '+(i+1))}});
+ if(d&&!(gaps.some(function(g){return t>=g.s&&t<g.e}))){setCap(d.t,'Dialogue')}
+ if(t>=DUR){stop();setCap('End of scene.','');return}
+ if(playing)raf=requestAnimationFrame(tick)}
+function stop(){playing=false;cancelAnimationFrame(raf);if(window.speechSynthesis)speechSynthesis.cancel();document.getElementById('play').textContent='Play';spoken=-1;startOffset=0;document.getElementById('ph').style.left='0'}
+document.getElementById('play').onclick=function(){if(playing){stop();return}playing=true;this.textContent='Stop';spoken=-1;startOffset=0;t0=performance.now();raf=requestAnimationFrame(tick)};
+document.getElementById('reset').onclick=function(){stop();cur=0;setCap('Press play.','')};
+document.getElementById('step').onclick=function(){stop();var i=cur%gaps.length;cur=i+1;setCap(texts[mode][i].t,'Description - gap '+(i+1));document.getElementById('ph').style.left=pc(gaps[i].s);say(texts[mode][i].t)};
+document.getElementById('rate').oninput=function(){document.getElementById('rateV').textContent=parseFloat(this.value).toFixed(1)+'x';build()};
+build();
+/* app mock */
+var off=0;function so(){document.getElementById('off').textContent=(off>=0?'+':'')+off.toFixed(1)+'s'}
+document.getElementById('listen').onclick=function(){var s=document.getElementById('stat');s.innerHTML='Status: <b>listening...</b>';setTimeout(function(){s.innerHTML='Status: <b>synced to "Night Bus (sample)"</b>'},1200)};
+document.getElementById('earlier').onclick=function(){off-=0.2;so()};
+document.getElementById('later').onclick=function(){off+=0.2;so()};so();
+})();
+</script>
+<script src="sx.js"></script></body>
+</html>

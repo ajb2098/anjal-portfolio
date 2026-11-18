@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en" data-view="quick">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mused</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&family=Hanken+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* Layout idea: Mused's own app look (near-black grey, white pill controls, red call-to-action, the grand-piano mark). The playable cascade is the hero, the research and story run below in one column. Note colours appear only on notes. */
+:root{
+  --bg:#151515;
+  --panel:#1f1f20;
+  --line:#35353a;
+  --text:#ffffff;
+  --muted:#a9a9b0;
+  --brand:#ff3a2e;
+  --brand-deep:#ce0202;
+  --c:#ff2a1f; --d:#ff8a2a; --e:#ffcb1f; --f:#21e85c; --g:#00a8ea; --a:#5a86ff; --b:#9b2fc4;
+  --display:'Lexend','Hanken Grotesk',system-ui,sans-serif;
+  --body:'Hanken Grotesk',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
+  --r:14px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{background:var(--bg);scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+section[id],#player{scroll-margin-top:70px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:var(--text)}
+:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+.spectrum{display:flex;height:10px}
+.spectrum i{flex:1}
+.spectrum i:nth-child(7n+1){background:var(--c)}.spectrum i:nth-child(7n+2){background:var(--d)}.spectrum i:nth-child(7n+3){background:var(--e)}.spectrum i:nth-child(7n+4){background:var(--f)}.spectrum i:nth-child(7n+5){background:var(--g)}.spectrum i:nth-child(7n+6){background:var(--a)}.spectrum i:nth-child(7n+7){background:var(--b)}
+header{padding:44px 0 34px}
+.jump{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.jump a{color:var(--text);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:14px;min-height:40px;display:inline-flex;align-items:center}
+.jump a:hover{background:#fff;color:#151515}
+.topbar{position:sticky;top:0;z-index:20;background:rgba(21,21,21,.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:56px;flex-wrap:wrap;padding-top:6px;padding-bottom:6px}
+.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;font-family:var(--display);font-weight:700;font-size:22px;letter-spacing:-.01em}
+.logo img{display:block;width:34px;height:auto}
+.bar nav{display:flex;gap:6px;flex-wrap:wrap}
+.bar nav a{color:var(--text);text-decoration:none;border-radius:999px;padding:8px 14px;font-size:14px;min-height:40px;display:inline-flex;align-items:center}
+.bar nav a:hover{background:#fff;color:#151515}
+.brand{display:flex;align-items:center;gap:22px;margin:6px 0 16px}
+.brand img{width:112px;height:auto;display:block}
+.tag{font-family:var(--display);font-weight:400;font-size:clamp(15px,2vw,18px);margin:0 0 16px;color:var(--muted);max-width:none}
+.tag b{font-weight:500;color:var(--brand)}
+.eyebrow{max-width:none;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(60px,11vw,112px);line-height:.95;margin:0;letter-spacing:-.02em}
+.lede{max-width:46ch;font-size:clamp(18px,2.4vw,22px);margin:0;color:var(--text)}
+h2{font-family:var(--display);font-weight:500;font-size:clamp(26px,4vw,38px);line-height:1.15;margin:0 0 14px;text-wrap:balance}
+h3{font-family:var(--body);font-weight:700;font-size:17px;margin:0 0 6px}
+section{padding:54px 0;border-top:1px solid var(--line)}
+p{margin:0 0 14px;max-width:62ch}
+.small{font-size:14px;color:var(--muted)}
+
+/* player */
+.player{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:16px}
+.controls{display:flex;flex-wrap:wrap;gap:14px 22px;align-items:flex-end;margin-bottom:12px}
+.grp{display:flex;flex-direction:column;gap:6px}
+.grp>span{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{background:transparent;color:var(--text);border:1px solid var(--line);border-radius:999px;padding:8px 14px;font:500 14px var(--body);cursor:pointer;min-height:40px}
+.seg button[aria-pressed="true"]{background:#fff;color:#151515;border-color:#fff}
+.go{margin-left:auto;display:flex;gap:8px}
+.btn{background:var(--brand);color:#151515;border:0;border-radius:999px;padding:0 22px;font:700 15px var(--body);cursor:pointer;min-height:44px}
+.btn.alt{background:transparent;color:var(--text);border:1px solid var(--line);font-weight:500}
+.btn[aria-pressed="true"]{background:#fff;color:#151515;border-color:#fff}
+.stage{position:relative;background:#000;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+canvas{display:block;width:100%;touch-action:none;cursor:pointer}
+.status{display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;margin-top:12px;font-family:var(--mono);font-size:13px;color:var(--muted)}
+#fb{color:var(--text);min-height:1.4em}
+.hint{margin:10px 0 0;font-size:14px;color:var(--muted);max-width:none}
+.learnbox{margin-top:14px;padding:14px 16px;border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:10px;background:#191919}
+.learnbox h3{font-family:var(--display);font-weight:500;font-size:17px;margin:0 0 4px}
+.learnbox p{margin:0;font-size:15px;max-width:none;color:#e6e6ea}
+.learnbox .mono{font-family:var(--mono);font-size:13px;color:var(--muted);display:block;margin-top:6px}
+
+/* story */
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:18px}
+.card .no{font-family:var(--mono);font-size:12px;color:var(--muted);display:block;margin-bottom:8px}
+.facts{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.facts li{padding-left:18px;position:relative;max-width:64ch}
+.facts li::before{content:"";position:absolute;left:0;top:.62em;width:8px;height:8px;background:var(--brand);border-radius:2px}
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;align-items:start}
+.how figure{margin:0}
+.how img{width:100%;height:auto;display:block;background:#000;border:1px solid var(--line);border-radius:var(--r)}
+.how figcaption,.photos figcaption{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:8px;line-height:1.45}
+.notes{display:flex;flex-wrap:wrap;gap:6px;margin:14px 0 4px}
+.notes span{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:10px;font-family:var(--display);font-weight:700;font-size:20px;color:#000}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 16px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid var(--line);font-size:14px}
+.chip i{width:12px;height:12px;display:block}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:26px}
+.photos{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px}
+.photos img{width:100%;height:auto;display:block;border:1px solid var(--line);background:#000;border-radius:var(--r)}
+.photos figure{margin:0}
+.photos .wide{grid-column:1/-1}
+.stages{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.stages div{padding:18px;border-right:1px solid var(--line)}
+.stages div:last-child{border-right:0}
+.stages .no{font-family:var(--mono);font-size:12px;color:var(--muted);display:block;margin-bottom:6px}
+
+.journey{list-style:none;margin:34px 0 0;padding:0;position:relative}
+.journey::before{content:"";position:absolute;left:11px;top:6px;bottom:0;width:2px;background:var(--line)}
+.step{position:relative;display:grid;grid-template-columns:36px 1fr;padding-bottom:54px}
+.step:last-child{padding-bottom:0}
+.mk{width:24px;height:24px;background:var(--mk);position:relative;margin-top:2px;border:4px solid var(--bg);box-sizing:content-box;left:-4px}
+.sb .no{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px}
+.sb h3{font-family:var(--display);font-weight:500;font-size:clamp(20px,2.8vw,26px);line-height:1.2;margin:0 0 12px}
+.figs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-top:18px;align-items:start}
+.figs figure{margin:0}
+.figs img{width:100%;height:auto;display:block;background:#fff;border:1px solid var(--line);border-radius:10px}
+.figs figcaption{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:8px;line-height:1.45}
+.figs .wide{grid-column:1/-1}
+.qs{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-top:6px}
+.qs blockquote{margin:0;padding:16px;background:var(--panel);border:1px solid var(--line);border-radius:var(--r);font-size:15.5px;line-height:1.55}
+
+/* research */
+.sec-lede{max-width:62ch}
+.rblock{margin-top:44px}
+.rblock>h3{font-family:var(--display);font-weight:500;font-size:clamp(20px,2.6vw,25px);line-height:1.2;margin:0 0 10px}
+.rblock>.no{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:6px}
+.why{margin:16px 0 0;padding:14px 16px;border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:10px;background:#191919;max-width:none}
+.why b{display:block;font-family:var(--mono);font-weight:500;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);margin-bottom:4px}
+.why p{margin:0;font-size:15.5px}
+.problem{font-family:var(--display);font-weight:500;font-size:clamp(20px,3vw,28px);line-height:1.3;margin:6px 0 0;padding:22px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);max-width:none}
+.w2h{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.w2h div{padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--panel)}
+.w2h dt{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);margin:0 0 4px}
+.w2h dd{margin:0;font-size:15px;line-height:1.5}
+.w2h{margin:0}
+.whys{list-style:none;margin:0;padding:0;display:grid;gap:0;max-width:760px}
+.whys li{display:grid;grid-template-columns:54px 1fr;gap:14px;padding:14px 0;border-top:1px solid var(--line);align-items:start}
+.whys li:last-child{border-bottom:1px solid var(--line)}
+.whys .n{font-family:var(--display);font-weight:700;font-size:15px;color:var(--brand)}
+.whys .q{margin:0;font-size:16px;max-width:none}
+.whys .tail{background:#191919}
+.tbl{width:100%;border-collapse:collapse;font-size:14.5px;line-height:1.5}
+.tbl th,.tbl td{text-align:left;vertical-align:top;padding:12px 12px;border-bottom:1px solid var(--line)}
+.tbl th{font-family:var(--mono);font-weight:500;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.tbl td:first-child{font-weight:700;white-space:nowrap}
+.tblwrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
+.tbl{min-width:720px}
+.timeline{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.timeline li{padding:14px 16px;border:1px solid var(--line);border-radius:12px;background:var(--panel);font-size:15px}
+.timeline li b{display:block;font-family:var(--display);font-weight:500;font-size:15px;margin-bottom:4px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.stat{padding:18px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
+.stat strong{display:block;font-family:var(--display);font-weight:700;font-size:clamp(30px,4vw,40px);line-height:1;color:var(--brand);margin-bottom:8px}
+.stat span{font-size:14.5px;line-height:1.45;display:block;color:#e6e6ea}
+.stat em{display:block;font-style:normal;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:8px}
+.pal{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 0}
+.pal span{display:flex;flex-direction:column;justify-content:flex-end;width:72px;height:64px;padding:6px 8px;border-radius:10px;font-family:var(--mono);font-size:11px;line-height:1.25;color:#000}
+.pal span b{font-family:var(--display);font-size:15px}
+.voices{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:10px}
+.voices blockquote{margin:0;padding:16px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);font-size:15px;line-height:1.55}
+.voices cite{display:block;margin-top:10px;font-style:normal;font-family:var(--mono);font-size:12px;color:var(--muted)}
+.cols2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;align-items:start}
+.cols2 figure{margin:0}
+.cols2 img{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:var(--r);background:#000}
+.cols2 figcaption{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:8px;line-height:1.45}
+.srcnote{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:14px;max-width:80ch}
+@media (max-width:560px){.whys li{grid-template-columns:40px 1fr}.brand img{width:72px}.logo span{display:none}}
+
+.slide{margin:0}
+.slide img{width:100%;height:auto;display:block;border:1px solid var(--line);border-radius:var(--r);background:#fff}
+.slide figcaption{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:8px;line-height:1.45}
+.figs .slide.wide{grid-column:1/-1}
+.frus{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin-top:18px}
+.frus div{padding:16px 18px;border-radius:14px;background:var(--brand-deep);color:#fff}
+.frus h4{font-family:var(--display);font-weight:500;font-size:17px;line-height:1.25;margin:0 0 6px}
+.frus p{margin:0;font-size:14.5px;line-height:1.5;max-width:none;color:#fff}
+.hmw{list-style:none;margin:14px 0 0;padding:0;display:grid;gap:8px;max-width:none}
+.hmw li{padding:12px 16px;border:1px solid var(--line);border-radius:12px;background:var(--panel);font-size:16px}
+.hmw li b{color:var(--brand);font-weight:500}
+.lv{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin-top:16px}
+.lv div{padding:16px;border:1px solid var(--line);border-radius:14px;background:var(--panel)}
+.lv span{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);display:block;margin-bottom:6px}
+.lv h4{font-family:var(--display);font-weight:500;font-size:18px;margin:0 0 6px}
+.lv p{margin:0;font-size:15px;max-width:none}
+.pp{margin-top:56px}
+.pp>h3{font-family:var(--display);font-weight:500;font-size:clamp(21px,2.8vw,27px);line-height:1.2;margin:0 0 10px}
+.bul{margin:10px 0 0;padding-left:20px;max-width:64ch}.bul li{margin:0 0 8px}
+
+/* ---- layout fixes: grids that grow so no orphan cards ---- */
+.stats,.timeline,.voices{display:flex;flex-wrap:wrap;gap:10px}
+.stats>*{flex:1 1 170px}.timeline>*{flex:1 1 210px}.voices>*{flex:1 1 260px}
+.rblock p,.pp p,.sec-lede{max-width:68ch;text-wrap:pretty}
+.cols2>div>p:last-child,.cols2>p:last-child{margin-bottom:0}
+.cols2.top{align-items:start}
+/* ---- view switch ---- */
+html[data-view="quick"] [data-view="deep"]{display:none!important}
+html[data-view="deep"] [data-view="quick"]{display:none!important}
+.viewsw{display:flex;gap:4px;padding:4px;border:1px solid var(--line);border-radius:999px;background:#1b1b1c}
+.viewsw button{background:transparent;color:var(--text);border:0;border-radius:999px;padding:7px 14px;font:500 14px var(--body);cursor:pointer;min-height:36px}
+.viewsw button[aria-pressed="true"]{background:#fff;color:#151515}
+.chooser{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-top:28px;max-width:780px}
+.choice{display:block;text-align:left;width:100%;background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:var(--r);padding:16px 18px;cursor:pointer;font:inherit}
+.choice b{display:block;font-family:var(--display);font-weight:500;font-size:18px;margin-bottom:4px}
+.choice span{display:block;font-size:14.5px;color:var(--muted);line-height:1.45}
+.choice[aria-pressed="true"]{background:#fff;color:#151515;border-color:#fff}
+.choice[aria-pressed="true"] span{color:#3a3a3f}
+.q4{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.q4>div{flex:1 1 230px;padding:18px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
+.q4 .no{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);display:block;margin-bottom:8px}
+.q4 strong{display:block;font-family:var(--display);font-weight:700;font-size:clamp(30px,4vw,40px);line-height:1;margin-bottom:8px}
+.q4 h3{font-family:var(--display);font-weight:500;font-size:19px;margin:0 0 6px}
+.q4 p{margin:0;font-size:15px;max-width:none}
+.ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.ctas a,.ctas button{display:inline-flex;align-items:center;min-height:44px;padding:0 22px;border-radius:999px;font:700 15px var(--body);text-decoration:none;cursor:pointer;border:1px solid var(--line);background:transparent;color:var(--text)}
+.ctas .primary{background:var(--brand);color:#151515;border-color:var(--brand)}
+/* ---- 5 whys: the dig ---- */
+.dig-top{display:inline-block;max-width:70ch;padding:14px 18px;border:1px dashed #5a5a60;border-radius:14px;font-size:16px;margin-bottom:6px}
+.dig-top span{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.dig{list-style:none;margin:0;padding:0;position:relative;max-width:860px}
+.dig li{position:relative;margin:0 0 0 calc(var(--i)*44px);padding:0 0 22px 0}
+.dig li::before{content:"";position:absolute;left:89px;top:50%;bottom:-2px;width:2px;background:linear-gradient(var(--line),var(--brand))}
+.dig li:last-child{padding-bottom:0}.dig li:last-child::before{display:none}
+.dig .card2{position:relative;margin-left:0;display:grid;grid-template-columns:62px 1fr;gap:14px;align-items:center;padding:14px 18px 14px 14px;border:1px solid var(--line);border-radius:16px;background:var(--panel);z-index:1}
+.dig .w{display:flex;flex-direction:column;align-items:center;justify-content:center;width:62px;height:62px;border-radius:50%;background:#151515;border:2px solid var(--brand);font-family:var(--display);line-height:1}
+.dig .w small{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:2px}
+.dig .w b{font-size:24px;font-weight:700;color:#fff}
+.dig p{margin:0;font-size:16.5px;max-width:none}
+.dig .tag{display:inline-block;margin:0 0 6px;padding:2px 10px;border-radius:999px;background:var(--brand);color:#151515;font:700 11px var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.dig .gap .card2{background:var(--brand-deep);border-color:var(--brand-deep)}
+.dig .gap .w{border-color:#fff}
+.dig .gap .tag{background:#fff;color:var(--brand-deep)}
+.dig .root .card2{border-color:#fff}
+.dig-end{margin:14px 0 0;font-family:var(--mono);font-size:12px;color:var(--muted)}
+@media (max-width:600px){.dig li{margin-left:calc(var(--i)*12px)}.dig li::before{left:48px}.dig .card2{grid-template-columns:48px 1fr;padding:12px}.dig .w{width:48px;height:48px}.dig .w b{font-size:19px}.dig li::before{left:48px}}
+/* ---- precedent cards ---- */
+.pgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px;margin-top:6px}
+.pc{min-width:0;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);overflow:hidden}
+.pc-h{display:flex;gap:14px;align-items:center;padding:14px 14px 4px;min-height:92px}
+.pc-h img{width:96px;height:72px;object-fit:cover;border-radius:10px;flex:none;background:#fff}
+.pc-n{font-family:var(--mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--brand);display:block}
+.pc-h h4{font-family:var(--display);font-weight:500;font-size:19px;line-height:1.2;margin:2px 0 0}
+.pc dl{margin:0;padding:12px 14px 4px;display:grid;grid-template-columns:96px 1fr;gap:6px 12px;font-size:14px;line-height:1.45}
+.pc dt{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding-top:2px}
+.pc dd{margin:0}
+.pc .take{margin:auto 0 0;padding:12px 14px;border-top:1px solid var(--line);background:#191919;font-size:14.5px;max-width:none}
+.pc .take b{display:block;font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--brand);margin-bottom:2px}
+.grp-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+/* ---- data bars ---- */
+.hbars{display:grid;gap:12px;margin:6px 0 0}
+.hb{display:grid;grid-template-columns:minmax(150px,300px) 1fr 58px;gap:14px;align-items:center}
+.hb .l{font-size:14.5px;line-height:1.35}
+.hb .l em{display:block;font-style:normal;font-family:var(--mono);font-size:11px;color:var(--muted);margin-top:2px}
+.hb .t{display:block;height:16px;border-radius:8px;background:#26262a;overflow:hidden}
+.hb .t i{display:block;height:100%;border-radius:8px;background:var(--brand)}
+.hb .t i.alt{background:#fff}
+.hb b{font-family:var(--display);font-weight:700;font-size:18px;text-align:right}
+.chartbox{padding:18px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel);flex:1 1 420px}
+.chartbox h4{font-family:var(--display);font-weight:500;font-size:17px;margin:0 0 4px}
+.chartbox>p{font-size:14px;color:var(--muted);margin:0 0 14px;max-width:none}
+.charts{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
+.cols-chart{display:flex;align-items:flex-end;gap:18px;height:190px;padding:0 6px;border-bottom:1px solid var(--line)}
+.cc{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.cc .pair{display:flex;align-items:flex-end;gap:6px;height:150px;width:100%;justify-content:center}
+.cc .pair i{display:block;width:34%;max-width:44px;border-radius:6px 6px 0 0;background:var(--brand);position:relative}
+.cc .pair i.b{background:#fff}
+.cc .pair i span{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font:500 11px var(--mono);color:#e6e6ea}
+.cc-l{display:flex;gap:18px;padding:8px 6px 0}
+.cc-l div{flex:1;text-align:center;font-family:var(--mono);font-size:11.5px;color:var(--muted);line-height:1.4}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin:12px 0 0;font-size:13px;color:var(--muted)}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;background:var(--brand)}
+.legend span.b::before{background:#fff}
+.lvls{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.lvls div{flex:1 1 150px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--panel);font-size:14px;line-height:1.4}
+.lvls b{display:block;font-family:var(--display);font-weight:500;font-size:15px;margin-bottom:4px}
+.lvls .n{font-family:var(--mono);font-size:11px;color:var(--muted);display:block;margin-bottom:4px}
+.lvls .ok{border-color:#3a6b46}.lvls .no2{border-color:var(--brand-deep)}
+.lvls em{display:block;font-style:normal;color:var(--muted);margin-top:6px;font-size:13px}
+.recall{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:12px;font-size:14px}
+.recall .cs{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;border:1px solid var(--line)}
+.recall .cs i{width:12px;height:12px;border-radius:3px;display:block}
+@media (max-width:640px){.hb{grid-template-columns:1fr 52px;}.hb .l{grid-column:1/-1}.hb .t{grid-column:1}.pc dl{grid-template-columns:1fr}.pc dt{padding-top:0}}
+@media (max-width:560px){.step{grid-template-columns:30px 1fr}}
+footer{padding:36px 0 56px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+footer p{max-width:70ch}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:560px){.go{margin-left:0;width:100%}.btn{flex:1}.stages div{border-right:0;border-bottom:1px solid var(--line)}.stages div:last-child{border-bottom:0}}
+
+/* native replacements for slide screenshots */
+.plate{margin:0;border-radius:var(--r);overflow:hidden;background:#0c0c0c;border:1px solid var(--line)}
+.plate.light{background:#fff;padding:14px}
+.plate img{display:block;width:100%;height:auto;border-radius:8px}
+.plate figcaption{font-family:var(--mono);font-size:12px;color:var(--muted);padding:10px 14px 12px;line-height:1.45}
+.plate.light figcaption{color:#555;padding:10px 4px 0}
+.fig-c{margin:0}.fig-c figcaption{font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:8px;line-height:1.45}
+.sc4{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-top:14px}
+.sc4>div{position:relative;padding:16px 16px 18px;border-radius:var(--r);background:linear-gradient(160deg,var(--brand-deep),#8c0000);color:#fff}
+.sc4 span{display:block;font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;opacity:.75;margin-bottom:8px}
+.sc4 h4{margin:0 0 6px;font:500 18px/1.25 var(--display)}
+.sc4 p{margin:0;font-size:14.5px;line-height:1.5;opacity:.92;max-width:none}
+.dn{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-top:12px}
+.dn>div{display:flex;gap:16px;align-items:center;padding:16px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
+.dn i{flex:none;width:92px;height:92px;border-radius:50%;background:conic-gradient(var(--brand) 0 calc(var(--p)*1%),#2b2b30 0);position:relative}
+.dn i::after{content:attr(data-l);position:absolute;inset:14px;border-radius:50%;background:var(--panel);display:flex;align-items:center;justify-content:center;font:700 19px var(--display)}
+.dn p{margin:0;font-size:14.5px;line-height:1.45;max-width:none}
+.dn small{display:block;margin-top:4px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.intro{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:12px;margin-top:6px}
+.intro-img{border-radius:var(--r);min-height:320px;background:#000 center/cover no-repeat;position:relative;overflow:hidden}
+.intro-img::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(21,21,21,.85),rgba(21,21,21,0) 55%)}
+.intro-img b{position:absolute;left:18px;bottom:14px;z-index:1;font:500 38px var(--display);letter-spacing:-.01em}
+.intro-img em{position:absolute;left:18px;bottom:58px;z-index:1;font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--brand);font-style:normal}
+.ic{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ic>div{padding:16px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
+.ic>div span{display:block;font:500 11px var(--mono);color:var(--brand);letter-spacing:.1em;margin-bottom:8px}
+.ic h4{margin:0 0 6px;font:500 17px/1.25 var(--display)}.ic p{margin:0;font-size:14.5px;line-height:1.5;color:#d6d6da;max-width:none}
+.rb{display:grid;grid-template-columns:minmax(0,230px) minmax(0,1fr);gap:22px;align-items:center}
+.rb .plate{background:#fff}
+.chipset{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+.chipset span{padding:7px 13px;border-radius:999px;background:var(--brand-deep);font-size:14px}
+.feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin-top:12px}
+.feat>div{padding:14px 16px;border:1px dashed #5a5a60;border-radius:var(--r)}
+.feat b{display:block;font:500 16px var(--display);margin-bottom:4px}.feat p{margin:0;font-size:14.5px;line-height:1.5;color:#d6d6da;max-width:none}
+.feat span{display:block;font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--brand);margin-bottom:6px}
+.banner{position:relative;border-radius:var(--r);overflow:hidden;border:1px solid var(--line)}
+.banner img{display:block;width:100%;height:auto}
+.banner::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(21,21,21,.1),rgba(21,21,21,.55))}
+.steps3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;margin:12px 0}
+.steps3>div{padding:14px 16px;border-radius:var(--r);background:var(--panel);border:1px solid var(--line);position:relative}
+.steps3>div b{display:block;font:500 11px var(--mono);letter-spacing:.1em;color:var(--brand);margin-bottom:6px}
+.ba{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:12px;margin-top:14px;align-items:stretch}
+.ba>div{border-radius:var(--r);border:1px solid var(--line);background:#fff;padding:12px;display:flex;flex-direction:column;gap:10px;color:#111}
+.ba img{width:100%;height:auto;display:block}
+.ba em{font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;font-style:normal;color:#555}
+.ba>div.after em{color:var(--brand-deep)}
+.mf{display:grid;gap:10px;margin-top:14px}
+.mf-pill{justify-self:center;padding:9px 20px;border-radius:999px;background:var(--brand);color:#151515;font:700 14px var(--mono);letter-spacing:.04em}
+.mf-arrow{justify-self:center;color:var(--muted);font:16px var(--mono);line-height:1}
+.mf-cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px}
+.mf-cols>div{padding:16px;border-radius:var(--r);background:var(--panel);border:1px solid var(--line);border-top:3px solid var(--brand)}
+.mf-cols h4{margin:0 0 10px;font:500 19px var(--display)}
+.mf-cols ul{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.mf-cols li{padding:8px 12px;border-radius:8px;background:#26262a;font-size:14.5px}
+.phones{margin-top:18px;border-radius:var(--r);background:#0c0c0c;border:1px solid var(--line);padding:16px 16px 10px}
+.phones img{display:block;width:100%;max-width:880px;margin:0 auto;height:auto}
+.phones .lab{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;max-width:880px;margin:6px auto 0;font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:center}
+.phones p{max-width:60ch;margin:12px auto 4px;text-align:center;color:#d6d6da;font-size:15px}
+@media (max-width:760px){.intro,.ba,.rb{grid-template-columns:1fr}.ic{grid-template-columns:1fr}.phones .lab{font-size:9px;letter-spacing:0}.intro-img{min-height:240px}}
+
+.ff{margin:14px 0 18px;border:1px solid var(--line);border-radius:var(--r);background:linear-gradient(180deg,#1b1b1c,#171717);overflow:hidden}
+.ff>b{display:flex;align-items:center;gap:8px;padding:9px 14px;border-bottom:1px solid var(--line);font:500 11px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--brand)}
+.ff>b::before{content:"";width:8px;height:8px;border-radius:2px;background:var(--brand)}
+.ff>div{display:flex;flex-wrap:wrap}
+.ff>div>span{flex:1 1 150px;padding:12px 14px;border-right:1px solid var(--line);font-size:13.5px;line-height:1.4;color:#c9c9ce}
+.ff>div>span:last-child{border-right:0}
+.ff>div>span strong{display:block;font:700 24px/1.1 var(--display);color:#fff;margin-bottom:3px}
+@media (max-width:640px){.ff>div>span{flex-basis:45%;border-bottom:1px solid var(--line)}}
+
+.apps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:14px;margin-top:18px;align-items:start}
+.apps figure{margin:0}
+.apps figcaption{margin-top:10px;font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:center}
+.ph{position:relative;aspect-ratio:9/18.2;border-radius:26px;background:#101011;border:1px solid #3a3a40;box-shadow:0 14px 30px rgba(0,0,0,.45),inset 0 0 0 4px #19191b;padding:0;overflow:hidden;display:flex;flex-direction:column;font-family:var(--body);font-size:11px;color:#fff;container-type:inline-size}
+.ph .sb{display:flex;justify-content:space-between;padding:9px 14px 4px;font:500 9px var(--mono);color:#8e8e96}
+.ph .bd{flex:1;display:flex;flex-direction:column;padding:6px 12px 8px;min-height:0}
+.ph h5{margin:0 0 8px;font:500 14px var(--display)}
+.ph .tab{display:flex;justify-content:space-around;padding:8px 6px 12px;border-top:1px solid #26262a;background:#141415}
+.ph .tab i{display:flex;flex-direction:column;align-items:center;gap:3px;font:500 8px var(--mono);letter-spacing:.04em;color:#6f6f77;font-style:normal;text-transform:uppercase}
+.ph .tab i svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ph .tab i.on{color:var(--brand)}
+.ph .btn{display:block;text-align:center;padding:9px;border-radius:999px;background:var(--brand);color:#151515;font:700 11px var(--body)}
+.ph .btn.ghost{background:transparent;border:1px solid #4a4a50;color:#fff}
+.ph .row{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:12px;background:#1b1b1d;margin-bottom:6px}
+.ph .row .cv{width:28px;height:28px;border-radius:8px;flex:none}
+.ph .row b{display:block;font:500 11px/1.2 var(--body)}.ph .row small{font-size:9px;color:#8e8e96}
+.ph .row .tm{margin-left:auto;font:9px var(--mono);color:#8e8e96}
+.ph .row .pl{flex:none;width:20px;height:20px;border-radius:50%;background:#2a2a2e;display:flex;align-items:center;justify-content:center}
+.ph .row .pl::after{content:"";border-left:6px solid #fff;border-top:4px solid transparent;border-bottom:4px solid transparent;margin-left:2px}
+.ph .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;padding:3px;border-radius:999px;background:#1b1b1d;margin-bottom:12px}
+.ph .seg span{padding:6px 0;text-align:center;border-radius:999px;font:500 10px var(--body);color:#a9a9b0}
+.ph .seg span.on{background:var(--brand);color:#151515;font-weight:700}
+.ph .lab{font:500 9px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#8e8e96;margin:2px 0 6px}
+.ph .fall{position:relative;flex:1;border-radius:12px;background:#0a0a0b;overflow:hidden;margin:4px 0 10px;min-height:70px}
+.ph .fall i{position:absolute;width:15%;height:9%;border-radius:3px}
+.ph .fall::after{content:"";position:absolute;left:0;right:0;bottom:0;height:7%;background:linear-gradient(90deg,var(--c),var(--d),var(--e),var(--f),var(--g),var(--a),var(--b))}
+.ph .art{aspect-ratio:1;border-radius:14px;background:radial-gradient(circle at 30% 25%,#ffcb1f 0 14%,transparent 15%),radial-gradient(circle at 72% 70%,#00a8ea 0 22%,transparent 23%),linear-gradient(145deg,#ce0202,#5a86ff 60%,#9b2fc4);margin-bottom:10px}
+.ph .prog{height:3px;border-radius:2px;background:#2a2a2e;margin:8px 0 4px;position:relative}
+.ph .prog::after{content:"";position:absolute;left:0;top:0;height:100%;width:38%;border-radius:2px;background:var(--brand)}
+.ph .ctl{display:flex;justify-content:center;align-items:center;gap:16px;margin:6px 0}
+.ph .ctl .pp{width:34px;height:34px;border-radius:50%;background:var(--brand);display:flex;align-items:center;justify-content:center}
+.ph .ctl .pp::after{content:"";border-left:11px solid #151515;border-top:7px solid transparent;border-bottom:7px solid transparent;margin-left:3px}
+.ph .ctl s{font:12px var(--mono);color:#a9a9b0;text-decoration:none}
+.ph .av{width:46px;height:46px;border-radius:50%;margin:4px auto 6px;background:linear-gradient(145deg,var(--brand),var(--b));display:flex;align-items:center;justify-content:center;font:700 16px var(--display)}
+.ph .st{display:grid;grid-template-columns:repeat(3,1fr);margin:8px 0 10px;border-radius:12px;background:#1b1b1d;padding:8px 0;text-align:center}
+.ph .st b{display:block;font:700 14px var(--display)}.ph .st small{font-size:8.5px;color:#8e8e96}
+.ph .kv{display:flex;justify-content:space-between;align-items:center;padding:8px 10px;border-radius:12px;background:#1b1b1d;margin-bottom:5px;font-size:10.5px}
+.ph .kv b{padding:2px 9px;border-radius:999px;background:var(--brand);color:#151515;font:700 10px var(--mono)}
+.ph .logo{display:block;width:62px;margin:34px auto 10px}
+.ph .wm{text-align:center;font:500 20px var(--display)}.ph .tg{text-align:center;font-size:8.5px;color:#a9a9b0;margin:4px 0 0}
+.ph .tg em{color:var(--brand);font-style:normal}
+.ph .row>div{min-width:0;flex:1}.ph .row b{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ph .row .tm{flex:none}
+.ph .art{width:68%;margin:2px auto 10px}.ph .ctl{margin:8px 0 2px}
+.ph .bd{overflow:hidden}
+@media (max-width:900px){.apps{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding-bottom:8px}.apps figure{flex:0 0 200px;scroll-snap-align:start}}
+</style>
+<noscript><style>html[data-view] [data-view]{display:block!important}</style></noscript>
+<script>if(/[?&]from=/.test(location.search)){var s=document.createElement('style');s.id='sx-hide';s.textContent='html{background:#f4f3ef}body{opacity:0!important}';document.head.appendChild(s)}</script></head>
+<body>
+<div class="topbar" id="top"><div class="wrap bar"><a class="logo" href="#top" aria-label="mused, back to top"><img src="img/logo_mark.png" alt="" width="34" height="30"><span>mused</span></a><nav aria-label="Sections" data-view="deep"><a href="#player">Play</a><a href="#research">Research</a><a href="#journey">Journey</a><a href="#result">Product</a></nav><div class="viewsw" role="group" aria-label="How to read this page"><button type="button" data-setview="quick" aria-pressed="true">Quick tour</button><button type="button" data-setview="deep" aria-pressed="false">Deep dive</button></div></div></div>
+<header class="wrap">
+  <p class="eyebrow">Design project, M.Des New Media Design, NID Gandhinagar</p>
+  <div class="brand"><img src="img/logo_mark.png" alt="mused logo: a grand piano with its keys" width="112" height="99"><h1>mused</h1></div>
+  <p class="tag">To stay <b>in loop</b>, to stay <b>motivated</b> and to <b>impress</b>.</p>
+  <p class="lede">A strip of coloured light for the piano you already own. It shows a beginner which key to press, and when, until the colours are no longer needed.</p>
+  <div class="chooser" role="group" aria-label="Choose how to read">
+    <button type="button" class="choice" data-setview="quick" data-go="1" aria-pressed="true"><b>Quick tour</b><span>About two minutes. The problem, the idea, the proof and the product.</span></button>
+    <button type="button" class="choice" data-setview="deep" data-go="1" aria-pressed="false"><b>Deep dive</b><span>The entire work: research, precedents, tests, prototypes, app.</span></button>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+  <div class="player" id="player">
+    <div class="controls">
+      <div class="grp"><span id="songlbl">Favourite song</span>
+        <div class="seg" role="group" aria-labelledby="songlbl" id="songs">
+          <button type="button" data-song="hb" aria-pressed="true">Happy Birthday</button>
+          <button type="button" data-song="mary" aria-pressed="false">Mary Had a Little Lamb</button>
+          <button type="button" data-song="ode" aria-pressed="false">Ode to Joy</button>
+        </div>
+      </div>
+      <div class="grp"><span id="learnlbl">Learn through it</span>
+        <div class="seg" role="group" aria-labelledby="learnlbl" id="learns">
+          <button type="button" data-learn="play" aria-pressed="true">Just play</button>
+          <button type="button" data-learn="notes" aria-pressed="false">Notes</button>
+          <button type="button" data-learn="scale" aria-pressed="false">Scale</button>
+          <button type="button" data-learn="chords" aria-pressed="false">Chords</button>
+        </div>
+      </div>
+      <div class="grp"><span id="lvllbl">Level</span>
+        <div class="seg" role="group" aria-labelledby="lvllbl" id="levels">
+          <button type="button" data-level="1" aria-pressed="true">Beginner</button>
+          <button type="button" data-level="2" aria-pressed="false">Amateur</button>
+          <button type="button" data-level="3" aria-pressed="false">Expert</button>
+        </div>
+      </div>
+      <div class="grp"><span id="modelbl">Mode</span>
+        <div class="seg" role="group" aria-labelledby="modelbl" id="modes">
+          <button type="button" data-mode="watch" aria-pressed="true">Watch</button>
+          <button type="button" data-mode="play" aria-pressed="false">Play along</button>
+        </div>
+      </div>
+      <div class="go">
+        <button type="button" class="btn alt" id="sound" aria-pressed="true">Sound on</button>
+        <button type="button" class="btn" id="start">Start</button>
+      </div>
+    </div>
+    <div class="stage"><canvas id="cv" aria-label="Falling coloured notes above a piano keyboard. Press the keys on screen or use the keyboard."></canvas></div>
+    <div class="status">
+      <span id="fb" role="status" aria-live="polite">Press Start to hear it. Mused plays the song and lights each key.</span>
+      <span id="score">Notes on time 0 / 0</span>
+    </div>
+    <div class="learnbox" id="learnbox"><h3 id="lbh">Just play</h3><p id="lbp">Pick a favourite song and watch Mused light each key, then play along.</p><span class="mono" id="lbm"></span></div>
+    <p class="hint" id="hint">Sound is on once you press Start or a key. Each note has a colour: C red, D orange, E yellow, F green, G blue, A indigo, B violet. In Play along, press keys with the mouse, a touch, or the keyboard (A to J for the lower octave, Q to U for the upper). Black keys are by mouse or touch.</p>
+  </div>
+</div>
+
+
+
+<section id="quick" data-view="quick">
+  <div class="wrap">
+    <h2>Mused in two minutes</h2>
+    <p class="sec-lede">The short version. For the research, the precedents, the tests and the build, switch to the deep dive.</p>
+    <div class="q4">
+      <div><span class="no">01 · Problem</span><strong>3 of 5</strong><p>beginners stop within six months. Lockdown put around a million new learners at home with an instrument and no teacher, and nobody to say what to press or whether it was right.</p></div>
+      <div><span class="no">02 · Gap</span><strong>12</strong><p>products studied. Most light up the keys, so they show the order of notes. Few show the finger or the beat, or help a learner read music.</p></div>
+      <div><span class="no">03 · Insight</span><strong>10</strong><p>people tested colour for notes over five days. It helped them link sound and colour, and too many signals at once hurt.</p></div>
+      <div><span class="no">04 · Proof</span><strong>5 trials</strong><p>was enough for every participant to identify and spot notes when the sheet was turned into falling notes.</p></div>
+    </div>
+    <div class="cols2 top" style="margin-top:34px">
+      <figure class="how" style="margin:0"><img src="img/mused_hero.jpg" alt="Render of a black strip of lights fitted above the keys of a digital piano, with a music stand behind it" width="1600" height="1067" loading="lazy" style="width:100%;height:auto;display:block;border-radius:14px;border:1px solid var(--line)"><figcaption style="font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:8px;line-height:1.45">A modular strip above the keys. It fits any keyboard.</figcaption></figure>
+      <div>
+        <h3>The idea</h3>
+        <ul class="facts">
+          <li><b>One colour for each note.</b> After repeated use, a learner links a sound to its colour.</li>
+          <li><b>Notes that fall.</b> The music sheet turns into falling blocks, so you can see what comes next.</li>
+          <li><b>Colour that fades.</b> The levels remove the colour step by step until the learner no longer needs it.</li>
+          <li><b>Notes, scales and chords through a song.</b> Pick your favourite song and learn through it.</li>
+        </ul>
+      </div>
+    </div>
+    <div class="apps"><figure><div class="ph"><div class="sb"><span>9:41</span><span>5G</span></div><div class="bd"><img class="logo" src="img/logo_mark.png" alt=""><div class="wm">mused</div><p class="tg">To stay in <em>loop</em>, to stay <em>motivated</em> and to <em>impress</em></p><div style="margin-top:auto;display:grid;gap:8px;padding-bottom:10px"><span class="btn">Sign up</span><span class="btn ghost">Get started</span></div></div></div><figcaption>Welcome</figcaption></figure><figure><div class="ph"><div class="sb"><span>9:41</span><span>5G</span></div><div class="bd"><h5>My library</h5><div class="row"><span class="cv" style="background:var(--c)"></span><div><b>Piano Man</b><small>Billy Joel</small></div><span class="tm">5:42</span></div><div class="row"><span class="cv" style="background:var(--e)"></span><div><b>Strawberry Fields Forever</b><small>Beatles</small></div><span class="tm">4:08</span></div><div class="row"><span class="cv" style="background:var(--g)"></span><div><b>Vincent</b><small>Don McLean</small></div><span class="tm">3:58</span></div><div class="row"><span class="cv" style="background:var(--f)"></span><div><b>Thuvanathumbikal Theme</b><small>Johnson Master</small></div><span class="tm">2:21</span></div><div class="row"><span class="cv" style="background:var(--b)"></span><div><b>Mel Mel Mel</b><small>Ustad Hotel</small></div><span class="tm">5:12</span></div></div><div class="tab"><i class=""><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</i><i class="on"><svg viewBox="0 0 24 24"><path d="M4 5h4v14H4zM10 5h4v14h-4zM16 6l4-1 2 14-4 1z"/></svg>Library</i><i class=""><svg viewBox="0 0 24 24"><path d="M3 8l9-4 9 4-9 4zM7 10v5c0 1.5 2.5 3 5 3s5-1.5 5-3v-5"/></svg>Learn</i><i class=""><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>Profile</i></div></div><figcaption>Library</figcaption></figure><figure><div class="ph"><div class="sb"><span>9:41</span><span>5G</span></div><div class="bd"><h5>Set up the song</h5><div class="lab">Concept</div><div class="seg"><span>Easy</span><span class="on">Medium</span><span>Hard</span></div><div class="lab">Mode</div><div class="seg"><span>Notes</span><span class="on">Chords</span><span>Scale</span></div><div class="fall"><i style="left:6%;top:10%;background:var(--c)"></i><i style="left:6%;top:28%;background:var(--e)"></i><i style="left:6%;top:46%;background:var(--g)"></i><i style="left:44%;top:4%;background:var(--d)"></i><i style="left:44%;top:22%;background:var(--f)"></i><i style="left:44%;top:40%;background:var(--a)"></i><i style="left:76%;top:14%;background:var(--e)"></i><i style="left:76%;top:34%;background:var(--g)"></i><i style="left:76%;top:52%;background:var(--b)"></i></div><span class="btn">Start</span></div><div class="tab"><i class=""><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</i><i class=""><svg viewBox="0 0 24 24"><path d="M4 5h4v14H4zM10 5h4v14h-4zM16 6l4-1 2 14-4 1z"/></svg>Library</i><i class="on"><svg viewBox="0 0 24 24"><path d="M3 8l9-4 9 4-9 4zM7 10v5c0 1.5 2.5 3 5 3s5-1.5 5-3v-5"/></svg>Learn</i><i class=""><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>Profile</i></div></div><figcaption>Concept + mode</figcaption></figure><figure><div class="ph"><div class="sb"><span>9:41</span><span>5G</span></div><div class="bd"><div class="art"></div><b style="font:500 13px var(--display)">Strawberry Fields Forever</b><small style="color:#8e8e96;font-size:10px">Beatles</small><div class="prog"></div><div style="display:flex;justify-content:space-between;font:9px var(--mono);color:#8e8e96"><span>Chords</span><span>Medium</span></div><div class="ctl"><s>&#8634;</s><span class="pp"></span><s>&#8635;</s></div></div><div class="tab"><i class=""><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</i><i class=""><svg viewBox="0 0 24 24"><path d="M4 5h4v14H4zM10 5h4v14h-4zM16 6l4-1 2 14-4 1z"/></svg>Library</i><i class="on"><svg viewBox="0 0 24 24"><path d="M3 8l9-4 9 4-9 4zM7 10v5c0 1.5 2.5 3 5 3s5-1.5 5-3v-5"/></svg>Learn</i><i class=""><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>Profile</i></div></div><figcaption>Player</figcaption></figure><figure><div class="ph"><div class="sb"><span>9:41</span><span>5G</span></div><div class="bd"><div class="av">V</div><div style="text-align:center;font:500 13px var(--display)">Vincent Vattoly</div><div style="text-align:center;font-size:9px;color:#8e8e96">Based in TVM</div><div class="st"><div><b>4</b><small>Songbooks</small></div><div><b>2</b><small>Fans</small></div><div><b>1</b><small>Following</small></div></div><div class="lab">Progress overview</div><div class="kv">Completed songs<b>3</b></div><div class="kv">Practice time<b>56</b></div><div class="kv">Skills unlocked<b>7</b></div></div><div class="tab"><i class=""><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</i><i class=""><svg viewBox="0 0 24 24"><path d="M4 5h4v14H4zM10 5h4v14h-4zM16 6l4-1 2 14-4 1z"/></svg>Library</i><i class=""><svg viewBox="0 0 24 24"><path d="M3 8l9-4 9 4-9 4zM7 10v5c0 1.5 2.5 3 5 3s5-1.5 5-3v-5"/></svg>Learn</i><i class="on"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>Profile</i></div></div><figcaption>Progress</figcaption></figure></div><p style="max-width:62ch;margin:14px 0 0;color:#d6d6da">Pick a song from the library, choose Easy, Medium or Hard, then Notes, Chords or Scale, and play it as falling blocks.</p>
+    <div class="ctas"><a class="primary" href="#player">Play with it</a><button type="button" data-setview="deep" data-go="1">See the whole work</button></div>
+  </div>
+</section>
+
+<section id="research" data-view="deep">
+  <div class="wrap">
+    <h2>Secondary research</h2>
+    <p class="sec-lede">Before I built anything I spent time reading, comparing products and collecting numbers. Each part ends with what it meant for Mused.</p>
+
+
+    <div class="rblock">
+      <span class="no">00 · Context</span>
+      <h3>Lockdown turned a million people into music learners</h3>
+      <div class="ff"><b>Fact file</b><div><span><strong>1 million</strong>UK adults took up an instrument in lockdown</span><span><strong>80%</strong>rise in instrument sales, first lockdown</span><span><strong>75%</strong>of Britons turned to an instrument</span><span><strong>3 of 5</strong>beginners stopped within six months</span></div></div>
+      <p>Music has a big influence on day-to-day life, from listening to a song to composing. That became clear in the pandemic, when more people took up an instrument. Every day felt the same, and many were looking for something to break the monotony. They found music, picked up an instrument and began to teach themselves.</p>
+      <div class="stats" style="margin-top:20px">
+        <div class="stat"><strong>1 million</strong><span>UK adults said they took up an instrument in lockdown, in a Public First study of 1,000 people.</span><em>Reported by The Guardian</em></div>
+        <div class="stat"><strong>80%</strong><span>rise in sales of instruments and music equipment, including digital pianos and guitars, in the first lockdown in western countries.</span><em>As quoted in my pitch</em></div>
+        <div class="stat"><strong>75%</strong><span>of Britons turned to an instrument to beat the lockdown blues.</span><em>Yamaha research, via The Guardian</em></div>
+        <div class="stat"><strong>3 of 5</strong><span>beginners and aspirants stopped learning within the first six months.</span><em>From my pitch research</em></div>
+        <div class="stat"><strong>$840bn</strong><span>projected global e-learning market by 2030, up from $197bn in 2020, at 17.5% a year.</span><em>As quoted in my pitch</em></div>
+      </div>
+      <div class="cols2" style="margin-top:24px;align-items:center"><div><p style="font-size:19px;line-height:1.5">During the pandemic more people turned to a musical instrument, and the surveys show how much making and listening to music lifted daily life.</p><p style="color:var(--muted)">Playing an instrument, singing and listening to self-picked music all rose, while very few activities fell.</p></div><figure class="plate light"><img src="img/c_pandemic.jpg" alt="A bar chart of reported decrease and increase in music activities during the pandemic" loading="lazy" width="756" height="473"><figcaption>Reported change in music activities during the pandemic, from the survey chart in my pitch.</figcaption></figure></div>
+      <h3 style="margin-top:28px;font-size:19px">Have you been in any of these four scenarios?</h3>
+      <div class="sc4">
+        <div><span>Scenario 1</span><h4>Lessons are out of reach</h4><p>Cost and distance put classes out of reach, so you turn to YouTube and other sites and start with a few songs.</p></div>
+        <div><span>Scenario 2</span><h4>Back after a long gap</h4><p>You had classes as a child or teenager, then study and other activities took over. Years later you want to play again.</p></div>
+        <div><span>Scenario 3</span><h4>The songs you love</h4><p>You want to learn your favourite songs on any instrument, to impress yourself and others.</p></div>
+        <div><span>Scenario 4</span><h4>The instrument got dull</h4><p>You moved to another instrument because the first one stopped being interesting.</p></div>
+      </div>
+      <div class="dn">
+        <div><i style="--p:60" data-l="3/5"></i><p>learners eventually stopped within the first six months.<small>From my pitch</small></p></div>
+        <div><i style="--p:65" data-l="65%"></i><p>of the learner group fall under beginners and aspirants.<small>From my pitch. The slide reads "out of 60 percent, around 65 percent"</small></p></div>
+        <div><i style="--p:100" data-l="x4.3"></i><p>growth of the global e-learning market, from $197bn in 2020 to $840.11bn by 2030.<small>17.5% a year, as quoted in my pitch</small></p></div>
+      </div>
+      <div class="why"><b>Why it matters to Mused</b><p>A big, new group of learners is sitting at home with an instrument and no teacher nearby. Most are beginners, and many leave within months. That is the user, the moment, and the market for Mused.</p></div>
+    </div>
+
+    <div class="rblock">
+      <span class="no">01 · Problem</span>
+      <h3>Learning an instrument alone, without anyone to say if it is right</h3>
+      <div class="ff"><b>Fact file</b><div><span><strong>1</strong>problem statement</span><span><strong>6</strong>learner frustrations</span><span><strong>3</strong>"how might we" questions</span><span><strong>Piano</strong>the instrument in focus</span></div></div>
+      <p>Lockdown turned many people into self-learners. Cost, a flexible schedule and your own pace all work in favour of teaching yourself. But with no one nearby, the feedback is gone. Learners cannot tell if they are making progress, and the sense of achievement fades. Favourite songs keep people going, yet the sheets for them are often not available, and preset songs run out of charm quickly.</p>
+      <p>Products that light up the keys help with the order of notes. But music is also about how hard you press, how the rhythm sits and whether the tempo is right. And an expensive built-in system is out of reach for most people.</p>
+      <p class="problem">Effective learning experience of musical instruments in an unaided environment.</p>
+
+      <div class="frus">
+        <div><h4>No instant feedback from a source they trust</h4><p>Without timely guidance, learners feel adrift. They want someone to confirm progress and correct mistakes.</p></div>
+        <div><h4>Cannot play their favourite songs</h4><p>Complexity or missing resources keep people from the songs they love, and that cools their passion.</p></div>
+        <div><h4>No sense of satisfaction</h4><p>When goals feel out of reach, the sense of accomplishment fades into frustration.</p></div>
+        <div><h4>Lack of proper posture</h4><p>Without guidance, bad habits form that slow progress and can cause discomfort or injury.</p></div>
+        <div><h4>Rhythm issues</h4><p>A steady rhythm is hard to keep, which leaves playing disjointed.</p></div>
+        <div><h4>Following the beat</h4><p>Playing in sync with the beat is basic to performance, but hard to learn alone.</p></div>
+      </div>
+      <div class="cols2" style="margin-top:22px;align-items:center"><p>Online apps and tutorials also paint a picture of easy success within days. A beginner sees a polished "day 1, day 3" video and expects the same, then meets the real pace.</p><figure class="plate light"><img src="img/c_day.jpg" alt="A portrait of a famous pianist captioned as trying a simple piano app, beside screen recordings labelled Day 1 and Day 3" loading="lazy" width="910" height="733"><figcaption>Day 1 versus Day 3: the picture of easy success that tutorials give beginners.</figcaption></figure></div>
+      <h3 style="margin-top:26px;font-size:19px">How might we</h3>
+      <ul class="hmw">
+        <li>What can <b>keep the user motivated</b> enough?</li>
+        <li>What can make the user <b>understand concepts</b> of proper playing, and not just the sequence?</li>
+        <li>How can the solution help the user <b>comprehend the conventional system</b>, the music sheet?</li>
+      </ul>
+      <div class="why"><b>Why it matters to Mused</b><p>This is the brief. It names the user (beginners and self-learners), the instrument (piano), and the approach (multisensory), and it rules out a new instrument: the solution has to work with the one already at home.</p></div>
+    </div>
+
+    <div class="rblock">
+      <span class="no">02 · 6W2H</span>
+      <h3>Framing the project in eight questions</h3>
+      <div class="ff"><b>Fact file</b><div><span><strong>8</strong>questions asked</span><span><strong>6</strong>W questions: what, why, where, who, which, when</span><span><strong>2</strong>H questions: how, how much</span></div></div>
+      <dl class="w2h">
+        <div><dt>What</dt><dd>A phygital solution that gives instant feedback in online or remote music learning.</dd></div>
+        <div><dt>Why</dt><dd>Learners cannot make real progress without guidance or help in real time from a source they trust.</dd></div>
+        <div><dt>Where</dt><dd>Self-learners at home, in college, or wherever they practise.</dd></div>
+        <div><dt>Who</dt><dd>Aspirants and beginners, who get demotivated when they see no visible progress.</dd></div>
+        <div><dt>Which</dt><dd>Colour for note identification, finger placement and reading the music sheet.</dd></div>
+        <div><dt>When</dt><dd>Starting a new hobby, breaking out of a rut, or renewing an old hobby.</dd></div>
+        <div><dt>How</dt><dd>Accessories, from a wearable to other gadgets.</dd></div>
+        <div><dt>How much</dt><dd>Focused on the learning experience of beginners and on recognising songs.</dd></div>
+      </dl>
+      <div class="why"><b>Why it matters to Mused</b><p>The answers set the limits: beginners, home practice, colour as the main language, and a product that adds to the piano instead of replacing it.</p></div>
+    </div>
+
+    <div class="rblock">
+      <span class="no">03 · 5 Whys</span>
+      <h3>Digging from the product down to the reason it has to exist</h3>
+      <div class="ff"><b>Fact file</b><div><span><strong>5</strong>whys, product to root</span><span><strong>Why 3</strong>is where the gap sits: no trusted instant feedback</span></div></div>
+      <div class="dig-top"><span>Start</span><b>An accessory that helps people play the instrument properly.</b></div>
+      <ol class="dig" aria-label="Five whys, from the product to its root">
+        <li style="--i:0"><div class="card2"><div class="w"><small>Why</small><b>1</b></div><p>Because it can soon <b>motivate</b> learners and give them a sense of achievement.</p></div></li>
+        <li style="--i:1"><div class="card2"><div class="w"><small>Why</small><b>2</b></div><p>Because the current set-up gives <b>no instant feedback or correction</b>.</p></div></li>
+        <li class="gap" style="--i:2"><div class="card2"><div class="w"><small>Why</small><b>3</b></div><div><span class="tag">The gap</span><p>Without instant feedback from a source they <b>trust</b>, the learning curve suffers.</p></div></div></li>
+        <li style="--i:3"><div class="card2"><div class="w"><small>Why</small><b>4</b></div><p>Because the pandemic and its repetitive days created a need for something other than an institute, which was <b>hard to reach</b>.</p></div></li>
+        <li class="root" style="--i:4"><div class="card2"><div class="w"><small>Why</small><b>5</b></div><div><span class="tag" style="background:#fff">Root</span><p>Over time, more and more people came to see <b>how much music matters</b> in daily life.</p></div></div></li>
+      </ol>
+      <p class="dig-end">Read down: each answer explains the one above it.</p>
+      <div class="why"><b>Why it matters to Mused</b><p>The chain bottoms out in a large group who want music in their lives, and its pivot is the missing feedback. That is why Mused is built to tell a learner what to press, when, and how they did.</p></div>
+    </div>
+
+    <div class="rblock">
+      <span class="no">04 · Background research</span>
+      <h3>How a question about noise became a question about learning</h3>
+      <ul class="timeline">
+        <li><b>Noise in shared spaces</b>Groups playing their own music in public spaces, disturbing others. I imagined an invisible bubble that contains sound, like a physical discord server. Sound masking in existing products such as Hushme and Muzo was not effective yet, so I set it aside.</li>
+        <li><b>Comfort zones</b>Research on mental well-being in community spaces showed that people go out with a fixed comfort zone and often do not feel they belong to the space.</li>
+        <li><b>Zoning in and out</b>I turned to how the mind drifts. Highway hypnosis, the trance-like state of long, repetitive drives, appeared in user incidents and in a study by the National Highways Authority of India.</li>
+        <li><b>Flow</b>The opposite state is flow: full focus, with the challenge matched to the person's ability. I read about micro-flow experiences that a design can create on purpose.</li>
+        <li><b>Hobbies and music</b>Hobbies can trigger flow. A friend in flow while listening to a colleague sing made me want to learn an instrument and reach the same state.</li>
+        <li><b>The pandemic</b>Many took up an instrument and shops ran short of stock, as reported at the time. Learning moved online, where the feedback was missing. That became the question: an effective music learning experience in an unaided environment.</li>
+      </ul>
+      <div class="cols2" style="margin-top:22px">
+        <figure><img src="img/r_flow.jpg" alt="Csikszentmihalyi's chart of challenge against ability, with flow in the high-challenge, high-ability corner" loading="lazy" width="700" height="529"><figcaption>Csikszentmihalyi's flow model: challenge against ability.</figcaption></figure>
+        <div><p>Flow sits in a narrow band. Too much challenge for your ability gives anxiety. Too little gives boredom.</p><p>A beginner who cannot tell what to do next drifts to the anxious side. A beginner who only follows lights drifts to the bored side.</p></div>
+      </div>
+      <div class="why"><b>Why it matters to Mused</b><p>The route from noise to flow explains the design goal: keep a learner in the narrow band where the task is just hard enough. The levels in the player work that way. Beginner shows everything, Amateur fades the colour, and Expert takes it away.</p></div>
+    </div>
+
+    <div class="rblock">
+      <span class="no">05 · Precedent study</span>
+      <h3>Twelve products I studied, and what each one gave Mused</h3>
+      <div class="ff"><b>Fact file</b><div><span><strong>12</strong>products studied</span><span><strong>4</strong>light on the instrument</span><span><strong>5</strong>wearable and motion</span><span><strong>3</strong>gaps found</span></div></div>
+      <div class="grp-chips"><span class="chip"><i style="background:var(--brand)"></i>Light on the instrument: Populele, Fret Zealot, Rainplay, The ONE</span><span class="chip"><i style="background:#fff"></i>Wearable and motion: Wave ring, Oria ring, Soundbrenner, Touché, Tap</span><span class="chip"><i style="background:#9a9aa3"></i>App and AR: Music Everywhere, Yousician</span><span class="chip"><i style="background:var(--e)"></i>Colour and sound: Specdrum</span></div>
+      <div class="pgrid"><article class="pc"><div class="pc-h"><img src="img/pr_1.jpg" alt="Reference image of Specdrum" width="96" height="72" loading="lazy"><div><span class="pc-n">01 · Colour and sound</span><h4>Specdrum</h4></div></div><dl><dt>For</dt><dd>Music everywhere</dd><dt>Idea</dt><dd>Synaesthesia-based rings that turn colour into sound.</dd><dt>Tech used</dt><dd>Specdrum connected musical rings, for composing and looping.</dd><dt>Concept</dt><dd>Synaesthesia: multiple sounds and instruments.</dd><dt>Setting</dt><dd>Different settings.</dd><dt>Also</dt><dd>Up to 6 rings can connect by Bluetooth.</dd></dl><p class="take"><b>What it gave Mused</b>Colour as a language for sound: the synaesthesia idea.</p></article><article class="pc"><div class="pc-h"><img src="img/pr_2.jpg" alt="Reference image of Populele" width="96" height="72" loading="lazy"><div><span class="pc-n">02 · Light on the instrument</span><h4>Populele</h4></div></div><dl><dt>For</dt><dd>Ukulele learning</dd><dt>Tech used</dt><dd>Bluetooth, LEDs and an app.</dd><dt>Concept</dt><dd>Lights up the frets for positioning.</dd><dt>Instrument</dt><dd>Ukulele</dd><dt>Also</dt><dd>Connects with an app.</dd><dt>Limits</dt><dd>Captures surrounding sound.</dd></dl><p class="take"><b>What it gave Mused</b>Light can show where to press, and the learning curve can be eased.</p></article><article class="pc"><div class="pc-h"><img src="img/pr_3.jpg" alt="Reference image of Wave ring" width="96" height="72" loading="lazy"><div><span class="pc-n">03 · Wearable and motion</span><h4>Wave ring</h4></div></div><dl><dt>For</dt><dd>For musicians, composing</dd><dt>Idea</dt><dd>Create sound by simply waving a hand in the air.</dd><dt>Tech used</dt><dd>A wearable MIDI controller.</dd><dt>Concept</dt><dd>Technology at your fingertips: tilt, pan, roll, vibrato, tap and click.</dd><dt>Instrument</dt><dd>Any music, also for work and presentations.</dd><dt>Also</dt><dd>Movements can send sound, shape effects and control the volume.</dd></dl><p class="take"><b>What it gave Mused</b>A ring is a small, wearable form that can carry a lot.</p></article><article class="pc"><div class="pc-h"><img src="img/pr_4.jpg" alt="Reference image of Fret Zealot" width="96" height="72" loading="lazy"><div><span class="pc-n">04 · Light on the instrument</span><h4>Fret Zealot</h4></div></div><dl><dt>For</dt><dd>Guitar learners</dd><dt>Idea</dt><dd>A learning tool that can compete with a real-life teacher.</dd><dt>Concept</dt><dd>Fret-by-fret guidance with a light.</dd><dt>Instrument</dt><dd>Guitar</dd><dt>Also</dt><dd>Tabs, notes, scales and chords.</dd><dt>Advantages</dt><dd>At your own pace.</dd></dl><p class="take"><b>What it gave Mused</b>Instant feedback, at your own pace and speed.</p></article><article class="pc"><div class="pc-h"><img src="img/pr_5.jpg" alt="Reference image of Oria Enhancia ring" width="96" height="72" loading="lazy"><div><span class="pc-n">05 · Wearable and motion</span><h4>Oria Enhancia ring</h4></div></div><dl><dt>For</dt><dd>Keyboard musicians</dd><dt>Idea</dt><dd>Interprets the movements of the player to adjust the output of the playing.</dd><dt>Tech used</dt><dd>A hub that connects to a computer, or to a keyboard directly.</dd><dt>Instrument</dt><dd>Keyboard</dd></dl><p class="take"><b>What it gave Mused</b>A player's own movement can be an input.</p></article><article class="pc"><div class="pc-h"><img src="img/pr_6.jpg" alt="Reference image of Soundbrenner Core" width="96" height="72" loading="lazy"><div><span class="pc-n">06 · Wearable and motion</span><h4>Soundbrenner Core</h4></div></div><dl><dt>For</dt><dd>Helping musicians</dd><dt>Tech used</dt><dd>A metronome with a magnetic tuner, display, pan and decibel meter.</dd><dt>Concept</dt><dd>A tuner and decibel meter in a smartwatch.</dd><dt>Also</dt><dd>Tuning and feeling the beat. Worn at the thigh, shoulder or chest.</dd></dl><p class="take"><b>What it gave Mused</b>The beat can be felt on the body, not only heard.</p></article><article class="pc"><div class="pc-h"><img src="img/pr_7.jpg" alt="Reference image of Rainplay" width="96" height="72" loading="lazy"><div><span class="pc-n">07 · Light on the instrument</span><h4>Rainplay</h4></div></div><dl><dt>For</dt><dd>Beginners</dd><dt>Idea</dt><dd>A visualiser.</dd><dt>Tech used</dt><dd>100 cascading LED lights.</dd><dt>Concept</dt><dd>Turning songs into light.</dd><dt>Instrument</dt><dd>Aluminium panel.</dd><dt>Also</dt><dd>At your own pace. Turn a favourite song into visuals on the panel.</dd></dl><p class="take"><b>What it gave Mused</b>Songs as cascading light, and your favourite songs.</p></article><article class="pc"><div class="pc-h"><img src="img/pr_8.jpg" alt="Reference image of Touché" width="96" height="72" loading="lazy"><div><span class="pc-n">08 · Wearable and motion</span><h4>Touché</h4></div></div><dl><dt>For</dt><dd>Performers and listeners</dd><dt>Idea</dt><dd>Vibrating musical experiences.</dd><dt>Concept</dt><dd>A haptic performer interpretation, for an immersive synaesthetic concert, sending vibration loops.</dd><dt>Instrument</dt><dd>A wearable pod.</dd><dt>Also</dt><dd>Expands the music onto your skin.</dd></dl><p class="take"><b>What it gave Mused</b>Touch can be a second channel for music.</p></article><article class="pc"><div class="pc-h"><img src="img/pr_9.jpg" alt="Reference image of Music Everywhere app" width="96" height="72" loading="lazy"><div><span class="pc-n">09 · App and AR</span><h4>Music Everywhere app</h4></div></div><dl><dt>For</dt><dd>Beginners</dd><dt>Idea</dt><dd>An AR-based learning experience.</dd><dt>Tech used</dt><dd>A headset like the HoloLens.</dd><dt>Concept</dt><dd>An interactive learning guide.</dd><dt>Instrument</dt><dd>Keyboard</dd><dt>Also</dt><dd>Interactive theory lessons and live practice sessions.</dd><dt>Advantages</dt><dd>Teaches how to play with other musicians.</dd><dt>Limits</dt><dd>Limits of AR today.</dd></dl><p class="take"><b>What it gave Mused</b>Learning can be interactive and shared, but headsets are a limit.</p></article><article class="pc"><div class="pc-h"><img src="img/pr_10.jpg" alt="Reference image of Tap wearable keyboard" width="96" height="72" loading="lazy"><div><span class="pc-n">10 · Wearable and motion</span><h4>Tap wearable keyboard</h4></div></div><dl><dt>For</dt><dd>For everyone</dd><dt>Idea</dt><dd>Fingers slot into the gadget, which turns text entry into chording, measuring finger movement and translating it into text or navigation commands.</dd><dt>Tech used</dt><dd>Chording keyboards. The wireless peripheral wraps around the hand.</dd><dt>Instrument</dt><dd>Typing keyboard.</dd></dl><p class="take"><b>What it gave Mused</b>Fingers can carry information, if the combinations are learnable.</p></article><article class="pc"><div class="pc-h"><img src="img/pr_11.jpg" alt="Reference image of The ONE smart piano" width="96" height="72" loading="lazy"><div><span class="pc-n">11 · Light on the instrument</span><h4>The ONE smart piano</h4></div></div><dl><dt>For</dt><dd>Beginners</dd><dt>Idea</dt><dd>Self-illuminating keys to practise with.</dd><dt>Tech used</dt><dd>An individual LED at each note.</dd><dt>Instrument</dt><dd>Keyboard</dd></dl><p class="take"><b>What it gave Mused</b>Light on the note, on the piano you own.</p></article><article class="pc"><div class="pc-h"><img src="img/pr_12.jpg" alt="Reference image of Yousician" width="96" height="72" loading="lazy"><div><span class="pc-n">12 · App and AR</span><h4>Yousician</h4></div></div><dl><dt>For</dt><dd>For everyone</dd><dt>Idea</dt><dd>An application that teaches step by step.</dd><dt>Tech used</dt><dd>Voice and tone identification, with some feedback.</dd><dt>Instrument</dt><dd>Keyboard and guitar.</dd></dl><p class="take"><b>What it gave Mused</b>Step-by-step lessons with feedback from sound.</p></article></div>
+      <p>Across all twelve, three gaps kept coming up:</p>
+      <div class="chips"><span class="chip"><i style="background:var(--brand)"></i>Just sequencing?</span><span class="chip"><i style="background:var(--brand)"></i>Lack of finger positioning</span><span class="chip"><i style="background:var(--brand)"></i>Bland music library</span></div>
+      <p>One more thing from the study: the multisensory side has a stronger effect on the user than the sound, so the sound becomes the second signal and colour the first.</p>
+      <div class="cols2" style="margin-top:22px">
+        <figure><img src="img/r_theone.jpg" alt="Close-up of a thin strip of coloured lights fitted above the keys of a black piano" loading="lazy" width="1200" height="892"><figcaption>The ONE Smart Hi-Lite, the closest precedent.</figcaption></figure>
+        <div>
+          <h3>What the precedents are missing</h3>
+          <p>The ONE works only on 88-key instruments. It shows the order of notes, but little about rhythm, beat or finger placement. After a while, users sense there is more to music than following a sequence.</p>
+          <p>Screen-based products have limits. The grey areas that apps cannot solve are still unsolved by the physical ones, and solutions made for self-learners are not much explored.</p>
+        </div>
+      </div>
+      <div class="why"><b>Why it matters to Mused</b><p>Mused keeps the best of The ONE, a strip that fits the piano you have, and borrows colour from Specdrum and the finger idea from Tap. Then it adds what none of them do: the finger, the beat, and a way to learn to read the sheet.</p></div>
+    </div>
+
+    <div class="rblock">
+      <span class="no">06 · Music and colour</span>
+      <h3>People have been matching notes to colours for three hundred years</h3>
+      <div class="ff"><b>Fact file</b><div><span><strong>1700s</strong>when colour and sound were first matched</span><span><strong>1915</strong>Scriabin, Prometheus: Poem of Fire</span><span><strong>12</strong>hues in the pitch-to-colour palette</span><span><strong>7</strong>hues Mused keeps, one per natural note</span></div></div>
+      <p>Ideas for matching colour with sound go back to the 1700s. Some people hear colour when they hear sound. This is called synaesthesia, and for coloured hearing the people are called chromesthetes. The research idea is to give non-synaesthetes a similar link by repeated practice, which I call artificial chromesthesia.</p>
+      <p>In 1915 the composer Alexander Scriabin took a keyboard with lights, the clavier à lumières, to the New York premiere of Prometheus: Poem of Fire. Pressing a key sent out a different colour of light. The link most often proposed by researchers is pitch to hue, and several light instruments already use it.</p>
+      <p class="small" style="margin-bottom:6px">A pitch-to-hue palette cited in my report, from C to B:</p>
+      <div class="pal" aria-hidden="true"><span style="background:#ff2a1f"><b>C</b>red</span><span style="background:#ff5a1f"><b>C#</b>orange-red</span><span style="background:#ff8a2a"><b>D</b>orange</span><span style="background:#ffae25"><b>D#</b>yellow-orange</span><span style="background:#ffcb1f"><b>E</b>green-gold</span><span style="background:#b8e51f"><b>F</b>yellow-green</span><span style="background:#21e85c"><b>F#</b>green</span><span style="background:#1fd3a8"><b>G</b>green-blue</span><span style="background:#00a8ea"><b>G#</b>blue</span><span style="background:#5a86ff"><b>A</b>violet-blue</span><span style="background:#7d52e0"><b>A#</b>violet</span><span style="background:#b3309f"><b>B</b>violet-red</span></div>
+      <p class="small" style="margin-top:12px">Mused simplifies this to seven hues, one for each natural note, and the player above uses them.</p>
+      <div class="why"><b>Why it matters to Mused</b><p>This is the base for the colour for each note. Test 1 in the journey below checked it with ten people: colours helped, and too many signals at once did not.</p></div>
+    </div>
+
+    <div class="rblock">
+      <span class="no">07 · Numbers</span>
+      <h3>Why people quit, and how big the opportunity is</h3>
+      <div class="ff"><b>Fact file</b><div><span><strong>85%</strong>quit within two years</span><span><strong>38%</strong>piano share of online music learning</span><span><strong>$840bn</strong>e-learning by 2030, from $197bn</span><span><strong>18.4%</strong>a year growth, online music education</span></div></div>
+      <div class="charts">
+        <div class="chartbox" style="flex-basis:100%"><h4>How many quit, and when</h4><p>Share of learners, from the studies quoted in my report and pitch.</p><div class="hbars"><div class="hb"><span class="l">Quit an instrument within two years<em>As quoted in my report</em></span><span class="t"><i style="width:85.0%"></i></span><b>85%</b></div><div class="hb"><span class="l">Of adults who no longer play, quit at 14 or before<em>As quoted in my report</em></span><span class="t"><i style="width:80.0%"></i></span><b>80%</b></div><div class="hb"><span class="l">Adults who stopped piano and had three years of lessons or less<em>As quoted in my report</em></span><span class="t"><i style="width:67.0%"></i></span><b>67%</b></div><div class="hb"><span class="l">Beginners who stopped within six months (3 of 5)<em>From my pitch</em></span><span class="t"><i style="width:60.0%"></i></span><b>60%</b></div><div class="hb"><span class="l">Music students who drop out by age 17<em>As quoted in my report</em></span><span class="t"><i style="width:50.0%"></i></span><b>50%</b></div></div></div>
+        <div class="chartbox"><h4>Online music education</h4><p>Projected market size, USD million.</p><div class="hbars"><div class="hb"><span class="l">Online music education, 2020<em>USD million. As quoted in my report</em></span><span class="t"><i style="width:31.0%"></i></span><b>130.74M</b></div><div class="hb"><span class="l">Online music education, 2027 (projected)<em>USD million, 18.4% a year</em></span><span class="t"><i class="alt" style="width:100.0%"></i></span><b>421.92M</b></div></div></div>
+        <div class="chartbox"><h4>E-learning overall</h4><p>Projected market size, USD billion.</p><div class="hbars"><div class="hb"><span class="l">Global e-learning, 2020<em>USD billion. As quoted in my pitch</em></span><span class="t"><i style="width:23.4%"></i></span><b>197bn</b></div><div class="hb"><span class="l">Global e-learning, 2030 (projected)<em>USD billion, 17.5% a year</em></span><span class="t"><i class="alt" style="width:100.0%"></i></span><b>840.11bn</b></div></div></div>
+        <div class="chartbox" style="flex-basis:100%"><h4>Where the interest is</h4><p>Piano is the biggest instrument in online music learning, and lockdown pushed e-learning up fast.</p><div class="hbars"><div class="hb"><span class="l">Piano share of online music education<em>Highest of piano, guitar, banjo and violin</em></span><span class="t"><i style="width:38.0%"></i></span><b>38%</b></div><div class="hb"><span class="l">Growth of e-learning in 2020<em>1.2 billion children learning at home</em></span><span class="t"><i class="alt" style="width:36.6%"></i></span><b>36.6%</b></div></div></div>
+      </div>
+      <p class="srcnote">Figures are as quoted in my project report and pitch. Several come from studies in the United States, and I have not re-checked them against the original sources. The two market projections come from different sources and do not agree with each other.</p>
+      <div class="why"><b>Why it matters to Mused</b><p>Most quitting happens early, in the first years, so that is where help is needed. Piano is the largest instrument in online learning, which is why Mused starts there. The music slice of e-learning is small next to the whole, so there is room to grow.</p></div>
+    </div>
+
+    <div class="rblock">
+      <span class="no">08 · How people learn online today</span>
+      <h3>The four main routes, and what people say about them</h3>
+      <div class="ff"><b>Fact file</b><div><span><strong>4</strong>main online routes</span><span><strong>Wi-Fi</strong>when it fails, lesson time is lost, a teacher says</span><span><strong>1</strong>learner: the determined adult</span></div></div>
+      <div class="chips" style="margin-bottom:10px">
+        <span class="chip">Solo learning from shared content</span>
+        <span class="chip">Video: YouTube, Hoffman Academy, MasterClass</span>
+        <span class="chip">Apps: Yousician, Piano Academy (gamified)</span>
+        <span class="chip">Paid teachers online</span>
+      </div>
+      <div class="voices">
+        <blockquote>Pre-recorded lessons are the weak kind. You cannot ask a question and you get no feedback.<cite>Comment on online learning, paraphrased</cite></blockquote>
+        <blockquote>Over a video call the piano sound drops out as soon as it is played, so teachers use workarounds with microphones.<cite>Comment on online learning, paraphrased</cite></blockquote>
+        <blockquote>When the Wi-Fi fails halfway through an exercise, the student has to repeat it and lesson time is wasted. Upgrading the Wi-Fi costs money.<cite>Music teacher, paraphrased</cite></blockquote>
+        <blockquote>A parent with a young family gets up at 5am to practise, daily for six months, and is now around grade 2.<cite>Adult learner, paraphrased</cite></blockquote>
+      </div>
+      <div class="why"><b>Why it matters to Mused</b><p>Videos give no feedback, calls drop the sound and the connection, and apps live on a screen. Mused gives feedback in the room, from the strip, without a network. And the determined adult learner is exactly who it is for.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="journey" data-view="deep">
+  <div class="wrap">
+    <h2>The journey</h2>
+    <p>The reading is above. This is the rest of the path: visits, interviews, tests and building, in order.</p>
+      <div class="ff"><b>Fact file</b><div><span><strong>2</strong>music academies visited in Gandhinagar</span><span><strong>2</strong>user tests, with 10 people in Test 1</span><span><strong>11</strong>steps, from lockdown to the build</span><span><strong>5</strong>days of colour-for-notes testing</span></div></div>
+    <ol class="journey">
+      <li class="step" style="--mk:var(--c)"><span class="mk" aria-hidden="true"></span><div class="sb"><span class="no">Step 1</span><h3>Lockdown made a lot of new learners</h3><p>In lockdown many people took up an instrument to break the sameness of the days. A Public First study reported by The Guardian found around one million UK adults had taken one up. Most had no teacher close by. They searched for their favourite songs online and started to teach themselves.</p><p>That is where the trouble starts. Nobody is there to say if a note was right, or if the hand sits well, so the early excitement fades.</p></div></li>
+      <li class="step" style="--mk:var(--d)"><span class="mk" aria-hidden="true"></span><div class="sb"><span class="no">Step 2</span><h3>Visiting two music academies</h3><p>I visited two music schools in Gandhinagar. Both moved online. Harmony Music Academy, which teaches keyboard and guitar to all ages, stopped classes for a while. Teaching online did not work well there: poor connections, clashing schedules, and no direct feedback from the teacher.</p><p>Mihir Guitar Classes carried on without a break, but a song took longer online, and the teacher could not show how to hold the instrument or place the fingers. In both, money mattered most. Students who could not buy an instrument for home, or rely on their internet, left sooner.</p><div class="figs"><figure class="wide"><img src="img/j_field.jpg" alt="Three photos from the field study: an online lesson on a laptop, a guitar lesson, and a tablet screen" loading="lazy" width="1600" height="351"><figcaption>Field visits and online lessons.</figcaption></figure></div></div></li>
+      <li class="step" style="--mk:var(--e)"><span class="mk" aria-hidden="true"></span><div class="sb"><span class="no">Step 3</span><h3>Listening to self-learners</h3><div class="qs"><blockquote>A 24-year-old master's student, magician and music enthusiast, learned guitar from videos. “Knowing when to press, where to press would have solved many issues. Looking at the screen, looking back to and fro is difficult.”</blockquote><blockquote>A 26-year-old master's student whose friends encouraged her to learn. Online videos left her unsure if what she played was right. That feeling slowly killed her enthusiasm.</blockquote><blockquote>A student with a year of keyboard lessons at school. He learned favourite songs from chord sites, recorded himself, and asked friends and family for feedback. After the pandemic he started a college band.</blockquote><blockquote>A school student who learned by ear, note by note. Remembering the notes got hard and the fun faded. The instruments now sit around as decoration.</blockquote></div><p style="margin-top:16px">What they shared: favourite songs kept them going, and what was missing was quick feedback from a source they could trust.</p></div></li>
+      <li class="step" style="--mk:var(--f)"><span class="mk" aria-hidden="true"></span><div class="sb"><span class="no">Step 4</span><h3>Mapping what already exists</h3><p>The full study is in the secondary research above. I mapped products on the market: Specdrum, the Wave ring, the Oria Enhancia ring, the Tap wearable keyboard, The ONE Hi-Lite and the AUUG Motion Synth. The ONE Hi-Lite stood out because it turns any 88-key piano into a smart one without buying a new instrument.</p><p>But light-up keys mostly show the order of the notes. They say little about the beat, how hard to press, or where the fingers go, and screen apps have limits of their own. That gap became the brief.</p><div class="figs"><figure class="wide"><img src="img/j_precedents.jpg" alt="A hand-drawn map of products, with names such as Specdrum, Wave ring and The ONE Smart Piano linked around a drawing of a hand" loading="lazy" width="1400" height="946"><figcaption>Mapping the precedents by hand.</figcaption></figure></div></div></li>
+      <li class="step" style="--mk:var(--g)"><span class="mk" aria-hidden="true"></span><div class="sb"><span class="no">Step 5</span><h3>Sketching the idea</h3><p>I tried different kinds of feedback. Sound can clash with the music being played. Vibration works as a second signal. Colour could be adjusted and was the clearest, so I chose visual feedback.</p><p>Keys that press themselves could teach rhythm, the way a baby learns a language, but that cannot be a universal add-on. Light-up keys can fit any piano, so I went with those and added the finger, the beat and a screen.</p><div class="figs"><figure class="wide"><img src="img/j_sketch1.jpg" alt="Black-and-white storyboard sketches of a learner at a piano with a strip of lights, including a panel reading instant feedback" loading="lazy" width="1400" height="586"><figcaption>Storyboards for the idea.</figcaption></figure><figure class=""><img src="img/j_features.jpg" alt="A page of sketches showing sequence and rhythm, a block-style screen, and a strip above the keys" loading="lazy" width="800" height="1151"><figcaption>Features: sequence, rhythm and a strip above the keys.</figcaption></figure><figure class=""><img src="img/mused_finger.jpg" alt="Drawing of two hands with coloured fingertips above a keyboard, with coloured circles falling toward the keys" loading="lazy" width="1400" height="973"><figcaption>Each finger has a colour, and the falling notes show which one plays.</figcaption></figure><figure class="slide wide"><img src="img/t_10.jpg" alt="Storyboard sketches next to a page on self-pressing keys or light-up keys, with an instant feedback sketch" loading="lazy" width="1400" height="788"><figcaption>Ideation 2: sound, vibration and colour as feedback, and self-pressing or light-up keys.</figcaption></figure><figure class="slide wide"><img src="img/t_11.jpg" alt="Hand-drawn user journey frames of a learner with a keyboard and lights" loading="lazy" width="1400" height="788"><figcaption>The basic user journey, drawn frame by frame.</figcaption></figure></div></div></li>
+      <li class="step" style="--mk:var(--a)"><span class="mk" aria-hidden="true"></span><div class="sb"><span class="no">Step 6</span><h3>Colour for each finger, or for each note?</h3><p>I explored two ways to show which finger presses where. One gave each finger a colour, using a glove or a ring. The other gave each note a colour from the visual spectrum, shown on an addressable LED strip.</p><p>Both solve the question of which finger goes where. Colouring the fingers is easier and keeps the solution simpler. Colouring the notes builds the link between colour and note that helps a learner understand the music sheet at a basic level. Since reading the sheet matters, I went with the addressable LED strip, plus a screen that shows the beat and the colours in a pixel-game style.</p><div class="figs"><figure class="slide wide"><img src="img/t_16.jpg" alt="A page comparing coloured finger rings and a glove against an LED strip above the keys of a keyboard" loading="lazy" width="1400" height="788"><figcaption>Finger colour or note colour: the two options, and the choice.</figcaption></figure></div></div></li>
+      <li class="step" style="--mk:var(--b)"><span class="mk" aria-hidden="true"></span><div class="sb"><span class="no">Step 7</span><h3>Test 1: can colour teach notes?</h3><p>Ten participants took part over five days, in five levels. I gave each note a colour and projected the colours in time with a song, so the learner could link a sound to a colour. The song was Happy Birthday, because people know the tune.</p><p>Most people could identify the notes after a few tries. Half found coloured dots the best method, and others preferred coloured letters. People with no music background moved one finger at a time at first, then began using several. Repeating the colours built muscle memory.</p><p>Most linked bright colours with higher notes and dark ones with lower notes. Green, yellow and red were remembered better than blue, violet and indigo, and the strength of the colour mattered too. The last level, with colour on the keys as well as the projection, was too much input, and people remembered less. That helped me decide where to stop.</p><div class="lvls"><div class="ok"><span class="n">Level 1</span><b>Coloured dots</b><em>Half found this the most effective</em></div><div class=""><span class="n">Level 2</span><b>Letters</b></div><div class="ok"><span class="n">Level 3</span><b>Coloured letters</b><em>Preferred by the others</em></div><div class="no2"><span class="n">Level 4</span><b>Coloured keys</b><em>Too much input: people remembered less</em></div><div class="ok"><span class="n">Level 5</span><b>Coloured letter among black and white ones</b><em>Showed where to draw the line</em></div></div><div class="recall"><span>Remembered best:</span><span class="cs"><i style="background:var(--f)"></i>Green</span><span class="cs"><i style="background:var(--e)"></i>Yellow</span><span class="cs"><i style="background:var(--c)"></i>Red</span><span style="margin-left:10px">Remembered less:</span><span class="cs"><i style="background:var(--g)"></i>Blue</span><span class="cs"><i style="background:var(--b)"></i>Violet</span><span class="cs"><i style="background:var(--a)"></i>Indigo</span></div><div class="figs"><figure class=""><img src="img/j_exp1_setup.jpg" alt="A keyboard under a tripod-mounted projector in a small room" loading="lazy" width="700" height="932"><figcaption>The setup: a projector above the keyboard.</figcaption></figure><figure class=""><img src="img/j_exp1_grid.jpg" alt="A black grid with faint coloured lines, used as the projected pattern" loading="lazy" width="880" height="1130"><figcaption>The projected pattern.</figcaption></figure><figure class=""><img src="img/j_exp1_glove.jpg" alt="A hand in a glove with small lights playing a keyboard" loading="lazy" width="352" height="640"><figcaption>An early glove prototype that lit the fingers.</figcaption></figure><figure class="slide wide"><img src="img/t_5.jpg" alt="A grid of photos of participants in Test 1 playing a keyboard under coloured projections" loading="lazy" width="1400" height="788"><figcaption>Test 1 sessions, with participants playing under the projection.</figcaption></figure></div></div></li>
+      <li class="step" style="--mk:var(--c)"><span class="mk" aria-hidden="true"></span><div class="sb"><span class="no">Step 8</span><h3>Showing right, wrong and the beat</h3><p>Learners also need to know when they are wrong. I sketched feedback with three states: a wrong note, a wrong finger placement, and a correct press, plus a pulse for the beat. In the player above, the line under the keys says if you were early, late or on the beat.</p><div class="figs"><figure class=""><img src="img/j_feedback.jpg" alt="A sketch with three black bars labelled wrong note, wrong finger placement and correct, and a fourth for the beat" loading="lazy" width="700" height="1007"><figcaption>Sketch of the feedback states.</figcaption></figure></div></div></li>
+      <li class="step" style="--mk:var(--d)"><span class="mk" aria-hidden="true"></span><div class="sb"><span class="no">Step 9</span><h3>Falling notes for reading the sheet</h3><p>Reading a music sheet came out as a key insight from the interviews, so I tried different ways to show it and different orientations. Cascading notes, like the idea of synaesthesia, let a learner see what is coming next in a fun way. The 90s retro games look felt right, with pixel visuals and notes that fall.</p><p>The notes could be symbols from the conventional reading language, or letters in colour. Both seemed worth testing.</p><div class="figs"><figure class="slide wide"><img src="img/t_13.jpg" alt="Three versions of falling notes: on a staff, as coloured circles on black lanes, and above a keyboard with a staff below" loading="lazy" width="1400" height="788"><figcaption>Versions of the cascading notes, from the staff to a pixel game.</figcaption></figure></div></div></li>
+      <li class="step" style="--mk:var(--e)"><span class="mk" aria-hidden="true"></span><div class="sb"><span class="no">Step 10</span><h3>Test 2: can people read falling notes?</h3><p>Reading a music sheet is one of the hardest parts for self-learners. I turned the staff so the notes fall, like a block game, and asked participants to watch a video of it. Over five trials they had to identify notes and spot them on staves.</p><p>Every participant managed it within five trials. Most chose one note as a landmark and read the others from it. Viewing the staff vertically was easier than expected. The confusion came from notes that repeat in several places. The test suggests that sheet reading can be taught through a game-like format.</p><div class="chartbox" style="margin-top:18px"><h4>Test 2: average score in each trial</h4><p>Identifying notes and spotting them on the staff. The highest score in the table is 8. Fewer people took the later trials, so the averages there rest on fewer people.</p><div class="cols-chart" role="img" aria-label="Average identification scores rose from 5.9 in trial 1 to 7.0, 7.9 and 7.5 in later trials. Average spotting scores rose from 5.9 to 7.4, 7.5 and 7.8."><div class="cc"><div class="pair"><i style="height:73.6%"><span>5.9</span></i><i class="b" style="height:73.6%"><span>5.9</span></i></div></div><div class="cc"><div class="pair"><i style="height:87.5%"><span>7.0</span></i><i class="b" style="height:93.1%"><span>7.4</span></i></div></div><div class="cc"><div class="pair"><i style="height:98.4%"><span>7.9</span></i><i class="b" style="height:93.8%"><span>7.5</span></i></div></div><div class="cc"><div class="pair"><i style="height:93.8%"><span>7.5</span></i><i class="b" style="height:96.9%"><span>7.8</span></i></div></div></div><div class="cc-l"><div>Trial 1<br>n = 9</div><div>Trial 2<br>n = 9</div><div>Trial 3<br>n = 8</div><div>Trial 4<br>n = 4</div></div><div class="legend"><span>Identification</span><span class="b">Spotting</span></div></div><div class="figs"><figure class=""><img src="img/j_reading.jpg" alt="A screen with coloured notes falling toward a staff and a keyboard" loading="lazy" width="700" height="1007"><figcaption>The falling-notes screen.</figcaption></figure><figure class="wide"><img src="img/j_staff.jpg" alt="A single staff with coloured notes for Mary had a little lamb" loading="lazy" width="1142" height="168"><figcaption>A conventional staff with the colours added.</figcaption></figure><figure class="slide wide"><img src="img/t_14_table.jpg" alt="Table of identification and spotting scores for nine participants across up to five trials, with names replaced by P1 to P9" loading="lazy" width="1600" height="490"><figcaption>Results for nine participants over up to five trials. Names are replaced with P1 to P9.</figcaption></figure></div></div></li>
+      <li class="step" style="--mk:var(--f)"><span class="mk" aria-hidden="true"></span><div class="sb"><span class="no">Step 11</span><h3>Building it</h3><p>The first prototypes used WS2812B addressable LEDs and coloured stickers on real keyboards. I tested the strip on a breadboard, then on a board, then fitted a long strip above the keys. The form became a modular piece that sits with the piano and can be extended for a bigger keyboard.</p><div class="figs"><figure class=""><img src="img/mused_p1.jpg" alt="A strip of small lights glowing in rainbow colours on a white board" loading="lazy" width="1156" height="868"><figcaption>The first LED strip test.</figcaption></figure><figure class=""><img src="img/j_build1.jpg" alt="A desk covered with wires, an Arduino and a breadboard next to a printed music sheet" loading="lazy" width="700" height="932"><figcaption>Wiring the first version.</figcaption></figure><figure class=""><img src="img/mused_p3.jpg" alt="A breadboard on a keyboard, with coloured stickers on the keys" loading="lazy" width="1156" height="868"><figcaption>Coloured stickers on the keys.</figcaption></figure><figure class=""><img src="img/j_build2.jpg" alt="A long black strip resting on a wooden workbench" loading="lazy" width="1100" height="826"><figcaption>The strip, built.</figcaption></figure><figure class=""><img src="img/mused_p2.jpg" alt="A black strip with small openings fitted just above piano keys" loading="lazy" width="1156" height="868"><figcaption>The strip above the keys.</figcaption></figure><figure class=""><img src="img/j_render.jpg" alt="Render of a black music stand with a strip of small lights along its base" loading="lazy" width="800" height="1200"><figcaption>The form, rendered.</figcaption></figure><figure class="slide wide"><img src="img/t_15.jpg" alt="Photos of a keyboard with rainbow coloured stickers and a breadboard with a light strip, next to notes on spatial recognition" loading="lazy" width="1400" height="788"><figcaption>Spatial recognition tests: addressable LEDs and stickers.</figcaption></figure><figure class="slide wide"><img src="img/t_18.jpg" alt="A gloved hand on a keyboard with a small board, and a keyboard with a coloured strip, for notes and chords prototyping" loading="lazy" width="1400" height="788"><figcaption>Notes and chords prototyping.</figcaption></figure><figure class="slide wide"><img src="img/t_19.jpg" alt="Photos of the black music-stand form with a strip of lights, on and off a keyboard" loading="lazy" width="1400" height="788"><figcaption>The modular form, with the strip fitted to a keyboard.</figcaption></figure></div></div></li>
+    </ol>
+  </div>
+</section>
+
+<section id="result" data-view="deep">
+  <div class="wrap">
+    <h2>The product</h2>
+    <p>Light-up keys already exist, but most only show the sequence. Mused adds the finger, the beat, and a way to read music.</p>
+      <div class="ff"><b>Fact file</b><div><span><strong>3</strong>levels: Beginner, Amateur, Expert</span><span><strong>3</strong>modes: Notes, Chords, Scales</span><span><strong>3</strong>songs in the player</span><span><strong>7</strong>note colours</span><span><strong>5</strong>app screens</span></div></div>
+    <div class="how" style="margin-top:26px">
+      <figure>
+        <img src="img/mused_hero.jpg" alt="Render of a black strip of lights fitted above the keys of a digital piano, with a music stand behind it" width="1600" height="1067">
+        <figcaption>A modular strip above the keys. It fits any keyboard and extends for a bigger piano.</figcaption>
+      </figure>
+      <div>
+        <div class="card" style="margin-bottom:22px"><span class="no">01</span><h3>One colour for each note</h3>
+          <p>Each note takes a colour from the visual spectrum. With repeated use, learners build a link between a sound and its colour, which Mused's design calls artificial chromesthesia.</p>
+          <div class="notes" aria-hidden="true"><span style="background:var(--c)">C</span><span style="background:var(--d)">D</span><span style="background:var(--e)">E</span><span style="background:var(--f)">F</span><span style="background:var(--g)">G</span><span style="background:var(--a)">A</span><span style="background:var(--b)">B</span></div>
+        </div>
+        <div class="card" style="margin-bottom:22px"><span class="no">02</span><h3>Notes that fall</h3>
+          <p>The music sheet is turned so the notes fall down the screen, like a block game. The order stays the same, and the learner can see what is coming next.</p>
+        </div>
+        <div class="card"><span class="no">03</span><h3>Colour that fades</h3>
+          <p>At the Amateur level the brightness drops as the song goes on. At the Expert level the colours and lights are gone and the player relies on what they know. Try the three levels above.</p>
+        </div>
+        <div class="card" style="margin-top:22px"><span class="no">04</span><h3>Learn notes, chords and scales</h3>
+          <p>The app idea goes beyond songs. A learner chooses Notes, Chords or Scale, and an Easy, Medium or Hard concept, and the same falling blocks teach each one. The player above has a Learn control that works the same way.</p>
+        </div>
+      </div>
+    </div>
+    <div class="how" style="margin-top:30px">
+      <figure><img src="img/mused_notes.jpg" alt="Coloured notes falling in lanes on a black screen above a row of coloured squares" width="900" height="927"><figcaption>The cascading notation. Each lane is a key.</figcaption></figure>
+      <figure><img src="img/mused_pixil.jpg" alt="Coloured note shapes laid out along a horizontal staff on a black background" width="900" height="900"><figcaption>The same notes on a staff, in pixel style.</figcaption></figure>
+    </div>
+
+    <div class="pp">
+      <h3>Introducing mused</h3>
+      <div class="intro"><div class="intro-img" style="background-image:url(img/c_hands.jpg)" role="img" aria-label="Hands playing a piano keyboard"><em>Sight reading made better</em><b>mused</b></div>
+        <div class="ic">
+          <div><span>01</span><h4>Instant feedback and spatial understanding</h4><p>It gives feedback on the notes, the finger placement and the rhythm.</p></div>
+          <div><span>02</span><h4>Be motivated long enough</h4><p>Stay in the loop by learning the musical concept through your favourite songs.</p></div>
+          <div><span>03</span><h4>Comprehending the music sheet</h4><p>Slowly understand the sheet and read it.</p></div>
+          <div><span>04</span><h4>Universal</h4><p>Modular, so it fits every keyboard or piano size, and more units can be added.</p></div>
+        </div></div>
+    </div>
+
+    <div class="pp">
+      <h3>A multisensory approach, with colour for notes</h3>
+      <div class="rb"><figure class="plate light" style="padding:0;background:#fff"><img src="img/c_rainbow.jpg" alt="A grand piano with a rainbow beam of light above the keys" loading="lazy" width="560" height="788" style="border-radius:0"></figure><div>\1<div class="chipset"><span>Colour association</span><span>Instant feedback</span><span>Hand placement</span><span>Posture</span><span>Visual or tactile feedback</span></div></div></div>
+    </div>
+
+    <div class="pp">
+      <h3>Progressive independence</h3>
+      <p>The levels are designed so the learner depends less on visual cues over time. The player at the top of this page works this way.</p>
+      <div class="lv">
+        <div><span>Beginner</span><h4>Complete colour association</h4><p>Every note has its colour and every key lights up.</p></div>
+        <div><span>Amateur</span><h4>Decrease in brightness and intensity</h4><p>The colours fade as the song goes on.</p></div>
+        <div><span>Expert</span><h4>Independent of visual stimuli</h4><p>No colours and no lights. The player relies on what they know.</p></div>
+      </div>
+      <div class="feat">
+        <div><span>Feature</span><b>Slide bar</b><p>Move through the song to any point.</p></div>
+        <div><span>Feature</span><b>Beat recognition</b><p>The player sees how they did against the beat.</p></div>
+        <div><span>Feature</span><b>Stanza selection and looping</b><p>Practise a hard part again and again.</p></div>
+      </div>
+    </div>
+
+    <div class="pp">
+      <h3>Learn through your favourite songs</h3>
+      <div class="banner"><img src="img/c_strip.jpg" alt="A strip of coloured lights across the back of a keyboard" loading="lazy" width="1400" height="394"></div>
+      <div class="steps3"><div><b>01</b>Select your favourite song</div><div><b>02</b>Learn techniques and concepts through those songs</div><div><b>03</b>Make the process exciting and motivating</div></div>
+      \1
+    </div>
+
+    <div class="pp">
+      <h3>Sight reading made better</h3>
+      <p>For people learning keyboard alone, the traditional sheet is hard: the notes, symbols and rhythms are packed together and can overwhelm a beginner. Mused redesigns the sheet so reading it feels like a game.</p>
+      <figure class="plate light" style="max-width:760px;margin-top:14px"><img src="img/c_device.jpg" alt="A black music-stand form with a screen of falling coloured notes above a keyboard" loading="lazy" width="1120" height="488"><figcaption>The redesigned sheet on the mused stand.</figcaption></figure>
+      <div class="ba"><div><em>Before: the conventional sheet</em><img src="img/c_sheet.jpg" alt="A conventional piano sheet" loading="lazy" width="658" height="733"></div><div class="after"><em>After: the same notes in colour</em><img src="img/c_colsheet.jpg" alt="Notes on a staff coloured by pitch" loading="lazy" width="588" height="221"><p style="margin:0;font-size:15px;line-height:1.5;color:#222;max-width:none">Artificial chromesthesia links the traditional sheet to Tetris-style pixel games, with colours or shapes for the notes. The sheet becomes a cascading, downward flow that keeps the order of the notation.</p></div></div>
+      <div class="cols2" style="margin-top:22px;align-items:center">
+        <figure class="plate"><img src="img/c_fall.jpg" alt="Coloured note shapes falling in lanes on a black background" loading="lazy" width="644" height="758"><figcaption>Falling notes, one lane per key.</figcaption></figure>
+        <ul class="bul">
+          <li><b>Comprehending the sheet.</b> Colour makes a complex notation easier for a beginner to read.</li>
+          <li><b>Colours for notes.</b> Colours for notes, rests and dynamics help learners see how pitches and lengths relate.</li>
+          <li><b>Gamified.</b> Challenges, rewards and progression levels make practice feel like play.</li>
+          <li><b>A basic template.</b> A simplified sheet gives a base for building the colour and note link.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="pp">
+      <h3>From wearable gadgets to a gamified screen</h3>
+      <div class="cols2" style="align-items:center"><figure class="plate light" style="max-width:300px"><img src="img/c_glove.jpg" alt="A hand wearing a glove with a coloured light on each finger" loading="lazy" width="448" height="552"><figcaption>An early idea: a light on each finger.</figcaption></figure><div><p>The pitch frames the project as a path from wearable gadgets to gamified visualisations. A light on each finger was the first idea. The strip and the falling notes are where it went.</p></div></div>
+    </div>
+
+    <div class="pp">
+      <h3>The app: notes, chords and scales through a song</h3>
+      <p>The app pairs with the strip. The learner chooses a mode, Notes, Chords or Scales, and a favourite song from a large online library, and the lesson is played as falling blocks. Under the modes: singing and matching notes, single-hand notes, chords and scales, improvisation, reharmonisation, notation for both hands, an introduction to the waltz, and separate melodies for two hands.</p>
+      <div class="mf"><div class="mf-pill">Select your mode</div><div class="mf-arrow">↓</div>
+        <div class="mf-cols">
+          <div><h4>Notes</h4><ul><li>Singing and matching notes</li><li>Single-handed notes, chords and scales</li><li>Improvisation skills</li></ul></div>
+          <div><h4>Chords</h4><ul><li>Reharmonisation</li><li>Notation with both hands</li><li>Waltz introduction</li></ul></div>
+          <div><h4>Scales</h4><ul><li>Dual-hand, separate</li></ul></div>
+        </div><div class="mf-arrow">↓</div><div class="mf-pill">Select your favourite song</div></div>
+      <div class="apps"><figure><div class="ph"><div class="sb"><span>9:41</span><span>5G</span></div><div class="bd"><img class="logo" src="img/logo_mark.png" alt=""><div class="wm">mused</div><p class="tg">To stay in <em>loop</em>, to stay <em>motivated</em> and to <em>impress</em></p><div style="margin-top:auto;display:grid;gap:8px;padding-bottom:10px"><span class="btn">Sign up</span><span class="btn ghost">Get started</span></div></div></div><figcaption>Welcome</figcaption></figure><figure><div class="ph"><div class="sb"><span>9:41</span><span>5G</span></div><div class="bd"><h5>My library</h5><div class="row"><span class="cv" style="background:var(--c)"></span><div><b>Piano Man</b><small>Billy Joel</small></div><span class="tm">5:42</span></div><div class="row"><span class="cv" style="background:var(--e)"></span><div><b>Strawberry Fields Forever</b><small>Beatles</small></div><span class="tm">4:08</span></div><div class="row"><span class="cv" style="background:var(--g)"></span><div><b>Vincent</b><small>Don McLean</small></div><span class="tm">3:58</span></div><div class="row"><span class="cv" style="background:var(--f)"></span><div><b>Thuvanathumbikal Theme</b><small>Johnson Master</small></div><span class="tm">2:21</span></div><div class="row"><span class="cv" style="background:var(--b)"></span><div><b>Mel Mel Mel</b><small>Ustad Hotel</small></div><span class="tm">5:12</span></div></div><div class="tab"><i class=""><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</i><i class="on"><svg viewBox="0 0 24 24"><path d="M4 5h4v14H4zM10 5h4v14h-4zM16 6l4-1 2 14-4 1z"/></svg>Library</i><i class=""><svg viewBox="0 0 24 24"><path d="M3 8l9-4 9 4-9 4zM7 10v5c0 1.5 2.5 3 5 3s5-1.5 5-3v-5"/></svg>Learn</i><i class=""><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>Profile</i></div></div><figcaption>Library</figcaption></figure><figure><div class="ph"><div class="sb"><span>9:41</span><span>5G</span></div><div class="bd"><h5>Set up the song</h5><div class="lab">Concept</div><div class="seg"><span>Easy</span><span class="on">Medium</span><span>Hard</span></div><div class="lab">Mode</div><div class="seg"><span>Notes</span><span class="on">Chords</span><span>Scale</span></div><div class="fall"><i style="left:6%;top:10%;background:var(--c)"></i><i style="left:6%;top:28%;background:var(--e)"></i><i style="left:6%;top:46%;background:var(--g)"></i><i style="left:44%;top:4%;background:var(--d)"></i><i style="left:44%;top:22%;background:var(--f)"></i><i style="left:44%;top:40%;background:var(--a)"></i><i style="left:76%;top:14%;background:var(--e)"></i><i style="left:76%;top:34%;background:var(--g)"></i><i style="left:76%;top:52%;background:var(--b)"></i></div><span class="btn">Start</span></div><div class="tab"><i class=""><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</i><i class=""><svg viewBox="0 0 24 24"><path d="M4 5h4v14H4zM10 5h4v14h-4zM16 6l4-1 2 14-4 1z"/></svg>Library</i><i class="on"><svg viewBox="0 0 24 24"><path d="M3 8l9-4 9 4-9 4zM7 10v5c0 1.5 2.5 3 5 3s5-1.5 5-3v-5"/></svg>Learn</i><i class=""><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>Profile</i></div></div><figcaption>Concept + mode</figcaption></figure><figure><div class="ph"><div class="sb"><span>9:41</span><span>5G</span></div><div class="bd"><div class="art"></div><b style="font:500 13px var(--display)">Strawberry Fields Forever</b><small style="color:#8e8e96;font-size:10px">Beatles</small><div class="prog"></div><div style="display:flex;justify-content:space-between;font:9px var(--mono);color:#8e8e96"><span>Chords</span><span>Medium</span></div><div class="ctl"><s>&#8634;</s><span class="pp"></span><s>&#8635;</s></div></div><div class="tab"><i class=""><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</i><i class=""><svg viewBox="0 0 24 24"><path d="M4 5h4v14H4zM10 5h4v14h-4zM16 6l4-1 2 14-4 1z"/></svg>Library</i><i class="on"><svg viewBox="0 0 24 24"><path d="M3 8l9-4 9 4-9 4zM7 10v5c0 1.5 2.5 3 5 3s5-1.5 5-3v-5"/></svg>Learn</i><i class=""><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>Profile</i></div></div><figcaption>Player</figcaption></figure><figure><div class="ph"><div class="sb"><span>9:41</span><span>5G</span></div><div class="bd"><div class="av">V</div><div style="text-align:center;font:500 13px var(--display)">Vincent Vattoly</div><div style="text-align:center;font-size:9px;color:#8e8e96">Based in TVM</div><div class="st"><div><b>4</b><small>Songbooks</small></div><div><b>2</b><small>Fans</small></div><div><b>1</b><small>Following</small></div></div><div class="lab">Progress overview</div><div class="kv">Completed songs<b>3</b></div><div class="kv">Practice time<b>56</b></div><div class="kv">Skills unlocked<b>7</b></div></div><div class="tab"><i class=""><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>Home</i><i class=""><svg viewBox="0 0 24 24"><path d="M4 5h4v14H4zM10 5h4v14h-4zM16 6l4-1 2 14-4 1z"/></svg>Library</i><i class=""><svg viewBox="0 0 24 24"><path d="M3 8l9-4 9 4-9 4zM7 10v5c0 1.5 2.5 3 5 3s5-1.5 5-3v-5"/></svg>Learn</i><i class="on"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg>Profile</i></div></div><figcaption>Progress</figcaption></figure></div><p style="max-width:62ch;margin:14px 0 0;color:#d6d6da">Dive into chords, notes and scales using favourite songs from a large online library, in an addictive Tetris-style game format.</p>
+    </div>
+
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Where it stands</h2>
+    <p>Mused is a concept with working prototypes and tested ideas. It is not a finished product. The plan has three stages.</p>
+    <div class="stages" style="margin-top:20px">
+      <div><span class="no">Stage 1</span><h3>Mused</h3><p style="margin:0">Colours and lights for guiding and navigation.</p></div>
+      <div><span class="no">Stage 2</span><h3>Project Ghost</h3><p style="margin:0">A self-playing keyboard that copies a tutor's actions, as an online solution.</p></div>
+      <div><span class="no">Stage 3</span><h3>More instruments</h3><p style="margin:0">Guitar, ukulele and violin.</p></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p style="margin-bottom:18px"><img src="img/logo_mark.png" alt="mused" width="64" height="57" style="display:block;width:64px;height:auto"></p>
+    <p>Designed and built by Anjal B, M.Des in New Media Design, NID Gandhinagar. Photos, renders and drawings are from the project.</p>
+    <p>The songs in the player are public domain tunes. The notes, scales and chord sets are standard music theory. The player is a demonstration of the idea on a screen, and does not read a real keyboard.</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var COL=['#ff2a1f','#ff8a2a','#ffcb1f','#21e85c','#00a8ea','#5a86ff','#9b2fc4']; // C D E F G A B
+  var WHITE_PC=[0,2,4,5,7,9,11], BLACK_AFTER={0:1,2:3,5:6,7:8,9:10};
+  var LOW=60, NW=14; // C4 .. B5
+  var LOWER=['a','s','d','f','g','h','j'], UPPER=['q','w','e','r','t','y','u'];
+  var NAMES=['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
+  var DEG=['1','','2','','3','4','','5','','6','','7'];
+  var CH={C:[60,64,67],G:[62,67,71],F:[60,65,69]};
+  var SPELL={C:'C E G',G:'G B D',F:'F A C'};
+  function ch(list){return list.map(function(x){return [CH[x[0]],x[1],x[0]];});}
+  var SONGS={
+    hb:{name:'Happy Birthday',bpm:76,notes:[[67,.75],[67,.25],[69,1],[67,1],[72,1],[71,2],[67,.75],[67,.25],[69,1],[67,1],[74,1],[72,2],[67,.75],[67,.25],[79,1],[76,1],[72,1],[71,1],[69,1],[77,.75],[77,.25],[76,1],[72,1],[74,1],[72,2]],
+      chords:ch([['C',3],['G',3],['G',3],['C',3],['C',3],['F',3],['F',3],['C',3]])},
+    mary:{name:'Mary Had a Little Lamb',bpm:92,notes:[[64,1],[62,1],[60,1],[62,1],[64,1],[64,1],[64,2],[62,1],[62,1],[62,2],[64,1],[67,1],[67,2],[64,1],[62,1],[60,1],[62,1],[64,1],[64,1],[64,1],[64,1],[62,1],[62,1],[64,1],[62,1],[60,4]],
+      chords:ch([['C',4],['C',4],['G',4],['C',4],['C',4],['C',4],['G',4],['C',4]])},
+    ode:{name:'Ode to Joy',bpm:96,notes:[[64,1],[64,1],[65,1],[67,1],[67,1],[65,1],[64,1],[62,1],[60,1],[60,1],[62,1],[64,1],[64,1.5],[62,.5],[62,2],[64,1],[64,1],[65,1],[67,1],[67,1],[65,1],[64,1],[62,1],[60,1],[60,1],[62,1],[64,1],[62,1.5],[60,.5],[60,2]],
+      chords:ch([['C',4],['G',4],['C',4],['G',4],['C',4],['G',4],['C',4],['C',4]])}
+  };
+  var SCALE_RUN=[[60,1],[62,1],[64,1],[65,1],[67,1],[69,1],[71,1],[72,2]];
+  var FOCUS={
+    play:{h:'Just play',p:'Pick a favourite song and watch Mused light each key, then play along. Songs are the reason people start.',m:function(){return '';}},
+    notes:{h:'Learn the notes through the song',p:'Every falling bar carries the letter of its note, and so does each key. Beginner shows letters and colours. Amateur fades the colours. Expert hides both, so you rely on what you learned.',m:function(){return 'C red · D orange · E yellow · F green · G blue · A indigo · B violet';}},
+    scale:{h:'Learn the scale through the song',p:'This song is in C major. First play the scale, C D E F G A B C, then the song. The number on each bar is its step in the scale, and 1 is the home note. The song only uses these seven notes.',m:function(){return 'C major: 1 C · 2 D · 3 E · 4 F · 5 G · 6 A · 7 B. Steps: whole, whole, half, whole, whole, whole, half.';}},
+    chords:{h:'Learn the chords through the song',p:'A chord is three notes pressed together. These blocks are the chords that sit under the melody. Press all three keys as the bars reach the line.',m:function(){var seen={},o=[];SONGS[st.song].chords.forEach(function(c){if(!seen[c[2]]){seen[c[2]]=1;o.push(c[2]+' = '+SPELL[c[2]]);}});return 'Order: '+SONGS[st.song].chords.map(function(c){return c[2];}).join(' · ')+'. '+o.join(' · ');}}
+  };
+  var cv=document.getElementById('cv'), ctx=cv.getContext('2d');
+  var fb=document.getElementById('fb'), scoreEl=document.getElementById('score'), startBtn=document.getElementById('start'), soundBtn=document.getElementById('sound');
+  var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var st={learn:'play',song:'hb',level:1,lab:'none',mode:'watch',running:false,t0:0,now:-2,notes:[],sound:true,lit:{},W:0,H:0,dpr:1,keyH:0,speed:150,raf:0,last:0,ended:false};
+  var actx=null;
+
+  function isBlack(m){var pc=m%12;return pc===1||pc===3||pc===6||pc===8||pc===10;}
+  function whiteIndex(m){ // index of natural key at or below m
+    var o=Math.floor((m-LOW)/12), pc=(m-LOW)%12, idx=0;
+    for(var i=0;i<7;i++){ if(WHITE_PC[i]<=pc) idx=i; }
+    return o*7+idx;
+  }
+  function pcColor(pc){var k=WHITE_PC.indexOf(pc);if(k>=0)return COL[k];var lo=WHITE_PC.indexOf(pc-1);return COL[lo];}
+  function hexRgb(h){return [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];}
+  function shade(hex,a){var c=hexRgb(hex);return 'rgba('+c[0]+','+c[1]+','+c[2]+','+a+')';}
+
+  function keyRect(m){
+    var kw=st.W/NW, wi=whiteIndex(m);
+    if(!isBlack(m)) return {x:wi*kw,w:kw,black:false};
+    var bw=kw*0.62;
+    return {x:(wi+1)*kw-bw/2,w:bw,black:true};
+  }
+  function build(){
+    var sg=SONGS[st.song], beat=60/sg.bpm, t=2*beat; st.notes=[];
+    var list=sg.notes; st.lab='none';
+    if(st.learn==='notes'){st.lab='letter';}
+    else if(st.learn==='scale'){st.lab='degree';list=SCALE_RUN.concat(sg.notes);}
+    else if(st.learn==='chords'){st.lab='letter';list=sg.chords;}
+    list.forEach(function(n){
+      var ms=(typeof n[0]==='number')?[n[0]]:n[0], top=Math.max.apply(null,ms);
+      ms.forEach(function(m){st.notes.push({t:t,m:m,d:n[1]*beat,hit:false,miss:false,played:false,chord:(m===top&&n[2])?n[2]:''});});
+      t+=n[1]*beat;
+    });
+    st.total=st.notes.length; st.endT=t+beat*2; st.beat=beat; st.hits=0; st.ended=false;
+    st.now=-1*beat; st.lit={};
+  }
+  function labFor(m){return st.lab==='degree'?DEG[m%12]:(st.lab==='letter'?NAMES[m%12]:'');}
+  function resize(){
+    var r=cv.parentNode.getBoundingClientRect();
+    st.dpr=Math.min(window.devicePixelRatio||1,2);
+    st.W=Math.max(300,Math.floor(r.width)); st.H=Math.round(Math.min(440,Math.max(360,st.W*0.44)));
+    cv.width=st.W*st.dpr; cv.height=st.H*st.dpr; cv.style.height=st.H+'px';
+    st.keyH=Math.round(Math.min(130,st.H*0.27)); st.speed=Math.round((st.H-st.keyH)/3.1);
+    draw();
+  }
+  function bright(){ // brightness factor for the level
+    if(st.level===1) return 1;
+    if(st.level===3) return 0;
+    var done=0;for(var i=0;i<st.notes.length;i++){if(st.notes[i].t<st.now)done++;}
+    return Math.max(0.22,1-0.78*(done/st.total));
+  }
+  function draw(){
+    var W=st.W,H=st.H,hitY=H-st.keyH,b=bright(),kw=W/NW;
+    ctx.setTransform(st.dpr,0,0,st.dpr,0,0);
+    ctx.fillStyle='#000';ctx.fillRect(0,0,W,H);
+    // lane lines on white key edges
+    ctx.fillStyle='#232327';
+    for(var i=1;i<NW;i++){ctx.fillRect(Math.round(i*kw)-1,0,2,hitY);}
+    // hit line
+    ctx.fillStyle='#3a3a40';ctx.fillRect(0,hitY-2,W,2);
+    // notes
+    var i2,n,k,y,h,x,w,col;
+    for(i2=0;i2<st.notes.length;i2++){
+      n=st.notes[i2];
+      var bottom=hitY-(n.t-st.now)*st.speed;
+      h=Math.max(10,n.d*st.speed-5); y=bottom-h;
+      if(bottom<-2||y>hitY) { if(y>hitY||bottom<0) continue; }
+      k=keyRect(n.m); w=Math.round(k.w*0.8); x=Math.round(k.x+(k.w-w)/2);
+      var yy=Math.max(y,-4), hh=Math.min(bottom,hitY-3)-yy; if(hh<=0) continue;
+      if(n.hit){ctx.fillStyle='rgba(255,255,255,0.18)';}
+      else if(n.miss){ctx.fillStyle='rgba(255,255,255,0.10)';}
+      else if(st.level===3){ctx.fillStyle='#d8d8dc';}
+      else {ctx.fillStyle=shade(pcColor(n.m%12),b);}
+      ctx.fillRect(x,Math.round(yy),w,Math.round(hh));
+      // pixel outline: a darker inner box to echo the 90s block look
+      if(!n.hit&&!n.miss){ctx.fillStyle='rgba(0,0,0,0.55)';ctx.fillRect(x+3,Math.round(yy)+3,Math.max(0,w-6),Math.max(0,Math.round(hh)-6));}
+      if(st.lab!=='none'&&st.level<3&&!n.hit&&!n.miss&&w>=14&&hh>=18&&labFor(n.m)){
+        ctx.textAlign='center';ctx.fillStyle='#fff';ctx.font='700 '+Math.round(Math.max(10,Math.min(15,w*0.5)))+'px Lexend, sans-serif';
+        ctx.fillText(labFor(n.m),x+w/2,Math.round(yy+hh)-8);
+        if(n.chord&&yy>16){ctx.font='700 '+Math.round(Math.max(13,Math.min(19,w*0.5)))+'px Lexend, sans-serif';ctx.fillText(n.chord,x+w/2,Math.round(yy)-7);}
+      }
+    }
+    // LED strip just above the keys
+    var stripY=hitY+6, nl=NW*3;
+    ctx.fillStyle='#111';ctx.fillRect(0,stripY-3,W,12);
+    for(var j=0;j<nl;j++){ctx.fillStyle='#26262b';ctx.fillRect(Math.round(j*(W/nl)+W/nl/2-2),stripY,4,4);}
+    if(st.level!==3){
+      for(i2=0;i2<st.notes.length;i2++){
+        n=st.notes[i2]; var dt=n.t-st.now; if(dt>st.beat*1.1||dt<-n.d||n.hit&&dt<-0.05) continue;
+        k=keyRect(n.m); var near=Math.max(0,Math.min(1,1-dt/(st.beat*1.1))); if(dt<0)near=1;
+        var cc=pcColor(n.m%12);
+        ctx.fillStyle=shade(cc,(0.25+0.75*near)*Math.max(b,0.35));
+        var c0=k.x+k.w/2, nlit=k.black?1:3;
+        for(var q=0;q<nlit;q++){var px=Math.round(c0+(q-(nlit-1)/2)*(W/nl)-2);ctx.fillRect(px,stripY-1,4,6);}
+      }
+    }
+    // keys
+    var ky=hitY+16, kh=st.keyH-16, nowT=performance.now(), key, lit;
+    for(i=0;i<NW;i++){
+      var m=LOW+Math.floor(i/7)*12+WHITE_PC[i%7]; lit=st.lit[m]&&st.lit[m]>nowT;
+      ctx.fillStyle='#e9e8e2';ctx.fillRect(Math.round(i*kw)+1,ky,Math.ceil(kw)-2,kh);
+      if(lit){ctx.fillStyle=(st.level===3)?'#bdbdc4':shade(pcColor(m%12),0.92);ctx.fillRect(Math.round(i*kw)+1,ky,Math.ceil(kw)-2,kh);}
+      if(kw>=34){
+        ctx.fillStyle=lit?'#000':'#55555c';ctx.font='500 12px IBM Plex Mono, monospace';ctx.textAlign='center';
+        ctx.fillText((st.lab!=='none'&&st.level<3)?labFor(m):(i<7?LOWER[i]:UPPER[i-7]).toUpperCase(),i*kw+kw/2,ky+kh-10);
+      }
+    }
+    for(i=0;i<NW;i++){
+      var pc=WHITE_PC[i%7]; if(BLACK_AFTER[pc]===undefined||i===NW-1&&false) continue;
+      var bm=LOW+Math.floor(i/7)*12+BLACK_AFTER[pc]; var bk=keyRect(bm);
+      lit=st.lit[bm]&&st.lit[bm]>nowT;
+      ctx.fillStyle='#0d0d10';ctx.fillRect(Math.round(bk.x),ky,Math.round(bk.w),Math.round(kh*0.62));
+      if(lit){ctx.fillStyle=(st.level===3)?'#8d8d95':shade(pcColor(bm%12),0.9);ctx.fillRect(Math.round(bk.x),ky,Math.round(bk.w),Math.round(kh*0.62));}
+      if(st.learn==='notes'&&st.level<3&&kw>=34){ctx.fillStyle=lit?'#000':'#9a9aa3';ctx.font='500 10px IBM Plex Mono, monospace';ctx.textAlign='center';ctx.fillText(NAMES[bm%12],bk.x+bk.w/2,ky+Math.round(kh*0.62)-6);}
+    }
+  }
+  function tone(m){
+    if(!st.sound||!actx) return;
+    var f=440*Math.pow(2,(m-69)/12), t=actx.currentTime, o=actx.createOscillator(), o2=actx.createOscillator(), g=actx.createGain();
+    o.type='triangle';o2.type='sine';o.frequency.value=f;o2.frequency.value=f*2;
+    g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(0.15,t+0.012);g.gain.exponentialRampToValueAtTime(0.0001,t+0.7);
+    var g2=actx.createGain();g2.gain.value=0.25;o2.connect(g2);g2.connect(g);o.connect(g);g.connect(actx.destination);
+    o.start(t);o2.start(t);o.stop(t+0.75);o2.stop(t+0.75);
+  }
+  function lightKey(m){st.lit[m]=performance.now()+260;}
+  function say(t){fb.textContent=t;}
+  function updateScore(){
+    if(st.mode==='play'){scoreEl.textContent='Notes on time '+st.hits+' / '+st.total;} else {scoreEl.textContent=SONGS[st.song].name+', '+SONGS[st.song].bpm+' beats per minute';}
+  }
+  function press(m){
+    ensureAudio(); tone(m); lightKey(m);
+    if(st.mode!=='play'||!st.running){draw();return;}
+    var best=null,bd=9;
+    st.notes.forEach(function(n){ if(n.m===m&&!n.hit&&!n.miss){var d=Math.abs(n.t-st.now); if(d<bd){bd=d;best=n;}} });
+    if(best&&bd<=0.3){
+      best.hit=true;st.hits++;var diff=st.now-best.t;
+      say(Math.abs(diff)<=0.1?'On the beat':(diff<0?'A little early':'A little late'));
+    } else {
+      say(best?'Too far from the beat':'That key is not in this part');
+    }
+    updateScore();
+  }
+  function ensureAudio(){
+    if(!st.sound) return;
+    try{ if(!actx){actx=new (window.AudioContext||window.webkitAudioContext)();} if(actx.state==='suspended'){actx.resume();} }catch(e){ st.sound=false; setSoundBtn(); }
+  }
+  function setSoundBtn(){soundBtn.setAttribute('aria-pressed',st.sound?'true':'false');soundBtn.textContent=st.sound?'Sound on':'Sound off';}
+
+  function frame(ts){
+    if(!st.running) return;
+    var dt=(ts-st.last)/1000; st.last=ts; if(dt>0.1) dt=0.1; st.now+=dt;
+    st.notes.forEach(function(n){
+      if(st.mode==='watch'){ if(!n.played&&st.now>=n.t){n.played=true;n.hit=false;lightKey(n.m);tone(n.m);if(n.chord){say('Chord '+n.chord+' = '+SPELL[n.chord]);}else if(st.learn==='notes'){say('Note '+NAMES[n.m%12]);}else if(st.learn==='scale'&&DEG[n.m%12]){say('Step '+DEG[n.m%12]+' of C major, the note '+NAMES[n.m%12]);}} }
+      else if(!n.hit&&!n.miss&&st.now>n.t+0.3){n.miss=true;say('Missed a note');updateScore();}
+    });
+    if(st.now>st.endT){ finish(); return; }
+    draw(); st.raf=requestAnimationFrame(frame);
+  }
+  function finish(){
+    st.running=false;st.ended=true;startBtn.textContent='Play again';draw();
+    if(st.mode==='play'){say('Finished: '+st.hits+' of '+st.total+' notes on time.');}
+    else{say('Watch mode finished. Switch to Play along to try it.');}
+  }
+  function start(auto){
+    if(auto!==true) ensureAudio();
+    cancelAnimationFrame(st.raf); build();
+    st.running=true; st.last=performance.now(); startBtn.textContent='Restart';
+    say(auto===true?'Press Start to hear it. Mused plays the song and lights each key.':(st.mode==='play'?'Press each key as its note reaches the line.':(st.sound?'Playing with sound. Mused lights each key as its note arrives.':'Sound is off. Mused lights each key as its note arrives.')));
+    updateScore(); st.raf=requestAnimationFrame(frame);
+  }
+  function stopToFrame(){
+    cancelAnimationFrame(st.raf); st.running=false; build(); st.now=reduce?st.beat*1.5:st.beat*0.2;
+    // show a realistic mid-cascade frame at rest
+    startBtn.textContent='Start'; updateScore(); draw();
+  }
+
+  function group(id,attr,fn){
+    var g=document.getElementById(id);
+    g.addEventListener('click',function(e){
+      var b=e.target.closest('button'); if(!b) return;
+      Array.prototype.forEach.call(g.querySelectorAll('button'),function(x){x.setAttribute('aria-pressed',x===b?'true':'false');});
+      fn(b.getAttribute(attr));
+    });
+  }
+  function renderInfo(){
+    var f=FOCUS[st.learn];
+    document.getElementById('lbh').textContent=f.h; document.getElementById('lbp').textContent=f.p;
+    var m=f.m(); var el=document.getElementById('lbm'); el.textContent=m; el.style.display=m?'block':'none';
+  }
+  group('songs','data-song',function(v){st.song=v;renderInfo();restartIfRunning();});
+  group('learns','data-learn',function(v){
+    st.learn=v;renderInfo();
+    if(v!=='play'){say('Press Start. Mused plays it and lights the keys. In Play along, press the keys as the bars reach the line.');}
+    restartIfRunning();
+  });
+  group('levels','data-level',function(v){st.level=+v;if(!st.running)draw();});
+  group('modes','data-mode',function(v){st.mode=v;restartIfRunning();say(v==='play'?'Play along: press Start, then press each key as its note reaches the line.':'Watch mode: Mused plays it and lights each key.');});
+  function restartIfRunning(){ if(st.running){start();} else {stopToFrame();} }
+  startBtn.addEventListener('click',function(){start();});
+  soundBtn.addEventListener('click',function(){st.sound=!st.sound;setSoundBtn();if(st.sound)ensureAudio();});
+
+  // input
+  function keyAt(x,y){
+    var kw=st.W/NW, ky=st.H-st.keyH+16, kh=st.keyH-16; if(y<ky) return -1;
+    var i,pc,bm,bk;
+    if(y<ky+kh*0.62){
+      for(i=0;i<NW;i++){pc=WHITE_PC[i%7]; if(BLACK_AFTER[pc]===undefined) continue; bm=LOW+Math.floor(i/7)*12+BLACK_AFTER[pc]; bk=keyRect(bm); if(x>=bk.x&&x<=bk.x+bk.w) return bm;}
+    }
+    i=Math.min(NW-1,Math.max(0,Math.floor(x/kw)));
+    return LOW+Math.floor(i/7)*12+WHITE_PC[i%7];
+  }
+  cv.addEventListener('pointerdown',function(e){
+    var r=cv.getBoundingClientRect(), m=keyAt(e.clientX-r.left,e.clientY-r.top); if(m<0) return; press(m);
+    if(!st.running){draw();}
+  });
+  window.addEventListener('keydown',function(e){
+    if(e.repeat||e.ctrlKey||e.metaKey||e.altKey) return;
+    var t=e.target; if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA')) return;
+    var k=(e.key||'').toLowerCase(), i=LOWER.indexOf(k), m=-1;
+    if(i>=0) m=LOW+WHITE_PC[i]; else {i=UPPER.indexOf(k); if(i>=0) m=LOW+12+WHITE_PC[i];}
+    if(m>=0){press(m); if(!st.running)draw();}
+  });
+  // keep animating key glow decay when idle
+  setInterval(function(){ if(!st.running) draw(); },120);
+  window.addEventListener('resize',resize);
+
+  renderInfo(); build(); resize(); stopToFrame();
+  if(!reduce){ setTimeout(function(){ if(!st.running&&!st.ended&&document.visibilityState!=='hidden'){ start(true); } },700); }
+})();
+</script>
+
+<script>
+(function(){
+  var root=document.documentElement;
+  function setView(v,go){
+    root.setAttribute('data-view',v);
+    Array.prototype.forEach.call(document.querySelectorAll('[data-setview]'),function(b){b.setAttribute('aria-pressed',b.getAttribute('data-setview')===v?'true':'false');});
+    try{ history.replaceState(null,'',v==='deep'?'#deep':location.pathname+location.search); }catch(e){}
+    if(go){ var t=document.getElementById(v==='deep'?'research':'quick'); if(t){ t.scrollIntoView({behavior:'auto',block:'start'}); } }
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('[data-setview]'),function(b){
+    b.addEventListener('click',function(){ setView(b.getAttribute('data-setview'),b.hasAttribute('data-go')); });
+  });
+  var h=(location.hash||'').toLowerCase();
+  if(h==='#deep'||h==='#research'||h==='#journey'||h==='#result'){ setView('deep',false); var el=document.getElementById(h.slice(1)); if(el&&h!=='#deep'){ setTimeout(function(){el.scrollIntoView();},50); } }
+  else { setView('quick',false); }
+})();
+</script>
+<script src="sx.js"></script></body>
+</html>

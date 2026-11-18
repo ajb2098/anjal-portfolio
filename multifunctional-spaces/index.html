@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Reconnecting with spaces and self - Anjal B</title>
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,500;1,400;1,500&family=DM+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#ede6d6;--ink:#1d1815;--mut:#6f665c;--teal:#0f6b66;--blue:#3f679f;--lime:#e4e9a8;--line:rgba(29,24,21,.18)}
+*{box-sizing:border-box;margin:0}html{scroll-behavior:smooth}
+body{background:var(--paper);color:var(--ink);font-family:Jost,sans-serif;font-weight:400;line-height:1.6}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+nav{position:sticky;top:0;z-index:5;background:rgba(237,230,214,.92);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;justify-content:space-between;align-items:center;height:54px;font-size:13px;letter-spacing:.14em;text-transform:uppercase}
+nav a{text-decoration:none}nav .l{display:flex;gap:22px}
+.kick{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal)}
+.hero{padding:70px 0 60px}
+.hero .wrap{display:grid;grid-template-columns:1.25fr .75fr;gap:56px;align-items:center}
+h1{font-weight:500;font-size:clamp(38px,5.6vw,68px);line-height:1.04;letter-spacing:-.01em;margin:16px 0 22px}
+h1 em,h2 em{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:500;color:var(--teal)}
+.sub{font-size:19px;color:var(--mut);max-width:520px}
+.meta{margin-top:30px;display:flex;flex-wrap:wrap;gap:10px 34px;font-size:14px;border-top:1px solid var(--line);padding-top:18px}
+.meta b{display:block;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--mut);font-weight:400}
+.cover{background:#fff;padding:14px;box-shadow:0 20px 40px -22px rgba(0,0,0,.45);transform:rotate(1.5deg)}
+.cover img{width:100%;display:block}
+section{padding:78px 0;border-top:1px solid var(--line)}
+h2{font-weight:500;font-size:clamp(30px,4vw,46px);line-height:1.1;margin:10px 0 20px;max-width:780px}
+p.lead{font-size:20px;max-width:760px;color:#3a332c}
+.q{background:var(--teal);color:#f4f1e4;padding:70px 0;border:0}
+.q blockquote{font-family:'Cormorant Garamond',serif;font-size:clamp(34px,5vw,62px);line-height:1.1;font-style:italic;max-width:900px}
+.q .kick{color:#b9e0d6}.q p{margin-top:22px;max-width:700px;color:#d6e8e2}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:34px}
+.card{border:1px solid var(--line);padding:22px;background:rgba(255,255,255,.35)}
+.card .n{font-family:'DM Mono',monospace;font-size:12px;color:var(--teal);letter-spacing:.14em}
+.card h3{font-weight:500;font-size:20px;margin:8px 0 6px}.card p{font-size:15px;color:#4a4238}
+.objimg{margin-top:30px;background:var(--lime);padding:10px}.objimg img{width:100%;display:block}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;margin-top:34px;border:1px solid var(--line)}
+.step{padding:20px 16px;border-right:1px solid var(--line);font-size:14px}.step:last-child{border:0}
+.step b{display:block;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--blue);margin-bottom:8px;font-weight:400}
+.step h4{font-weight:500;font-size:16px;margin-bottom:6px}.step p{color:var(--mut);line-height:1.45}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;margin-top:30px}
+.two img{width:100%;display:block}
+.tag{display:inline-block;border:1px solid var(--line);border-radius:99px;padding:3px 12px;font-size:13px;margin:0 6px 6px 0}
+.obs{margin-top:24px;counter-reset:o}
+.obs li{list-style:none;counter-increment:o;display:flex;gap:14px;padding:12px 0;border-top:1px solid var(--line);font-size:16px}
+.obs li:before{content:counter(o);flex:none;width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:34px;border-top:1px solid var(--ink)}
+.stat{padding:26px 22px 28px 0;border-bottom:1px solid var(--line)}
+.stat .big{font-family:'Cormorant Garamond',serif;font-size:76px;line-height:1;color:var(--teal);font-weight:500}
+.stat .big small{font-size:34px}
+.stat h4{font-weight:500;font-size:17px;margin:8px 0 4px}.stat p{font-size:14.5px;color:#4a4238;max-width:300px}
+.themeh{font-family:'DM Mono',monospace;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--blue);margin-top:46px}
+.guide{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:30px}
+.guide div{border-top:3px solid var(--teal);padding-top:12px}.guide h4{font-weight:500;font-size:18px;margin-bottom:6px}.guide p{font-size:14.5px;color:#4a4238}
+.briefs .card{background:var(--lime);border-color:transparent}
+.poster{display:grid;grid-template-columns:.62fr 1fr;gap:56px;align-items:start}
+.poster img{width:100%;box-shadow:0 20px 40px -22px rgba(0,0,0,.5);display:block}
+.btn{display:inline-block;margin-top:22px;border:1px solid var(--ink);padding:10px 20px;text-decoration:none;font-size:14px;letter-spacing:.08em;text-transform:uppercase}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.team{display:flex;flex-wrap:wrap;gap:8px 28px;margin:20px 0;font-size:17px}.team span small{display:block;font-size:12px;color:var(--mut);font-family:'DM Mono',monospace;letter-spacing:.08em}
+footer{padding:44px 0;border-top:1px solid var(--line);font-size:14px;color:var(--mut)}
+@media(max-width:860px){.hero .wrap,.two,.poster{grid-template-columns:1fr}.grid3,.stats{grid-template-columns:1fr}.steps{grid-template-columns:1fr 1fr}.step{border-bottom:1px solid var(--line)}.guide{grid-template-columns:1fr 1fr}.cover{max-width:300px;transform:none}nav .l{display:none}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+.chap{display:flex;align-items:baseline;gap:14px}.chap i{font-family:'Cormorant Garamond',serif;font-size:54px;color:var(--teal);font-style:italic;line-height:1}
+.fig{margin-top:26px}.fig img{width:100%;display:block;cursor:zoom-in;border:1px solid var(--line)}.fig figcaption{font-size:13px;color:var(--mut);margin-top:8px;font-family:'DM Mono',monospace;letter-spacing:.04em}
+.gloss{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:30px;border-top:1px solid var(--ink)}
+.gloss div{padding:18px 18px 20px 0;border-bottom:1px solid var(--line)}.gloss b{display:block;font-weight:500;font-size:17px;margin-bottom:4px;color:var(--teal)}.gloss p{font-size:14.5px;color:#4a4238}
+.funnel{display:grid;gap:10px;margin-top:30px}
+.fn{display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:center;border:1px solid var(--line);padding:14px 20px;background:rgba(255,255,255,.35)}
+.fn:nth-child(1){margin:0}.fn:nth-child(2){margin:0 4%}.fn:nth-child(3){margin:0 8%}.fn:nth-child(4){margin:0 12%}.fn:nth-child(5){margin:0 16%;background:var(--teal);color:#f4f1e4;border-color:var(--teal)}
+.fn b{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:400}.fn span{font-size:15px}
+.lit{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:30px}
+.lit .card h3{font-size:18px}
+.themes{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:30px}
+.theme{border:1px solid var(--line);background:rgba(255,255,255,.35)}.theme .t{padding:20px}.theme .t b{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;color:var(--blue);font-weight:400}.theme .t h4{font-weight:500;font-size:19px;margin-top:6px}
+.theme .qq{background:var(--blue);color:#fff;padding:16px 20px;font-size:14.5px}
+.crit{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--ink);margin-top:26px}.crit div{padding:16px 16px 18px 0;border-bottom:1px solid var(--line);font-size:14.5px;color:#4a4238}.crit b{display:block;color:var(--ink);font-weight:500;font-size:16px}
+.scope{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:30px}.scope .card .big{font-family:'Cormorant Garamond',serif;font-size:44px;color:var(--teal);line-height:1}
+.aeiou{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:30px;border-top:1px solid var(--ink)}.aeiou div{padding:18px 18px 20px 0;border-bottom:1px solid var(--line)}.aeiou b{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);font-weight:400}.aeiou p{font-size:15.5px;margin-top:6px}
+.fyd{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px}.fyd div{padding:14px;background:var(--lime);font-size:14px}.fyd b{display:block;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:4px;font-weight:400}
+.charts{display:grid;grid-template-columns:1fr;gap:34px;margin-top:30px}.chart{display:grid;grid-template-columns:1.3fr .7fr;gap:34px;align-items:center}.chart h4{font-weight:500;font-size:22px;margin:8px 0}.chart p{color:#4a4238}
+.strip{margin-top:20px;background:var(--lime)}.strip img{width:100%;display:block}
+.lb{position:fixed;inset:0;background:rgba(20,16,12,.92);display:none;align-items:center;justify-content:center;z-index:20;cursor:zoom-out;padding:20px}.lb.on{display:flex}.lb img{max-width:100%;max-height:100%}
+@media(max-width:860px){.gloss,.themes,.crit,.scope,.aeiou,.fyd,.lit,.chart{grid-template-columns:1fr}.fn{grid-template-columns:1fr;margin:0!important}}
+</style><script>if(/[?&]from=/.test(location.search)){var s=document.createElement('style');s.id='sx-hide';s.textContent='html{background:#f4f3ef}body{opacity:0!important}';document.head.appendChild(s)}</script></head><body>
+<nav><div class="wrap"><a href="#top"><b>Anjal B</b></a><div class="l"><a href="#context">Context</a><a href="#funnel">Question</a><a href="#method">Method</a><a href="#case">Case</a><a href="#primary">Primary</a><a href="#findings">Insights</a><a href="#briefs">Briefs</a><a href="#poster">Poster</a></div></div></nav>
+
+<header class="hero" id="top"><div class="wrap">
+<div><div class="kick">Research methodology · NID Gandhinagar</div>
+<h1>Reconnecting with <em>spaces</em> and self</h1>
+<p class="sub">A study on multifunctional spaces and their impact on individual and community wellbeing, built on surveys, field research and semi-structured interviews.</p>
+<div class="meta"><div><b>Institute</b>National Institute of Design</div><div><b>Module</b>Research Methodology, theme "Design for socio-eco-cultural realities"</div><div><b>Approach</b>Mixed methods, two weeks</div></div></div>
+<div class="cover"><img src="img/cover.jpg" alt="Illustrated cover: a map-like city with a winding river"></div>
+</div></header>
+
+<section id="context"><div class="wrap">
+<div class="chap"><i>i</i><div class="kick">Context</div></div>
+<h2>Humans are social settlers. Spaces are how we <em>live that out</em></h2>
+<p class="lead">For decades we have created spaces for functional and social needs, from the banks of Mesopotamia to a chat near the Qutub Minar. Covid-19 and its aftermath shifted our understanding of social, ecological, economic and cultural realities, and forced a rethink of our relationship with ourselves and each other.</p>
+<p class="lead" style="margin-top:18px">The team took a systems approach: start from the SDGs as a framework, converge on a research topic, then choose methods that fit. The mixed-method study combined field observation and semi-structured interviews (qualitative) with a wide survey (quantitative), and ended in recommendations and design briefs.</p>
+<div class="gloss">
+<div><b>Realities</b><p>The sum of all that is real within a system. Social, economic, cultural and ecological realities are the four lenses used.</p></div>
+<div><b>Individual wellbeing</b><p>The physical, mental, emotional, social and economic welfare of a person, enabling a meaningful future.</p></div>
+<div><b>Community wellbeing</b><p>The combination of social, economic, environmental, cultural and political conditions people identify as essential to flourish.</p></div>
+<div><b>Multifunctional spaces</b><p>The integration of different functions in time and space: spaces with multiple purposes.</p></div>
+<div><b>Repurposed spaces</b><p>Space originally meant for one use that is used for another because of the need of the hour.</p></div>
+<div><b>Social / cultural / ecological / economic</b><p>Interaction between people; shared norms and beliefs; the surroundings people live in; the nature of transactions in a place.</p></div></div>
+</div></section>
+
+<section id="funnel"><div class="wrap">
+<div class="chap"><i>ii</i><div class="kick">Finding the question</div></div>
+<h2>From seventeen goals down to <em>one question</em></h2>
+<div class="funnel">
+<div class="fn"><b>17 SDGs</b><span>The UN goals taken as a framework to understand social, economic, ecological and cultural interactions.</span></div>
+<div class="fn"><b>5 SDGs</b><span>Chosen against research boundaries: among them Good Health, Quality Education, Decent Work and Sustainable Cities.</span></div>
+<div class="fn"><b>Key challenges</b><span>Mapped from literature: mental health awareness, urbanisation, skilling, housing, inclusive public spaces.</span></div>
+<div class="fn"><b>3 themes</b><span>Urban space and mental wellbeing; nurturing skills for the next generation; the homemaker's role in an economic lens.</span></div>
+<div class="fn"><b>1 question</b><span>How do multifunctional spaces improve individual and community wellbeing?</span></div></div>
+<figure class="fig"><img src="img/sdg.jpg" alt="SDG framework: worldwide systemic challenges and topics of choice"><figcaption>The 17 goals, and the five picked for the study.</figcaption></figure>
+
+<h3 style="font-weight:500;font-size:24px;margin-top:50px">What the literature said</h3>
+<div class="lit">
+<div class="card"><h3>Mental wellbeing is a growing concern</h3><p>Public systems mostly treat physical wellbeing as the measure of inclusivity. Direct and indirect costs of mental ill-health exceed 4% of global GDP, and inclusivity is expected to count mental wellbeing as a defining factor.</p></div>
+<div class="card"><h3>Urbanisation and human wellbeing</h3><p>Unplanned sprawl and large shifts of population take a toll on individuals and on collective wellbeing.</p></div>
+<div class="card"><h3>Incremental housing</h3><p>Housing for all is a must for societies to develop. Incremental housing, as in the work of Alejandro Aravena, answers it under limited land.</p></div>
+<div class="card"><h3>Post-Covid jobs and skills</h3><p>Youth employment fell 8.7% in 2020, more than twice the adult rate. 20 to 40% of jobs held by 16 to 24 year olds may be at risk of automation by the mid-2030s. Skilling is a top priority.</p></div></div>
+
+<div class="two" style="align-items:center;margin-top:50px">
+<div><h3 style="font-weight:500;font-size:24px;margin-bottom:10px">Lines of inquiry on a four-set Venn</h3><p class="lead" style="font-size:17px">Every problem area was placed against the Social, Economic, Ecological and Cultural factors using a four-set Venn diagram. It pushed the team to judge each area more objectively against literature, and all lines of inquiry came out of this structure.</p></div>
+<figure class="fig" style="margin:0"><img src="img/venn.jpg" alt="Four-set Venn diagram of cultural, social, ecological and economic realities"></figure></div>
+
+<h3 style="font-weight:500;font-size:24px;margin-top:50px">Mapping connections</h3>
+<p class="lead" style="font-size:17px;margin-top:8px">Lines of inquiry were mapped within and across SDGs. Commonalities, interconnections and a few unexpected points were weighed before converging on themes.</p>
+<figure class="fig"><img src="img/mapping.jpg" alt="Commonalities, interconnections and interesting points between lines of inquiry"></figure>
+
+<h3 style="font-weight:500;font-size:24px;margin-top:50px">Three themes, three questions</h3>
+<div class="themes">
+<div class="theme"><div class="t"><b>THEME 1</b><h4>Urban space and mental wellbeing in today's time</h4></div><div class="qq">Q1. How can we repurpose multifunctional spaces to improve community wellbeing?</div></div>
+<div class="theme"><div class="t"><b>THEME 2</b><h4>Developing and nurturing skills for the future generation</h4></div><div class="qq">Q2. What are the nurturing and essential skills for the next billion users?</div></div>
+<div class="theme"><div class="t"><b>THEME 3</b><h4>Understanding the homemaker's journey through an economic lens</h4></div><div class="qq">Q3. What is the homemaker's role and its economic value in the context of Indian society?</div></div></div>
+<div class="crit">
+<div><b>01 Feasibility</b>Decisions made against a two-week timeline, realistic scope and resources.</div>
+<div><b>02 Relevance</b>Fit with the module theme and with the real world now.</div>
+<div><b>03 Interest</b>An area the team would enjoy and carry on after the module.</div>
+<div><b>04 Novelty</b>A question that could evolve in several directions.</div></div>
+</div></section>
+
+<section class="q"><div class="wrap">
+<div class="kick">The research question</div>
+<blockquote>How do multifunctional spaces improve individual and community wellbeing?</blockquote>
+<p>The pandemic amplified the importance of mental and physical wellbeing. Observation also pointed to the benefit of an open-ended approach: repurposing and multifunctional spaces as a way to promote better wellbeing.</p>
+</div></section>
+
+<section id="method"><div class="wrap">
+<div class="chap"><i>iii</i><div class="kick">Objectives, scope and method</div></div>
+<h2>What the study <em>set out</em> to do, and how</h2>
+<div class="grid3">
+<div class="card"><div class="n">O1</div><h3>How people interact</h3><p>Identify how people interact with different spaces.</p></div>
+<div class="card"><div class="n">O2</div><h3>What makes a space usable</h3><p>Identify the factors that determine the usability of a space.</p></div>
+<div class="card"><div class="n">O3</div><h3>Community wellbeing</h3><p>Understand the aspects of community wellbeing.</p></div></div>
+<div class="objimg"><img src="img/objectives.jpg" alt="Illustrations for the three objectives"></div>
+<div class="scope">
+<div class="card"><div class="big">2</div><h3>Weeks</h3><p>Duration of the whole study.</p></div>
+<div class="card"><div class="big">4</div><h3>Cities</h3><p>Ahmedabad, Bangalore, Pune and Thrissur.</p></div>
+<div class="card"><div class="big">12-50</div><h3>Age range</h3><p>Convenience sampling, urban upper-middle class.</p></div>
+<div class="card"><div class="big">8</div><h3>Lenses</h3><p>Safety, multifunctionality, spatial and social interaction, individual and community wellbeing, elements of space, accessibility.</p></div></div>
+
+<h3 style="font-weight:500;font-size:24px;margin-top:50px">Choosing the methods</h3>
+<p class="lead" style="font-size:17px;margin-top:8px">Qualitative methods were scored on participation, reach, representation, thoroughness and transferability. Semi-structured interviews and field research fit best, and surveys added scale.</p>
+<div class="steps">
+<div class="step"><b>01</b><h4>Literature review</h4><p>Secondary research forms the lines of enquiry.</p></div>
+<div class="step"><b>02</b><h4>Field research</h4><p>Nearby public spaces and live case studies.</p></div>
+<div class="step"><b>03</b><h4>Interviews</h4><p>Qualitative, to understand individual perspective.</p></div>
+<div class="step"><b>04</b><h4>Survey</h4><p>Quantitative, built on the refined lines of enquiry.</p></div>
+<div class="step"><b>05</b><h4>Analysis</h4><p>Empathy map, tables of observation, themes.</p></div></div>
+<figure class="fig"><img src="img/tools.jpg" alt="Flow of selected tools: literature review, field research, interviews, surveys"><figcaption>How the tools fed each other.</figcaption></figure>
+
+<h3 style="font-weight:500;font-size:24px;margin-top:50px">What secondary research added</h3>
+<div class="lit">
+<div class="card"><h3>Two kinds of happiness</h3><p>Hedonic happiness comes from pleasure and enjoyment, eudaimonic from meaning and purpose. Both are needed to maximise wellbeing, and hedonic behaviour was found to raise positive emotion and life satisfaction while helping regulate stress and low mood.</p></div>
+<div class="card"><h3>Theory of place</h3><p>How people perceive a space depends on the physical parameters of the place, how it responds to users' wants, and how democratic its access is: all parts of place-making.</p></div>
+<div class="card" style="grid-column:1/-1"><h3>Elements that invite engagement</h3><p>Physical elements and installations such as urban art raise curiosity and break the monotonous rhythm of the city. The value of such shared space is higher where it offers more chances for interaction and user engagement.</p></div></div>
+</div></section>
+
+<section id="case"><div class="wrap">
+<div class="chap"><i>iv</i><div class="kick">Field research · case study</div></div>
+<h2>Manaveeyam Veedhi, a road that became a <em>public room</em></h2>
+<div class="two">
+<div><p class="lead" style="font-size:18px">A 200 m long, 5 m wide road that began as a shortcut past a major junction. Over time its publicness grew until it became the default place for congregation in the city, an open exhibition centre for music, protests, parades and festivals, and is now planned as a cultural centre.</p>
+<p style="margin-top:16px;font-size:15px;color:#4a4238"><b>Day to day:</b> parking, food trucks, small vendor stalls, tea stalls.<br><b>Over time:</b> music events, protests, parades, exhibitions, an open library, folk and religious events, drama and puppet shows.</p>
+<ul class="obs"><li>Few added facilities, yet flexible and constantly adapting to change.</li><li>An inclusive, effective place for many functions, with a need for more facilities as use grows.</li><li>Over time the range of programmes grew until it became a major spot in the city.</li></ul>
+<p style="margin-top:18px;font-size:14px;color:var(--mut)">Stakeholders: vendors, students, co-workers, stall workers, musicians, protesters, followers, organisers.</p></div>
+<div><figure class="fig" style="margin:0"><img src="img/manaveeyam.jpg" alt="Photos of events on Manaveeyam Veedhi"></figure></div></div>
+<figure class="fig"><img src="img/street.jpg" alt="Manaveeyam Veedhi on an ordinary day, parked cars along a mural wall"><figcaption>The same road on an ordinary day.</figcaption></figure>
+<h3 style="font-weight:500;font-size:22px;margin-top:40px">AEIOU: when the crowd comes</h3>
+<div class="aeiou">
+<div><b>Normal days</b><p>Mostly crowded at lunch time, in the evening and late at night.</p></div>
+<div><b>Event days</b><p>Flooded with people at the event time, from about two hours before to two hours after.</p></div>
+<div><b>Weekends</b><p>An average population throughout, leaning towards the night.</p></div></div>
+</div></section>
+
+<section id="primary"><div class="wrap">
+<div class="chap"><i>v</i><div class="kick">Primary research</div></div>
+<h2>Interviews with <em>pictures</em>, then a survey at scale</h2>
+<p class="lead">Semi-structured interviews followed the lines of inquiry. Instead of plain questions, participants got pictorial cues and playful either-or choices, followed by probing questions.</p>
+<div class="two">
+<figure class="fig" style="margin:0"><img src="img/qbank1.jpg" alt="Question bank 1: perfect space for gatherings, favourite place when stressed, teleport destination"></figure>
+<figure class="fig" style="margin:0"><img src="img/qbank2.jpg" alt="Question bank 2: green space or concrete jungle, art installations or equipment, chai on zoom or in a cafe"></figure></div>
+<h3 style="font-weight:500;font-size:22px;margin-top:44px">Making sense of the answers</h3>
+<p class="lead" style="font-size:17px;margin-top:8px">Interviews were sorted on an empathy map because it splits data into psychological and physical aspects, is quick, and lets narratives emerge organically. A table of observation then put lines of inquiry along one axis and Feeling, Thinking, Doing and Seeing along the other.</p>
+<div class="fyd"><div><b>Feel</b>emotional response</div><div><b>Think</b>perception and belief</div><div><b>Say and do</b>behaviour in the space</div><div><b>See</b>what people notice</div></div>
+<figure class="fig"><img src="img/empathy.jpg" alt="Empathy map of sticky notes organised by feel, think, see and say-and-do"><figcaption>Empathy map from the interviews.</figcaption></figure>
+
+<h3 style="font-weight:500;font-size:22px;margin-top:44px">Survey signals</h3>
+<div class="charts">
+<div class="chart"><figure class="fig" style="margin:0"><img src="img/chart_safety.jpg" alt="Survey charts on safety"></figure><div><div class="kick">Safety</div><h4>Rarely a prominent worry</h4><p>Across genders safety was not seen as a prominent concern, though the feeling of safety is not strongly driven by regular security measures.</p></div></div>
+<div class="chart"><figure class="fig" style="margin:0"><img src="img/chart_access.jpg" alt="Survey pie charts on accessibility"></figure><div><div class="kick">Accessibility</div><h4>Mostly unaware or unconvinced</h4><p>Most participants either do not know or do not consider spaces in their community accessible for disabled and elderly people.</p></div></div>
+<div class="chart"><figure class="fig" style="margin:0"><img src="img/chart_eco.jpg" alt="Survey charts on ecological interaction"></figure><div><div class="kick">Ecological interaction</div><h4>Want it, but time and traffic</h4><p>People who enjoy outdoor activity most still stay in because of traffic and time management.</p></div></div></div>
+</div></section>
+
+<section id="findings"><div class="wrap">
+<div class="chap"><i>vi</i><div class="kick">Analysis and insight</div></div>
+<h2>Three themes held up across both <em>qualitative and quantitative</em> data</h2>
+<div class="grid3">
+<div class="card"><div class="n">THEME</div><h3>Green effect</h3><p>Greenery was tied to calmness, oneness and rejuvenation across participants.</p></div>
+<div class="card"><div class="n">THEME</div><h3>Open and multifunctional space</h3><p>Multifunctionality let people take part in many physical activities. Openness meant "freedom" and "no judgment", with a balance between personal and social space.</p></div>
+<div class="card"><div class="n">THEME</div><h3>Phygital reality</h3><p>Participants still seek physical experience and also value the digital.</p></div></div>
+
+<div class="themeh">Green effect</div>
+<div class="strip"><img src="img/strip_green.jpg" alt="Illustrations for the four green-effect insights"></div>
+<div class="stats">
+<div class="stat"><div class="big">84<small>%</small></div><h4>01-02 · Comfort in greenery</h4><p>Chose lawns, boulevards and green areas for their current context, linked to calm, serene and rejuvenating. Birdsong, breeze and grass underfoot shaped the experience.</p></div>
+<div class="stat"><div class="big">88<small>%</small></div><h4>03 · Solitude in green</h4><p>Of people who have a space to go when sad, 88.3% named forests, beaches or boulevards.</p></div>
+<div class="stat"><div class="big" style="font-size:44px;padding-top:20px">safer</div><h4>04 · Greener, safer</h4><p>Most associated a space's greenery with a sense of security, both psychological and physical.</p></div></div>
+
+<div class="themeh">Open and multifunctional spaces</div>
+<div class="strip"><img src="img/strip_open.jpg" alt="Illustrations for the four open-space insights"></div>
+<div class="stats">
+<div class="stat"><div class="big" style="font-size:44px;padding-top:20px">free</div><h4>01 · Sense of abundance</h4><p>Words like large, open, free, "can paint the sky" for parks, fields and grounds.</p></div>
+<div class="stat"><div class="big">77<small>%</small></div><h4>02 · Lack of accessibility</h4><p>Of those who rated physical accessibility great, 77% did not know or did not consider it suitable for the elderly and disabled.</p></div>
+<div class="stat"><div class="big" style="font-size:44px;padding-top:20px">watch</div><h4>03 · Observing is therapeutic</h4><p>Watching others is the most common activity. People imagine narratives about them, an indirect sense of connection.</p></div>
+<div class="stat"><div class="big" style="font-size:44px;padding-top:20px">many</div><h4>04 · Multifaceted activities</h4><p>Walking, jogging, meditating, playing, plus events, festivals and social gatherings through the year.</p></div></div>
+
+<div class="themeh">Phygital experience</div>
+<div class="strip"><img src="img/strip_phy.jpg" alt="Illustrations for the four phygital insights"></div>
+<div class="stats">
+<div class="stat"><div class="big">75<small>%</small></div><h4>01 · Making things real</h4><p>Of people who prefer phygital and digital communication and have a moderate to heavy interest in outdoor activity, 75% lack the space for it.</p></div>
+<div class="stat"><div class="big" style="font-size:44px;padding-top:20px">art</div><h4>02 · Interacting with elements</h4><p>People appreciated cultural or artistic elements, such as installations, and natural elements as a source of delight.</p></div>
+<div class="stat"><div class="big">75<small>%</small></div><h4>03 · Digital brings accessibility</h4><p>75% have little chance to meet friends because of traffic and work-life time, and about half feel mentally exhausted. Digital felt more accessible to interact with.</p></div>
+<div class="stat"><div class="big" style="font-size:44px;padding-top:20px">more</div><h4>04 · Experience-centric spaces</h4><p>Spaces that enhance social experience are the need of the hour.</p></div></div>
+</div></section>
+
+<section><div class="wrap">
+<div class="chap"><i>vii</i><div class="kick">Guidelines and conclusions</div></div>
+<h2>Design guidance that follows from <em>the data</em></h2>
+<div class="guide">
+<div><h4>Green is the new "being"</h4><p>Biomimic wind, birdsong and the feel of grass to create a multisensory experience.</p></div>
+<div><h4>Open space to walk, talk, observe</h4><p>Layouts with wide visual cues help people feel lively, energised and observant.</p></div>
+<div><h4>Culture into the streets</h4><p>Playful, interactive cultural or art installations bring a change of scene.</p></div>
+<div><h4>Personal and people</h4><p>Parks, grounds and streets should hold space for reflection and for community.</p></div></div>
+<p class="lead" style="margin-top:40px;font-size:18px">Conclusion: people see space as a source of happiness, connection and rejuvenation. Open, green, multisensory spaces bring calm and freedom and carry many activities, from walking and yoga to meditation. They are where people reconnect with their circles, yet they hold on to personal space for reflection and creativity. Accessibility is still unresolved and unacknowledged by stakeholders, and with so much digital life people are, for now, most comfortable with a phygital reality.</p>
+</div></section>
+
+<section id="briefs"><div class="wrap briefs">
+<div class="kick">Design briefs</div><h2>Three directions for <em>what to make next</em></h2>
+<div class="grid3">
+<div class="card"><div class="n">BRIEF 1</div><h3>Playful and interactive</h3><p>70% of people who rated their physical health above average still reported mental burnout in the past three months. People link green open spaces with wellbeing and interactive installations that break the monotony. Make urban multifunctional spaces playful and interactive.</p></div>
+<div class="card"><div class="n">BRIEF 2</div><h3>Phygital spaces</h3><p>As realities are shaped by digital experience, more than half still seek physical interaction, and space is a key reason to connect with self and community. Create phygital layers inside multifunctional spaces.</p></div>
+<div class="card"><div class="n">BRIEF 3</div><h3>A systematic intervention</h3><p>Indian cities already organise informal wellbeing interventions locally. With the smart city project, look for a standardised, systematic intervention that brings social and ecological interaction to urban people.</p></div></div>
+</div></section>
+
+<section id="poster"><div class="wrap poster">
+<img src="img/poster.jpg" alt="Research poster: How do multifunctional spaces improve individual and community wellbeing" style="cursor:zoom-in">
+<div><div class="kick">The poster</div><h2>The whole study on <em>one sheet</em></h2>
+<p class="lead" style="font-size:18px">An isometric spread of ten findings, among them keeping it real, interactions with elements, digital accessibility, experience-centric spaces, solitude in green spaces and spaces that bring comfort, with abstract, objectives, methods and the research process below.</p>
+<div class="team"><span>Sneha Part<small>SDM</small></span><span>Anjal B<small>NMD</small></span><span>Amrit Chaitanya<small>PhD</small></span><span>Archana Sharma<small>AD</small></span><span>Prineeth Ramachandra<small>TGD</small></span></div>
+<p style="font-size:15px;color:var(--mut)">Guided by Prof. Vipul Vinzuda and Prof. Tripurasundari Joshi. Mentored by Ms. Mayukhini Pande, Mr. Hari Nallan and Dr. Mansee Bal Bhargava.</p>
+<a class="btn" href="img/poster.jpg" target="_blank" rel="noopener">Open poster full size</a></div>
+</div></section>
+<footer><div class="wrap">Anjal B · A study from the Research Methodology module, National Institute of Design.</div></footer>
+<div class="lb" id="lb"><img alt=""></div>
+<script>
+var lb=document.getElementById('lb'),li=lb.querySelector('img');
+document.querySelectorAll('.fig img,.poster img,.objimg img').forEach(function(i){i.style.cursor='zoom-in';i.addEventListener('click',function(){li.src=i.src;lb.classList.add('on')})});
+lb.addEventListener('click',function(){lb.classList.remove('on')});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')lb.classList.remove('on')});
+</script>
+<script src="sx.js"></script></body></html>

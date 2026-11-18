@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Leap of Light - Anjal B</title>
+<style>
+:root{--bg:#060b16;--gold:#f2b705;--tx:#efe8d6;--mut:#a9a290;--line:rgba(242,183,5,.35)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tx);font-family:Georgia,'Times New Roman',serif;line-height:1.65;font-size:18px}
+.sans{font-family:system-ui,-apple-system,'Segoe UI',Helvetica,Arial,sans-serif}
+a{color:var(--gold)}
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 26px}
+.tag{font-family:system-ui,sans-serif;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+/* hero */
+.hero{position:relative;height:100vh;min-height:560px;overflow:hidden;background:#000}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%}
+.dark{position:absolute;inset:0;background:radial-gradient(circle 340px at var(--x,50%) var(--y,50%),rgba(3,6,12,0) 0%,rgba(3,6,12,.35) 50%,rgba(3,6,12,.9) 100%);transition:opacity .8s}
+.hero.on .dark{opacity:0}
+.hero .ttl{position:absolute;left:5vw;bottom:9vh;z-index:3;pointer-events:none;text-shadow:0 2px 30px #000}
+.hero h1{font-size:clamp(3rem,11vw,8.5rem);line-height:.9;font-style:italic;letter-spacing:-.03em}
+.hero h1 span{color:var(--gold);display:block}
+.hero p.s{font-size:1.05rem;max-width:34ch;margin-top:16px}
+.hero .top{position:absolute;z-index:3;left:5vw;right:5vw;top:22px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.btn{font-family:system-ui,sans-serif;font-size:.8rem;font-weight:600;background:rgba(6,11,22,.6);color:var(--tx);border:1.5px solid var(--gold);border-radius:999px;padding:8px 18px;cursor:pointer}
+.btn:hover,.btn[aria-pressed=true]{background:var(--gold);color:#000}
+.hint{position:absolute;z-index:3;right:5vw;bottom:9vh;font-family:system-ui,sans-serif;font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--mut)}
+/* highlight */
+.hl{background:linear-gradient(90deg,#f2b705,#ffd45a);color:#1a1300;padding:34px 0}
+.hl .wrap{display:grid;grid-template-columns:auto 1fr;gap:34px;align-items:center}
+.hl .big{font-size:clamp(3.4rem,10vw,6.4rem);line-height:.9;font-style:italic;font-weight:700;letter-spacing:-.04em;white-space:nowrap}
+.hl .big small{font-size:.28em;letter-spacing:0;font-style:normal;font-family:system-ui,sans-serif;display:block;font-weight:600;margin-top:6px;text-transform:uppercase;letter-spacing:.14em}
+.hl p{font-size:clamp(1.1rem,2.4vw,1.55rem);line-height:1.35;max-width:30em;margin:0;font-weight:700}
+.hl .note{font-family:system-ui,sans-serif;font-size:.78rem;font-weight:500;margin-top:10px;opacity:.8}
+@media(max-width:700px){.hl .wrap{grid-template-columns:1fr;gap:14px}}
+.note-sec p{font-size:1.18rem;line-height:1.7;max-width:36em}
+.note-sec .reveal p:first-child::first-letter{font-size:3.6em;float:left;line-height:.8;padding:6px 10px 0 0;color:var(--gold);font-style:italic}
+/* meta */
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.meta div{padding:20px 18px 20px 0}
+.meta b{display:block;font-family:system-ui,sans-serif;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.meta span{font-size:.95rem}
+section{padding:90px 0}
+h2{font-size:clamp(2rem,5vw,3.2rem);line-height:1.08;font-style:italic;margin:10px 0 22px;letter-spacing:-.02em}
+p{max-width:62ch;margin-bottom:1.1em}
+.lead{font-size:1.35rem;line-height:1.5;max-width:30em}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+@media(max-width:800px){.two{grid-template-columns:1fr;gap:30px}.hint{display:none}}
+.stat{display:flex;gap:18px;align-items:baseline;border-top:1px solid var(--line);padding:12px 0}
+.stat b{font-size:2.1rem;color:var(--gold);font-style:italic;min-width:150px;line-height:1}
+.stat span{font-size:.9rem;font-family:system-ui,sans-serif;color:var(--mut)}
+.bars{margin:20px 0 6px}
+.bar{display:grid;grid-template-columns:110px 1fr 64px;align-items:center;gap:10px;font-family:system-ui,sans-serif;font-size:.8rem;margin:7px 0}
+.bar i{display:block;height:14px;background:var(--gold);width:0;transition:width 1.4s cubic-bezier(.2,.7,.2,1)}
+.bar.out i{background:#6b87b8}
+.small{font-family:system-ui,sans-serif;font-size:.72rem;color:var(--mut);line-height:1.5}
+figure img{width:100%;display:block;border:1px solid var(--line)}
+figcaption{font-family:system-ui,sans-serif;font-size:.72rem;color:var(--mut);margin-top:8px}
+.quote{font-size:clamp(1.6rem,4vw,2.6rem);line-height:1.2;font-style:italic;border-left:4px solid var(--gold);padding-left:24px;margin:40px 0;max-width:22em}
+.quote span{color:var(--gold)}
+/* leap svg */
+.leap{width:100%;max-width:520px;margin-top:10px}
+.leap path.arc{stroke-dasharray:700;stroke-dashoffset:700;transition:stroke-dashoffset 2.4s ease}
+.leap.in path.arc{stroke-dashoffset:0}
+/* beam */
+.beamwrap{background:#0a1224;border:1px solid var(--line);padding:18px}
+.beamwrap svg{width:100%;display:block}
+.ctrl{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:12px;font-family:system-ui,sans-serif;font-size:.85rem}
+input[type=range]{accent-color:var(--gold);width:min(320px,100%)}
+.ro b{color:var(--gold)}
+/* spec */
+.spec{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:0 36px}
+.spec div{border-top:1px solid var(--line);padding:14px 0 18px;font-size:.95rem;line-height:1.5}
+.spec b{display:block;font-family:system-ui,sans-serif;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:4px}
+.draw{background:#fff;border:1px solid var(--line);cursor:zoom-in;width:100%;display:block}
+dialog{border:0;background:#000;max-width:96vw;max-height:94vh;padding:0}
+dialog::backdrop{background:rgba(0,0,0,.85)}
+dialog img{max-width:96vw;max-height:94vh;display:block;background:#fff}
+.team{display:flex;gap:10px 28px;flex-wrap:wrap;font-family:system-ui,sans-serif;font-size:.95rem}
+.team span b{color:var(--gold);font-weight:600}
+footer{padding:50px 0 70px;border-top:1px solid var(--line)}
+.reveal{opacity:0;transform:translateY(18px);transition:opacity .9s,transform .9s}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.dark{display:none}.leap path.arc{stroke-dashoffset:0;transition:none}.bar i{transition:none}}
+</style><script>if(/[?&]from=/.test(location.search)){var s=document.createElement('style');s.id='sx-hide';s.textContent='html{background:#f4f3ef}body{opacity:0!important}';document.head.appendChild(s)}</script></head>
+<body>
+<header class="hero" id="hero">
+  <img src="img/hero.jpg" alt="Three illuminated figures vaulting on poles above an Amsterdam canal at night">
+  <div class="dark" id="dark"></div>
+  <div class="top"><span class="tag">Anjal B · Selected work</span><button class="btn" id="lights" aria-pressed="false">Lights on</button></div>
+  <div class="ttl"><h1>Leap<span>of Light</span></h1><p class="s">A light installation that freezes a crossing, between one shore and the next.</p></div>
+  <div class="hint">Move the light</div>
+</header>
+
+<main>
+<section class="hl" aria-label="Recognition"><div class="wrap">
+  <div class="big">30<small>of 730</small></div>
+  <div><p>Leap of Light was shortlisted to the top 30 of 730 submissions for Amsterdam Light Festival, Edition 15.</p>
+  <div class="note">All renders are visualisations of the proposed work.</div></div>
+</div></section>
+<div class="wrap">
+  <div class="meta">
+    <div><b>Type</b><span>Site-specific light installation</span></div>
+    <div><b>Context</b><span>Amsterdam Light Festival, Edition 15</span></div>
+    <div><b>Recognition</b><span>Shortlisted: top 30 of 730 submissions</span></div>
+    <div><b>Site</b><span>An Amsterdam canal, 20-25 m span</span></div>
+  </div>
+</div>
+
+<section><div class="wrap">
+  <p class="tag">The idea</p>
+  <p class="lead reveal">Three life-sized figures are caught mid-leap above the water, lit in gold against the dark. Each holds a different moment of a crossing: the climb, the launch, the suspended arc.</p>
+  <div class="quote reveal">Between ground and sky, the body waits <span>for the self to catch up.</span></div>
+  <div class="two">
+    <div class="reveal">
+      <p class="tag" style="margin-bottom:8px">Fierljeppen</p><p>A traditional sport of the Netherlands, originating in the province of Friesland. It involves pole vaulting across canals and stems from the practical need to cross waterways. It is now a competitive and cultural sport that highlights the Dutch connection to their water-rich landscape.</p>
+    </div>
+    <div class="reveal">
+      <svg class="leap" id="leap" viewBox="0 0 520 220" role="img" aria-label="Line drawing of a vaulting arc from one canal bank to the other">
+        <line x1="0" y1="190" x2="520" y2="190" stroke="#3b4a6b" stroke-width="2"/>
+        <rect x="0" y="170" width="70" height="50" fill="#0c1730"/><rect x="450" y="170" width="70" height="50" fill="#0c1730"/>
+        <path class="arc" d="M60 188 C 120 20, 330 -20, 470 150" fill="none" stroke="#f2b705" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="262" cy="40" r="7" fill="#f2b705"/>
+        <text x="8" y="212" fill="#a9a290" font-size="11" font-family="system-ui">one shore</text>
+        <text x="456" y="212" fill="#a9a290" font-size="11" font-family="system-ui">the next</text>
+      </svg>
+    </div>
+  </div>
+</div></section>
+
+<section class="note-sec"><div class="wrap">
+  <p class="tag">Concept note</p>
+  <h2 class="reveal">Leap of Light</h2>
+  <div class="reveal">
+  <p>Leap of Light is a site-specific light installation inspired by Fierljeppen, the traditional Dutch sport of vaulting across canals. Suspended above the waters of Amsterdam, illuminated silhouettes of human figures are captured mid-leap, held in the instant of flight. This frozen arc, drawn from the rhythms of rural waterways, becomes more than a mere gesture of athleticism. It is a meditation on the threshold. Between ground and sky, each leap holds the tension of elsewhere, where the body waits for the self to catch up.</p>
+  <p>The work reimagines this iconic act of crossing as a metaphor for migration, movement, and the ongoing act of becoming. It reflects on the human experience of transition, not only the physical crossing of borders, but also the emotional threshold between one shore and the next. In Amsterdam, a city built on bridges and bound by movement, the vault becomes a reflection of now and an echo of then.</p>
+  <p>By invoking the vault as both motion and pause, the installation mirrors the dual states of stillness and passage. It invites viewers to inhabit that in-between space, to sense in the suspended leap a resonance with the many transitions which are not only personal and cultural, but also spatial in a way that defines the city's evolving identity.</p>
+  </div>
+</div></section>
+
+<section style="background:#080f1e"><div class="wrap">
+  <p class="tag">Why Amsterdam</p>
+  <h2 class="reveal">A city built on arrival</h2>
+  <div class="two">
+    <div class="reveal">
+      <p>Amsterdam grew through migration. In its Golden Age, immigrants including Germans, French Huguenots, Jews and Armenians were roughly 30-40% of the population, and the city's tolerance helped turn it into a multicultural trading hub.</p>
+      <p>Today more than half of its residents have a migration background. Yet the city's own Burgermonitor 2025 reports that fewer Amsterdammers feel at home here, newcomers and migrants most of all. The leap lives in that gap between arriving and belonging.</p>
+    </div>
+    <div class="reveal">
+      <div class="stat"><b>30-40%</b><span>of Amsterdam's population were immigrants in the Golden Age</span></div>
+      <div class="stat"><b>&gt;50%</b><span>of residents today have a migration background</span></div>
+      <div class="bars" id="bars" aria-label="Netherlands 2025: 307 thousand immigrated, 212 thousand left">
+        <div class="bar"><span>Came to live</span><i data-w="100"></i><span>307k</span></div>
+        <div class="bar out"><span>Left</span><i data-w="69"></i><span>212k</span></div>
+      </div>
+      <p class="small">The Netherlands, 2025. Sources: CBS (Statistics Netherlands); OECD / Gemeente Amsterdam on migration background; O&amp;S Amsterdam Burgermonitor 2025.</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <div class="two">
+    <figure class="reveal"><img src="img/trio.jpg" alt="Three glowing figures on poles above the water, reflected in the canal"><figcaption>Three figures, three moments. Reflections extend each pole below the surface.</figcaption></figure>
+    <div class="reveal">
+      <p class="tag">The experience</p>
+      <h2>Stand in the in-between</h2>
+      <p>From boats and from both quays the figures read as one gesture across the canal. The poles lean at 87°, 84° and 90°, so the arc can be read from either bank.</p>
+      <p>The water completes the leap: each pole and body is doubled in the canal and trembles with it. A crossing that lasts a second can be looked at for as long as a visitor wants.</p>
+    </div>
+  </div>
+</div></section>
+
+<section style="background:#080f1e"><div class="wrap">
+  <p class="tag">Light design</p>
+  <h2 class="reveal">Sculpted out of darkness</h2>
+  <div class="two">
+    <div class="reveal">
+      <p>Light gives the suspended mesh figures their form and emotional weight. Shore-mounted CLF Sera outdoor wash lights target each figure from the bank. They are rated IP65 for the canal-side environment and have a 15.6° beam angle, chosen to hit the sculptures precisely with minimal spill.</p>
+      <p>The programme is deliberately simple and standalone: one warm gold, with a slow fade.</p>
+    </div>
+    <div class="reveal beamwrap">
+      <svg id="beam" viewBox="0 0 600 230" role="img" aria-label="Diagram of a shore-mounted lamp lighting a figure across the canal">
+        <rect x="0" y="170" width="600" height="60" fill="#0c1730"/>
+        <rect x="0" y="158" width="46" height="14" fill="#1b2a4a"/>
+        <polygon id="cone" fill="rgba(242,183,5,.28)" points=""/>
+        <line id="axis" stroke="rgba(242,183,5,.5)" stroke-dasharray="4 4"/>
+        <circle cx="30" cy="150" r="6" fill="#f2b705"/>
+        <g id="fig" fill="#f2b705"><circle cx="548" cy="70" r="9"/><rect x="543" y="80" width="10" height="34" rx="4"/><rect x="546" y="40" width="3" height="130"/></g>
+        <text x="8" y="196" fill="#a9a290" font-size="11" font-family="system-ui">shore</text>
+        <text x="500" y="196" fill="#a9a290" font-size="11" font-family="system-ui">other bank</text>
+      </svg>
+      <div class="ctrl"><label for="ang">Beam angle</label><input id="ang" type="range" min="5" max="45" step="0.1" value="15.6"><span class="ro"><b id="angv">15.6°</b> · about <b id="wid">5.5 m</b> wide across a 20 m throw</span></div>
+      <p class="small" style="margin-top:8px">Illustrative. The design uses 15.6°. A 20 m throw is assumed from the 20-25 m canal width.</p>
+    </div>
+  </div>
+</div></section>
+
+<section><div class="wrap">
+  <p class="tag">Making it</p>
+  <h2 class="reveal">Built to hang over water</h2>
+  <div class="spec reveal">
+    <div><b>Figures</b>Life-sized, self-supporting hollow shell of 316-grade stainless steel mesh</div>
+    <div><b>Poles</b>Mesh-wrapped acrylic tubes</div>
+    <div><b>Weight</b>Whole assembly estimated at 50-100 kg</div>
+    <div><b>Suspension</b>A tensioned catenary of high-tensile steel wire over the canal, with certified structural engineering and professional rigging</div>
+    <div><b>Lighting</b>Shore-mounted IP65 CLF Sera spotlights, 15.6° beam, standalone programme</div>
+    <div><b>Power</b>About 2.5 kW from a secure shore-based source</div>
+  </div>
+  <h2 style="font-size:1.5rem;margin-top:50px" class="reveal">Plan and elevation</h2>
+  <img class="draw reveal" id="drawing" src="img/drawing.jpg" alt="Plan and elevation drawing of the three structures across the canal" tabindex="0" role="button">
+  <p class="small" style="margin-top:8px">Three structures with supports on the canal banks. Click to enlarge.</p>
+</div></section>
+
+<section style="background:#080f1e;padding-bottom:40px"><div class="wrap">
+  <figure class="reveal"><img src="img/single.jpg" alt="A single illuminated figure climbing a pole in front of canal houses" style="max-height:80vh;object-fit:cover;object-position:50% 30%"><figcaption>The climber. A hollow mesh figure holds the light like a lantern.</figcaption></figure>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <p class="tag" style="margin-bottom:12px">Team</p>
+  <div class="team"><span><b>Concept and design</b> Anjal B</span><span><b>With</b> Aaditya S, Saipreethi Durairama, Nivedita Singh</span></div>
+  <p class="small" style="margin-top:22px">All renders are visualisations of the proposed work.</p>
+</div></footer>
+<dialog id="dlg"><img id="dimg" alt=""></dialog>
+
+<script>
+(function(){
+var hero=document.getElementById('hero'),dark=document.getElementById('dark'),btn=document.getElementById('lights');
+var reduce=window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+var manual=false,t0=performance.now();
+function setPos(x,y){dark.style.setProperty('--x',x+'px');dark.style.setProperty('--y',y+'px')}
+function rect(){return hero.getBoundingClientRect()}
+hero.addEventListener('pointermove',function(e){if(!e.clientX&&!e.clientY)return;manual=true;var r=rect();setPos(e.clientX-r.left,e.clientY-r.top)});
+hero.addEventListener('pointerdown',function(e){manual=true;var r=rect();setPos(e.clientX-r.left,e.clientY-r.top)});
+function loop(t){if(!manual&&!reduce){var r=rect(),s=(t-t0)/1000;setPos(r.width*(.5+.32*Math.sin(s*.6)),r.height*(.45+.22*Math.sin(s*.9+1)))}requestAnimationFrame(loop)}
+requestAnimationFrame(loop);
+btn.addEventListener('click',function(){var on=hero.classList.toggle('on');btn.setAttribute('aria-pressed',on);btn.textContent=on?'Lights off':'Lights on'});
+/* reveals */
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');
+ if(e.target.querySelector&&e.target.querySelector('#leap'))document.getElementById('leap').classList.add('in');
+ if(e.target.id==='leap')e.target.classList.add('in');
+ e.target.querySelectorAll&&e.target.querySelectorAll('[data-w]').forEach(function(i){i.style.width=i.dataset.w+'%'});
+ io.unobserve(e.target)}})},{threshold:.2});
+document.querySelectorAll('.reveal,#leap,#bars').forEach(function(el){io.observe(el)});
+if(reduce)document.querySelectorAll('[data-w]').forEach(function(i){i.style.width=i.dataset.w+'%'});
+/* bars observed directly */
+var bio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.querySelectorAll('[data-w]').forEach(function(i){i.style.width=i.dataset.w+'%'})}})},{threshold:.3});
+bio.observe(document.getElementById('bars'));
+/* beam */
+var ang=document.getElementById('ang');
+function beam(){var a=parseFloat(ang.value),th=a*Math.PI/180/2,x0=30,y0=150,x1=548,y1=100,dx=x1-x0,dy=y1-y0,L=Math.sqrt(dx*dx+dy*dy),base=Math.atan2(dy,dx);
+ var p1=[x0+L*1.04*Math.cos(base-th),y0+L*1.04*Math.sin(base-th)],p2=[x0+L*1.04*Math.cos(base+th),y0+L*1.04*Math.sin(base+th)];
+ document.getElementById('cone').setAttribute('points',x0+','+y0+' '+p1.join(',')+' '+p2.join(','));
+ var ax=document.getElementById('axis');ax.setAttribute('x1',x0);ax.setAttribute('y1',y0);ax.setAttribute('x2',x1);ax.setAttribute('y2',y1);
+ document.getElementById('angv').textContent=a.toFixed(1)+'°';
+ document.getElementById('wid').textContent=(2*20*Math.tan(th)).toFixed(1)+' m'}
+ang.addEventListener('input',beam);beam();
+/* lightbox */
+var dlg=document.getElementById('dlg'),d=document.getElementById('drawing');
+function open(){document.getElementById('dimg').src=d.src;dlg.showModal()}
+d.addEventListener('click',open);d.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open()}});
+dlg.addEventListener('click',function(){dlg.close()});
+})();
+</script>
+<script src="sx.js"></script></body></html>
