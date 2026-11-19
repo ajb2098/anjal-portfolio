@@ -130,6 +130,7 @@ footer b{color:var(--acc)}
 .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.arch img{transition:none}html{scroll-behavior:auto}}
 
+.pr .ed{position:absolute;top:14px;z-index:5;width:30px;height:30px;border-radius:50%;border:2px solid #fff;background:rgba(17,17,17,.6);color:#fff;font:600 14px/1 var(--mono);cursor:pointer;display:grid;place-items:center;padding:0}.pr .ed.b{left:14px}.pr .ed.x{left:50px}.pr .ed.b[aria-pressed=true]{background:var(--acc);border-color:var(--acc)}.pr .ed.x[aria-pressed=true]{background:#b00020;border-color:#b00020}.pr.rmd{opacity:.3;filter:grayscale(1)}.edn{margin-top:14px;font:.75rem var(--mono);color:var(--mut);max-width:60ch}
 .pr .sel{position:absolute;top:14px;left:14px;z-index:5;width:30px;height:30px;border-radius:50%;border:2px solid #fff;background:rgba(17,17,17,.55);color:#fff;font:600 16px/1 var(--mono);cursor:pointer;display:grid;place-items:center;padding:0;transition:background .2s,transform .2s}
 .pr .sel:hover{transform:scale(1.1)}.pr .sel[aria-pressed=true]{background:var(--acc);border-color:var(--acc)}.pr.chosen{outline:3px solid var(--acc);outline-offset:2px}
 #selbar{position:fixed;left:50%;bottom:16px;transform:translate(-50%,140%);z-index:2147481000;display:flex;gap:10px;align-items:center;background:#111;color:#fff;padding:10px 12px 10px 18px;border-radius:999px;font:500 12px var(--mono);letter-spacing:.05em;text-transform:uppercase;box-shadow:0 6px 22px rgba(0,0,0,.4);transition:transform .3s}
@@ -187,11 +188,14 @@ var EX=[
 ];
 var NAME={cricket:'Changing Grounds',tey:'Theyyam',bus:'Bus Conductor'};
 var mode='mat',ALL={},SEL=[];
+var EDIT=/[?&]edit(=|&|$)/.test(location.search),ES={rm:{},best:{}};
+try{if(EDIT)ES=JSON.parse(localStorage.getItem('cp-edit'))||ES}catch(e){}
+function pid(k,p){return k+':'+p.n}
 function el(h){var d=document.createElement('div');d.innerHTML=h;return d.firstChild}
 /* build exhibit shells once */
 var mount=document.getElementById('exhibits');
 EX.forEach(function(e,xi){
- var arr=DATA[e.k];ALL[e.k]=arr;arr.forEach(function(p,i){p.i=i});
+ var arr=DATA[e.k];ALL[e.k]=arr;arr.forEach(function(p,i){p.i=i;if(EDIT){var d=pid(e.k,p);if(ES.best[d]!==undefined)p.pick=ES.best[d];p.rm=!!ES.rm[d]}});
  var pk=arr.filter(function(p){return p.pick});
  var s=document.createElement('section');s.className='exh '+e.cls;s.id=e.id;
  s.innerHTML='<div class="wrap"><div class="exhead"><div class="reveal"><p class="tag">'+e.eyebrow+'</p><h2>'+e.title+'</h2>'+(e.sub?'<p style="font-size:1.15rem">'+e.sub+'</p>':'')+'</div><div class="mltitle reveal" aria-hidden="true">'+e.ml+'</div></div>'+
@@ -222,9 +226,9 @@ function renderPhotos(key,ps,c){
  }
  if(mode==='mat'){
   seed=ps.length*13+c;
-  return '<div class="matbg"><p class="hint">Drag the prints around. Tap one to look closer. Tick the ones you like to make your own selection.</p><div class="spread">'+ps.map(function(p){
+  return '<div class="matbg"><p class="hint">Drag the prints around. Tap one to look closer.</p><div class="spread">'+ps.map(function(p){
    var r=((rnd()-.5)*9).toFixed(1),dx=((rnd()-.5)*18).toFixed(0),dy=((rnd()-.5)*22).toFixed(0);
-   return '<figure class="pr ph'+(p.pick?' pick':'')+'" data-k="'+key+'" data-i="'+p.i+'" tabindex="0" role="button" aria-label="Open photograph '+p.n+'" style="--r:'+r+'deg;--dx:'+dx+'px;--dy:'+dy+'px;--ar:'+(p.w/p.h).toFixed(3)+'"><img src="'+p.f+'" width="'+p.w+'" height="'+p.h+'" loading="lazy" decoding="async" alt="Photograph '+p.n+'"><button type="button" class="sel" aria-pressed="'+(isSel(key,p.i)?'true':'false')+'" aria-label="Select photograph '+p.n+'">'+(isSel(key,p.i)?'✓':'+')+'</button>'+(p.pick?'<span class="badge">● Best</span>':'')+'<span class="no">'+pad(p.n)+'</span></figure>'}).join('')+'</div></div>';
+   return '<figure class="pr ph'+(p.pick?' pick':'')+(p.rm?' rmd':'')+'" data-k="'+key+'" data-i="'+p.i+'" tabindex="0" role="button" aria-label="Open photograph '+p.n+'" style="--r:'+r+'deg;--dx:'+dx+'px;--dy:'+dy+'px;--ar:'+(p.w/p.h).toFixed(3)+'"><img src="'+p.f+'" width="'+p.w+'" height="'+p.h+'" loading="lazy" decoding="async" alt="Photograph '+p.n+'">'+(EDIT?'<button type="button" class="ed b" data-act="best" aria-pressed="'+(p.pick?'true':'false')+'" aria-label="Mark photograph '+p.n+' as best">★</button><button type="button" class="ed x" data-act="rm" aria-pressed="'+(p.rm?'true':'false')+'" aria-label="Remove photograph '+p.n+'">✕</button>':'')+(p.pick?'<span class="badge">● Best</span>':'')+'<span class="no">'+pad(p.n)+'</span></figure>'}).join('')+'</div></div>';
  }
 }
 function render(){
@@ -245,25 +249,34 @@ var dragged=false;
 function initDrag(){
  document.querySelectorAll('.pr').forEach(function(p){
   var sx,sy,ox,oy,on=false;
-  p.addEventListener('pointerdown',function(e){if(e.pointerType==='touch'||e.target.closest('.sel'))return;on=true;dragged=false;sx=e.clientX;sy=e.clientY;ox=parseFloat(getComputedStyle(p).getPropertyValue('--dx'))||0;oy=parseFloat(getComputedStyle(p).getPropertyValue('--dy'))||0;p.setPointerCapture(e.pointerId)});
+  p.addEventListener('pointerdown',function(e){if(e.pointerType==='touch'||e.target.closest('.ed'))return;on=true;dragged=false;sx=e.clientX;sy=e.clientY;ox=parseFloat(getComputedStyle(p).getPropertyValue('--dx'))||0;oy=parseFloat(getComputedStyle(p).getPropertyValue('--dy'))||0;p.setPointerCapture(e.pointerId)});
   p.addEventListener('pointermove',function(e){if(!on)return;var dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>6){dragged=true;p.classList.add('drag')}if(dragged){p.style.setProperty('--dx',(ox+dx)+'px');p.style.setProperty('--dy',(oy+dy)+'px')}});
   p.addEventListener('pointerup',function(){on=false;p.classList.remove('drag');setTimeout(function(){dragged=false},0)});
  });
 }
 /* selection */
-function isSel(k,i){return SEL.some(function(x){return x.k===k&&x.i===i})}
-var bar=document.createElement('div');bar.id='selbar';bar.innerHTML='<span id="selc"></span><button type="button" id="selv">View selection</button><button type="button" id="selx">Clear</button>';document.body.appendChild(bar);
-function updBar(){document.getElementById('selc').textContent=SEL.length+(SEL.length===1?' print selected':' prints selected');bar.classList.toggle('on',SEL.length>0)}
-function toggleSel(k,i,btn){var j=-1;SEL.forEach(function(x,n){if(x.k===k&&x.i===i)j=n});if(j>=0)SEL.splice(j,1);else SEL.push({k:k,i:i});if(btn){var on=j<0;btn.setAttribute('aria-pressed',on);btn.textContent=on?'\u2713':'+';btn.closest('.pr').classList.toggle('chosen',on)}updBar()}
-document.getElementById('selx').onclick=function(){SEL=[];document.querySelectorAll('.pr.chosen').forEach(function(p){p.classList.remove('chosen');var b=p.querySelector('.sel');b.setAttribute('aria-pressed','false');b.textContent='+'});updBar()};
-document.getElementById('selv').onclick=function(){if(SEL.length)openLb(SEL[0].k,SEL[0].i,null,true)};
+function isSel(){return false}
+function stripHtml(e){return ALL[e.k].filter(function(p){return p.pick&&!p.rm}).map(function(p){return '<figure data-k="'+e.k+'" data-i="'+p.i+'" tabindex="0" role="button" aria-label="Open best frame '+p.n+'"><img src="'+p.f+'" width="'+p.w+'" height="'+p.h+'" loading="lazy" alt="Best frame, photograph '+p.n+'"><span class="badge">\u25cf Best</span></figure>'}).join('')}
+function refresh(){EX.forEach(function(e){var sec=document.getElementById(e.id),arr=ALL[e.k],live=arr.filter(function(p){return !p.rm}),pk=live.filter(function(p){return p.pick});
+  var st=sec.querySelector('.statline');st.innerHTML='<span><b>'+live.length+'</b>photographs</span><span><b>'+pk.length+'</b>best frames</span><span><b>'+e.ch.length+'</b>chapters</span>';
+  sec.querySelector('.strip').innerHTML=stripHtml(e)});
+ render();updBar()}
+var bar=null;
+function counts(){var r=0,b=0,t=0;EX.forEach(function(e){ALL[e.k].forEach(function(p){t++;if(p.rm)r++;else if(p.pick)b++})});return {r:r,b:b,t:t}}
+function updBar(){if(!bar)return;var c=counts();document.getElementById('edc').textContent='Edit mode: '+c.r+' removed, '+c.b+' best of '+c.t}
+function save(){try{localStorage.setItem('cp-edit',JSON.stringify(ES))}catch(e){}}
+function report(){var out=['Capturing Play edit'];EX.forEach(function(e){var rm=[],best=[];ALL[e.k].forEach(function(p){if(p.rm)rm.push(p.n);else if(p.pick)best.push(p.n)});out.push(NAME[e.k]+' - remove: '+(rm.join(', ')||'none')+' | best: '+(best.join(', ')||'none'))});return out.join('\n')}
+if(EDIT){bar=document.createElement('div');bar.id='selbar';bar.className='on';bar.innerHTML='<span id="edc"></span><button type="button" id="edcopy">Copy my edit</button><button type="button" id="edreset">Reset</button>';document.body.appendChild(bar);
+ document.getElementById('edcopy').onclick=function(){var t=report(),b=this;function done(){b.textContent='Copied - paste it in chat'}try{navigator.clipboard.writeText(t).then(done,function(){prompt('Copy this edit',t)})}catch(e){prompt('Copy this edit',t)}};
+ document.getElementById('edreset').onclick=function(){ES={rm:{},best:{}};save();location.reload()};
+ var n=document.createElement('p');n.className='edn';n.textContent='Edit mode is on for you only. Star marks a best frame, cross removes a print. Nothing changes for visitors until you send me the edit.';document.querySelector('.hero .wrap').appendChild(n)}
 /* lightbox */
 var lb=document.getElementById('lb'),li=document.getElementById('li'),lc=document.getElementById('lc'),cur={k:null,i:0},last=null;
 var inSel=false,selN=0;
 function show(k,i){if(inSel){var n=0;SEL.forEach(function(x,m){if(x.k===k&&x.i===i)n=m});n=(n+(arguments[2]||0)+SEL.length)%SEL.length;selN=n;k=SEL[n].k;i=SEL[n].i}var a=ALL[k];i=(i+a.length)%a.length;cur={k:k,i:i};li.src=a[i].f;li.alt='Photograph '+a[i].n;lc.textContent=inSel?('Your selection · '+(selN+1)+' / '+SEL.length+' · '+NAME[k]+' '+(i+1)):NAME[k]+' · '+(i+1)+' / '+a.length+(a[i].pick?' · ● best frame':'')}
 function openLb(k,i,e,sel){last=e;inSel=!!sel;show(k,i);lb.classList.add('on');document.body.style.overflow='hidden';document.getElementById('lx').focus()}
 function closeLb(){inSel=false;lb.classList.remove('on');document.body.style.overflow='';if(last&&document.contains(last))last.focus()}
-document.addEventListener('click',function(e){var sb=e.target.closest('.sel');if(sb){var fg=sb.closest('figure');toggleSel(fg.dataset.k,+fg.dataset.i,sb);return}if(dragged)return;var f=e.target.closest('figure[data-k]');if(f)openLb(f.dataset.k,+f.dataset.i,f)});
+document.addEventListener('click',function(e){var sb=e.target.closest('.ed');if(sb){var fg=sb.closest('figure'),k=fg.dataset.k,p=ALL[k][+fg.dataset.i],d=pid(k,p);if(sb.dataset.act==='rm'){p.rm=!p.rm;if(p.rm)ES.rm[d]=1;else delete ES.rm[d]}else{p.pick=!p.pick;ES.best[d]=p.pick}save();refresh();return}if(dragged)return;var f=e.target.closest('figure[data-k]');if(f)openLb(f.dataset.k,+f.dataset.i,f)});
 document.addEventListener('keydown',function(e){
  if(!lb.classList.contains('on')){var a=document.activeElement;if((e.key==='Enter'||e.key===' ')&&a&&a.dataset&&a.dataset.k){e.preventDefault();openLb(a.dataset.k,+a.dataset.i,a)}return}
  if(e.key==='Escape')closeLb();if(e.key==='ArrowRight')nav(1);if(e.key==='ArrowLeft')nav(-1)});
