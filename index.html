@@ -35,8 +35,7 @@ h1 i{font-style:normal;color:var(--acc)}
 .row:hover,.row:focus-visible{padding-left:14px}.row:focus-visible{outline:3px solid var(--acc);outline-offset:2px}.row:hover h3,.row:focus-visible h3{color:var(--acc)}
 .prev{position:sticky;top:24px;align-self:start;margin-top:38px;aspect-ratio:1/1;max-height:calc(100vh - 48px);background:#ddd;overflow:hidden}
 .prev img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s}.prev img.on{opacity:1}
-.pk{position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none}
-.prev .cap{z-index:3;position:absolute;left:0;right:0;bottom:0;padding:12px 14px;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.65));font-size:13px}
+.prev .cap{position:absolute;left:0;right:0;bottom:0;padding:12px 14px;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.65));font-size:13px}
 .hint{margin-top:16px;color:var(--mut)}
 /* grid */
 .grid{display:none;grid-template-columns:repeat(4,1fr);gap:34px 18px}
@@ -70,7 +69,7 @@ footer a:hover{color:var(--acc)}
 <nav class="nav mono" aria-label="Primary"><b>Anjal B</b><div><a href="#work">Work</a><a href="#about">About</a><a href="#resume">Resume</a><a href="mailto:anjal2098@gmail.com">Contact</a><a href="https://medium.com/@anjal_b" target="_blank" rel="noopener">Medium</a></div></nav>
 <header class="head"><h1>Anjal B<i>.</i></h1><p><b>Designer-researcher</b> and Assistant Professor in Trivandrum. Experimental storytelling is what I focus on, through installation, interactive media, sound and research.</p></header>
 <noscript><ul style="list-style:none;padding:0 24px 24px;font:16px/1.7 Helvetica,Arial,sans-serif"><li><a href="bench/">A Memoir to Public Benches</a> - Kinetic bench and film</li><li><a href="mused/">Mused</a> - A piano-learning strip for self-learners</li><li><a href="music-strip/">The Music Strip</a> - Interactive documentary, Bangalore music scene</li><li><a href="secret-coterie/">Secret Coterie of Subterranean Statuary</a> - A speculative city called Doshire</li><li><a href="multifunctional-spaces/">Reconnecting with spaces and self</a> - How multifunctional spaces shape wellbeing</li><li><a href="leap-of-light/">Leap of Light</a> - Light sculpture for Amsterdam Light Festival</li><li><a href="sightsonic/">Sightsonic</a> - Audio description for every language</li><li><a href="capturing-play/">Capturing Play</a> - Cricket, Theyyam and a bus conductor</li><li>Noice - interactive sound-based experience (page in progress)</li></ul></noscript><main class="wrap" id="work"><h2 class="sr">Work</h2>
- <div class="list"><div><div class="hd mono"><span>No.</span><span>Project</span><span>Type</span><span>Status</span></div><div id="rows"></div><p class="hint mono">Hover to preview &middot; click to enter</p></div><div class="prev" id="prev"><canvas class="pk" id="pk" aria-hidden="true"></canvas><div class="cap" id="cap"></div></div></div>
+ <div class="list"><div><div class="hd mono"><span>No.</span><span>Project</span><span>Type</span><span>Status</span></div><div id="rows"></div><p class="hint mono">Hover to preview &middot; click to enter</p></div><div class="prev" id="prev"><div class="cap" id="cap"></div></div></div>
  <div class="grid" id="grid"></div>
 </main>
 <section class="about" id="about"><h2>About</h2><div><p>I am an Assistant Professor at the Department of Design, DC School of Architecture and Design, Trivandrum, where I teach and design courses on technology, art history and film. I trained in architecture (B.Arch, College of Engineering Trivandrum) and then in New Media Design (M.Des, NID Gandhinagar).</p><p>Experimental storytelling is what I focus on. My work moves between installation, interactive media, oral history, sound and research. It has been shown at the Florence Biennale, shortlisted for the Amsterdam Light Festival, and made at Science Gallery Bangalore and the Sensistan residency.</p><div class="dl" id="resume"><a class="btn pri" href="resume/Anjal_B_Resume.pdf" download>Download resume (PDF)</a><a class="btn" href="resume/Anjal_B_Resume.pdf">View in browser</a></div><dl class="rs">
@@ -142,12 +141,6 @@ var P=[{"id": "bench", "group": "Built", "n": "01", "t": "A Memoir to Public Ben
 var inFrame=window.top!==window.self,reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches,busy=false;
 var rows=document.getElementById('rows'),grid=document.getElementById('grid'),prev=document.getElementById('prev'),cap=document.getElementById('cap');
 function show(i){prev.querySelectorAll('img').forEach(function(m){m.classList.toggle('on',+m.dataset.i===i)});cap.textContent=P[i].ctx}
-var PK=.42;
-var pk=document.getElementById('pk'),pkx=pk.getContext('2d'),pkRaf=0;
-function peek(i){cancelAnimationFrame(pkRaf);var p=P[i];pkx.clearRect(0,0,pk.width,pk.height);if(reduce||p.soon||!TR.has(p.fx))return;
- var r=prev.getBoundingClientRect(),dpr=Math.min(2,window.devicePixelRatio||1);if(r.width<2)return;pk.width=Math.round(r.width*dpr);pk.height=Math.round(r.height*dpr);
- var d=TR.T[p.fx](),t0=performance.now();
- (function f(now){var t=now-t0,u=Math.min(1,t/650),q=PK*(1-Math.pow(1-u,3));pkx.clearRect(0,0,pk.width,pk.height);d(pkx,pk.width,pk.height,q,t,'in');if(t<2600)pkRaf=requestAnimationFrame(f)})(t0)}
 function dest(p){return p.url+(p.url.indexOf('?')<0?'?':'&')+'from='+p.fx}
 var pend=null;
 function go(p){busy=true;pend=p;if(reduce){location.href=dest(p);busy=false;return}
@@ -161,7 +154,7 @@ function click(p){return function(e){if(e.metaKey||e.ctrlKey||e.shiftKey||e.butt
 document.addEventListener('keydown',function(e){if(busy&&!inFrame&&pend&&(e.key==='Escape'||e.key==='Enter'||e.key===' ')){e.preventDefault();location.href=dest(pend)}});
 P.forEach(function(p,i){
  var a=document.createElement(p.soon?'div':'a');a.className='row'+(p.soon?' soon':'');if(!p.soon)a.href=dest(p);a.dataset.t=p.group;a.innerHTML='<span class="n">'+p.n+'</span><div>'+(p.img?'<img class="th" src="img/'+p.img+'" alt="" loading="lazy">':'')+'<h3>'+p.t+'</h3><div class="c">'+p.ctx+'</div>'+(i===0?'<div class="st mono">Start here</div>':'')+'</div><span class="s">'+p.type+'</span><span class="s">'+p.status+'</span>';
- a.onmouseenter=a.onfocus=function(){show(i);peek(i)};if(!p.soon)a.addEventListener('click',click(p));rows.appendChild(a);
+ a.onmouseenter=a.onfocus=function(){show(i)};if(!p.soon)a.addEventListener('click',click(p));rows.appendChild(a);
  if(p.img){var im=new Image();im.src='img/'+p.img;im.alt='';im.dataset.i=i;prev.insertBefore(im,cap)}
  var c=document.createElement(p.soon?'div':'a');c.className='card'+(p.soon?' soon':'');if(!p.soon)c.href=dest(p);c.dataset.t=p.group;c.innerHTML='<div class="im">'+(p.img?'<img src="img/'+p.img+'" alt="" loading="lazy">':'<div class="ph">'+p.t+'</div>')+'</div><div class="m mono"><span>'+p.n+'</span><span>'+p.type+'</span></div><h3>'+p.t+'</h3><p>'+p.status+'</p>';if(!p.soon)c.addEventListener('click',click(p));grid.appendChild(c)});
 show(0);
