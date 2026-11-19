@@ -75,6 +75,7 @@ var css='.sx{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#111;
 '.sx-foot small{display:block;font:10px/1.2 ui-monospace,"SF Mono",Menlo,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:#77776f;margin-bottom:8px}.sx-foot span{font-size:clamp(20px,3.2vw,34px);font-weight:800;letter-spacing:-.03em;line-height:1.05}'+
 '.sx-end{padding:12px 24px;font:10px/1.2 ui-monospace,"SF Mono",Menlo,Consolas,monospace;letter-spacing:.06em;text-transform:uppercase;display:flex;justify-content:space-between;border-top:1px solid rgba(17,17,17,.2)}'+
 '.sx-home{position:fixed;left:14px;bottom:14px;z-index:2147482000;background:#111;color:#f4f3ef!important;padding:11px 16px;font:11px/1 ui-monospace,"SF Mono",Menlo,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:1px solid #111;transition:background .2s,border-color .2s}.sx-home:hover{background:#ff4b1f;border-color:#ff4b1f}'+
+'.sx-c{display:flex;gap:18px}.sx-c a{color:inherit;text-decoration:underline;text-underline-offset:3px}.sx-c a:hover{color:#ff4b1f}'+
 '@media(max-width:640px){.sx-bar{padding:10px 14px}.sx-mid{display:none}.sx-bar .r{gap:12px}.sx-facts div{padding:12px 14px}.sx-foot a{padding:24px 14px 28px}.sx-end{padding:10px 14px}}';
 function lnk(p,cls,label){return '<a href="'+p.url+'" data-id="'+p.id+'"'+(cls?' class="'+cls+'"':'')+'>'+label+'</a>'}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;')}
@@ -84,10 +85,10 @@ function build(){
  top.innerHTML='<div class="sx-bar"><div class="l"><a href="'+HUB+'" data-hub="1">&larr; Home</a></div><div class="sx-mid"><b>Anjal B</b> &nbsp;/&nbsp; '+me.n+' of '+String(PROJ.length).padStart(2,'0')+'</div><div class="r">'+lnk(prev,'','&larr; '+esc(prev.short))+lnk(next,'',esc(next.short)+' &rarr;')+'</div></div>'+
  '<dl class="sx-facts">'+me.facts.map(function(f){return '<div><dt>'+esc(f[0])+'</dt><dd>'+esc(f[1])+'</dd></div>'}).join('')+'</dl>';
  var bot=document.createElement('div');bot.className='sx';
- bot.innerHTML='<div class="sx-foot"><a href="'+prev.url+'" data-id="'+prev.id+'"><small>Previous &middot; '+prev.n+'</small><span>'+esc(prev.short)+'</span></a><a href="'+next.url+'" data-id="'+next.id+'"><small>Next &middot; '+next.n+'</small><span>'+esc(next.short)+' &rarr;</span></a></div><div class="sx-end"><a href="'+HUB+'" data-hub="1">&larr; Home</a><span>Anjal B</span></div>';
+ bot.innerHTML='<div class="sx-foot"><a href="'+prev.url+'" data-id="'+prev.id+'"><small>Previous &middot; '+prev.n+'</small><span>'+esc(prev.short)+'</span></a><a href="'+next.url+'" data-id="'+next.id+'"><small>Next &middot; '+next.n+'</small><span>'+esc(next.short)+' &rarr;</span></a></div><div class="sx-end"><a href="'+HUB+'" data-hub="1">&larr; Home</a><span class="sx-c"><a href="mailto:anjal2098@gmail.com">Email</a><a href="'+HUB+'resume/Anjal_B_Resume.pdf">Resume</a><a href="https://www.linkedin.com/in/anjal-b-496605155/" target="_blank" rel="noopener">LinkedIn</a></span></div>';
  document.body.insertBefore(top,document.body.firstChild);document.body.appendChild(bot);
  var pill=document.createElement('a');pill.className='sx-home';pill.href=HUB;pill.setAttribute('data-hub','1');pill.innerHTML='&larr; Home';document.body.appendChild(pill);
- [top,bot,pill].forEach(function(r){r.addEventListener('click',function(e){var a=e.target.closest('a');if(!a||e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;
+ [top,bot,pill].forEach(function(r){r.addEventListener('click',function(e){var a=e.target.closest('a');if(!a||(!a.getAttribute('data-hub')&&!a.getAttribute('data-id'))||e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;
   var hub=a.getAttribute('data-hub'),tp=hub?null:PROJ.filter(function(p){return p.id===a.getAttribute('data-id')})[0],fx=hub?'fade':tp.fx,url=(hub?HUB:tp.url);
   var dest=url+(url.indexOf('?')<0?'?':'&')+'from='+fx;
   if(inFrame){a.target='_blank';a.rel='noopener';a.href=dest;return}
