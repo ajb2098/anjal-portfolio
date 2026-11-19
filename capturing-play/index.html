@@ -129,12 +129,17 @@ footer b{color:var(--acc)}
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .9s,transform .9s}
 .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.arch img{transition:none}html{scroll-behavior:auto}}
+
+.pr .sel{position:absolute;top:14px;left:14px;z-index:5;width:30px;height:30px;border-radius:50%;border:2px solid #fff;background:rgba(17,17,17,.55);color:#fff;font:600 16px/1 var(--mono);cursor:pointer;display:grid;place-items:center;padding:0;transition:background .2s,transform .2s}
+.pr .sel:hover{transform:scale(1.1)}.pr .sel[aria-pressed=true]{background:var(--acc);border-color:var(--acc)}.pr.chosen{outline:3px solid var(--acc);outline-offset:2px}
+#selbar{position:fixed;left:50%;bottom:16px;transform:translate(-50%,140%);z-index:2147481000;display:flex;gap:10px;align-items:center;background:#111;color:#fff;padding:10px 12px 10px 18px;border-radius:999px;font:500 12px var(--mono);letter-spacing:.05em;text-transform:uppercase;box-shadow:0 6px 22px rgba(0,0,0,.4);transition:transform .3s}
+#selbar.on{transform:translate(-50%,0)}#selbar button{font:inherit;letter-spacing:inherit;text-transform:inherit;border:1px solid #fff;background:transparent;color:#fff;padding:8px 14px;border-radius:999px;cursor:pointer}#selbar button#selv{background:var(--acc);border-color:var(--acc)}
+@media(max-width:560px){#selbar{left:auto;right:12px;transform:translateY(140%)}#selbar.on{transform:none}}
 </style><script>if(/[?&]from=/.test(location.search)){var s=document.createElement('style');s.id='sx-hide';var m={glitch:'#0a0014',eq:'#1d1815',beam:'#0a0d18',rain:'#151515',slats:'linear-gradient(#b9cfee,#ecb8a6 50%,#2b3828 62%,#161c15)',wave:'#f3eee3',clouds:'#dcebee',shutter:'#111',fade:'#f4f3ef'},f=(location.search.match(/[?&]from=([a-z]+)/)||[])[1];s.textContent='html{background:'+(m[f]||'#f4f3ef')+' fixed}body{opacity:0!important}';document.head.appendChild(s)}</script></head>
 <body><main id="main">
 <nav><div class="wrap"><span class="brand">Anjal B · Photography</span>
 <div class="links"><a href="#cricket">Changing Grounds</a><a href="#theyyam">Theyyam</a><a href="#bus">Bus Conductor</a></div>
-<div class="modes" role="group" aria-label="Choose a composition"><span>Composition</span>
-<button data-m="wall" aria-pressed="true">Gallery wall</button><button data-m="rails" aria-pressed="false">Film strips</button><button data-m="story" aria-pressed="false">Story scroll</button><button data-m="mat" aria-pressed="false">Table of prints</button></div></div></nav>
+</div></nav>
 
 <header class="hero"><div class="wrap">
   <p class="eyebrow">Open elective · Photography explorations</p>
@@ -181,7 +186,7 @@ var EX=[
   ch:[{id:'depot',t:'The depot',x:[]},{id:'stand',t:'At the stand',x:[]},{id:'ticket',t:'The ticket',x:[]},{id:'bus',t:'On the bus',x:[]}]}
 ];
 var NAME={cricket:'Changing Grounds',tey:'Theyyam',bus:'Bus Conductor'};
-var mode='wall',ALL={};
+var mode='mat',ALL={},SEL=[];
 function el(h){var d=document.createElement('div');d.innerHTML=h;return d.firstChild}
 /* build exhibit shells once */
 var mount=document.getElementById('exhibits');
@@ -193,10 +198,9 @@ EX.forEach(function(e,xi){
  (e.intro.length?'<div class="reveal" style="max-width:66ch">'+e.intro.map(function(t){return '<p>'+t+'</p>'}).join('')+'</div>':'')+
  '<div class="statline"><span><b>'+arr.length+'</b>photographs</span><span><b>'+pk.length+'</b>best frames</span><span><b>'+e.ch.length+'</b>chapters</span></div>'+
  '<div class="best"><h3>● Best frames</h3><div class="strip">'+pk.map(function(p){return '<figure data-k="'+e.k+'" data-i="'+p.i+'" tabindex="0" role="button" aria-label="Open best frame '+p.n+'"><img src="'+p.f+'" width="'+p.w+'" height="'+p.h+'" loading="lazy" alt="Best frame, photograph '+p.n+'"><span class="badge">● Best</span></figure>'}).join('')+'</div></div>'+
- '<button class="chip" aria-pressed="false">Show best frames only</button><div class="chaps"></div></div>';
+ '<div class="chaps"></div></div>';
  mount.appendChild(s);
  if(xi<EX.length-1){var k=document.createElement('div');k.className='kas'+(xi>=0?' d':'');mount.appendChild(k)}
- var chip=s.querySelector('.chip');chip.addEventListener('click',function(){var on=s.classList.toggle('onlypicks');chip.setAttribute('aria-pressed',on);chip.textContent=on?'Showing best frames only':'Show best frames only'});
 });
 function ph(p,key,cls,extra){return '<figure class="ph'+(p.pick?' pick':'')+(cls?' '+cls:'')+'" data-k="'+key+'" data-i="'+p.i+'" tabindex="0" role="button" aria-label="Open photograph '+p.n+'" style="--ar:'+(p.w/p.h).toFixed(3)+'">'+(extra&&extra.pre||'')+'<img src="'+p.f+'" width="'+p.w+'" height="'+p.h+'" loading="lazy" decoding="async" alt="Photograph '+p.n+'">'+(extra&&extra.post||'')+'</figure>'}
 function pad(n){return ('0'+n).slice(-2)}
@@ -218,9 +222,9 @@ function renderPhotos(key,ps,c){
  }
  if(mode==='mat'){
   seed=ps.length*13+c;
-  return '<div class="matbg"><p class="hint">Drag the prints around. Tap one to look closer.</p><div class="spread">'+ps.map(function(p){
+  return '<div class="matbg"><p class="hint">Drag the prints around. Tap one to look closer. Tick the ones you like to make your own selection.</p><div class="spread">'+ps.map(function(p){
    var r=((rnd()-.5)*9).toFixed(1),dx=((rnd()-.5)*18).toFixed(0),dy=((rnd()-.5)*22).toFixed(0);
-   return '<figure class="pr ph'+(p.pick?' pick':'')+'" data-k="'+key+'" data-i="'+p.i+'" tabindex="0" role="button" aria-label="Open photograph '+p.n+'" style="--r:'+r+'deg;--dx:'+dx+'px;--dy:'+dy+'px;--ar:'+(p.w/p.h).toFixed(3)+'"><img src="'+p.f+'" width="'+p.w+'" height="'+p.h+'" loading="lazy" decoding="async" alt="Photograph '+p.n+'">'+(p.pick?'<span class="badge">● Best</span>':'')+'<span class="no">'+pad(p.n)+'</span></figure>'}).join('')+'</div></div>';
+   return '<figure class="pr ph'+(p.pick?' pick':'')+'" data-k="'+key+'" data-i="'+p.i+'" tabindex="0" role="button" aria-label="Open photograph '+p.n+'" style="--r:'+r+'deg;--dx:'+dx+'px;--dy:'+dy+'px;--ar:'+(p.w/p.h).toFixed(3)+'"><img src="'+p.f+'" width="'+p.w+'" height="'+p.h+'" loading="lazy" decoding="async" alt="Photograph '+p.n+'"><button type="button" class="sel" aria-pressed="'+(isSel(key,p.i)?'true':'false')+'" aria-label="Select photograph '+p.n+'">'+(isSel(key,p.i)?'✓':'+')+'</button>'+(p.pick?'<span class="badge">● Best</span>':'')+'<span class="no">'+pad(p.n)+'</span></figure>'}).join('')+'</div></div>';
  }
 }
 function render(){
@@ -236,34 +240,37 @@ function render(){
  initDrag();
 }
 var cur0=null;
-document.querySelectorAll('.modes button').forEach(function(b){b.addEventListener('click',function(){
- if(b.dataset.m===mode)return;
- var vis=null;document.querySelectorAll('.exh').forEach(function(s){var r=s.getBoundingClientRect();if(r.top<innerHeight*.6&&r.bottom>innerHeight*.3)vis=s});
- mode=b.dataset.m;document.querySelectorAll('.modes button').forEach(function(x){x.setAttribute('aria-pressed',x===b)});
- render();if(vis){var t=vis.querySelector('.chap');(t||vis).scrollIntoView()}
-})});
 /* drag for mat */
 var dragged=false;
 function initDrag(){
  document.querySelectorAll('.pr').forEach(function(p){
   var sx,sy,ox,oy,on=false;
-  p.addEventListener('pointerdown',function(e){if(e.pointerType==='touch')return;on=true;dragged=false;sx=e.clientX;sy=e.clientY;ox=parseFloat(getComputedStyle(p).getPropertyValue('--dx'))||0;oy=parseFloat(getComputedStyle(p).getPropertyValue('--dy'))||0;p.setPointerCapture(e.pointerId)});
+  p.addEventListener('pointerdown',function(e){if(e.pointerType==='touch'||e.target.closest('.sel'))return;on=true;dragged=false;sx=e.clientX;sy=e.clientY;ox=parseFloat(getComputedStyle(p).getPropertyValue('--dx'))||0;oy=parseFloat(getComputedStyle(p).getPropertyValue('--dy'))||0;p.setPointerCapture(e.pointerId)});
   p.addEventListener('pointermove',function(e){if(!on)return;var dx=e.clientX-sx,dy=e.clientY-sy;if(Math.abs(dx)+Math.abs(dy)>6){dragged=true;p.classList.add('drag')}if(dragged){p.style.setProperty('--dx',(ox+dx)+'px');p.style.setProperty('--dy',(oy+dy)+'px')}});
   p.addEventListener('pointerup',function(){on=false;p.classList.remove('drag');setTimeout(function(){dragged=false},0)});
  });
 }
+/* selection */
+function isSel(k,i){return SEL.some(function(x){return x.k===k&&x.i===i})}
+var bar=document.createElement('div');bar.id='selbar';bar.innerHTML='<span id="selc"></span><button type="button" id="selv">View selection</button><button type="button" id="selx">Clear</button>';document.body.appendChild(bar);
+function updBar(){document.getElementById('selc').textContent=SEL.length+(SEL.length===1?' print selected':' prints selected');bar.classList.toggle('on',SEL.length>0)}
+function toggleSel(k,i,btn){var j=-1;SEL.forEach(function(x,n){if(x.k===k&&x.i===i)j=n});if(j>=0)SEL.splice(j,1);else SEL.push({k:k,i:i});if(btn){var on=j<0;btn.setAttribute('aria-pressed',on);btn.textContent=on?'\u2713':'+';btn.closest('.pr').classList.toggle('chosen',on)}updBar()}
+document.getElementById('selx').onclick=function(){SEL=[];document.querySelectorAll('.pr.chosen').forEach(function(p){p.classList.remove('chosen');var b=p.querySelector('.sel');b.setAttribute('aria-pressed','false');b.textContent='+'});updBar()};
+document.getElementById('selv').onclick=function(){if(SEL.length)openLb(SEL[0].k,SEL[0].i,null,true)};
 /* lightbox */
 var lb=document.getElementById('lb'),li=document.getElementById('li'),lc=document.getElementById('lc'),cur={k:null,i:0},last=null;
-function show(k,i){var a=ALL[k];i=(i+a.length)%a.length;cur={k:k,i:i};li.src=a[i].f;li.alt='Photograph '+a[i].n;lc.textContent=NAME[k]+' · '+(i+1)+' / '+a.length+(a[i].pick?' · ● best frame':'')}
-function openLb(k,i,e){last=e;show(k,i);lb.classList.add('on');document.body.style.overflow='hidden';document.getElementById('lx').focus()}
-function closeLb(){lb.classList.remove('on');document.body.style.overflow='';if(last&&document.contains(last))last.focus()}
-document.addEventListener('click',function(e){if(dragged)return;var f=e.target.closest('figure[data-k]');if(f)openLb(f.dataset.k,+f.dataset.i,f)});
+var inSel=false,selN=0;
+function show(k,i){if(inSel){var n=0;SEL.forEach(function(x,m){if(x.k===k&&x.i===i)n=m});n=(n+(arguments[2]||0)+SEL.length)%SEL.length;selN=n;k=SEL[n].k;i=SEL[n].i}var a=ALL[k];i=(i+a.length)%a.length;cur={k:k,i:i};li.src=a[i].f;li.alt='Photograph '+a[i].n;lc.textContent=inSel?('Your selection · '+(selN+1)+' / '+SEL.length+' · '+NAME[k]+' '+(i+1)):NAME[k]+' · '+(i+1)+' / '+a.length+(a[i].pick?' · ● best frame':'')}
+function openLb(k,i,e,sel){last=e;inSel=!!sel;show(k,i);lb.classList.add('on');document.body.style.overflow='hidden';document.getElementById('lx').focus()}
+function closeLb(){inSel=false;lb.classList.remove('on');document.body.style.overflow='';if(last&&document.contains(last))last.focus()}
+document.addEventListener('click',function(e){var sb=e.target.closest('.sel');if(sb){var fg=sb.closest('figure');toggleSel(fg.dataset.k,+fg.dataset.i,sb);return}if(dragged)return;var f=e.target.closest('figure[data-k]');if(f)openLb(f.dataset.k,+f.dataset.i,f)});
 document.addEventListener('keydown',function(e){
  if(!lb.classList.contains('on')){var a=document.activeElement;if((e.key==='Enter'||e.key===' ')&&a&&a.dataset&&a.dataset.k){e.preventDefault();openLb(a.dataset.k,+a.dataset.i,a)}return}
- if(e.key==='Escape')closeLb();if(e.key==='ArrowRight')show(cur.k,cur.i+1);if(e.key==='ArrowLeft')show(cur.k,cur.i-1)});
-document.getElementById('lx').onclick=closeLb;document.getElementById('lp').onclick=function(){show(cur.k,cur.i-1)};document.getElementById('ln').onclick=function(){show(cur.k,cur.i+1)};
+ if(e.key==='Escape')closeLb();if(e.key==='ArrowRight')nav(1);if(e.key==='ArrowLeft')nav(-1)});
+document.getElementById('lx').onclick=closeLb;function nav(d){if(inSel)show(cur.k,cur.i,d);else show(cur.k,cur.i+d)}
+document.getElementById('lp').onclick=function(){nav(-1)};document.getElementById('ln').onclick=function(){nav(1)};
 lb.addEventListener('click',function(e){if(e.target===lb)closeLb()});
-var sx0=0;lb.addEventListener('touchstart',function(e){sx0=e.touches[0].clientX},{passive:true});lb.addEventListener('touchend',function(e){var d=e.changedTouches[0].clientX-sx0;if(Math.abs(d)>50)show(cur.k,cur.i+(d<0?1:-1))});
+var sx0=0;lb.addEventListener('touchstart',function(e){sx0=e.touches[0].clientX},{passive:true});lb.addEventListener('touchend',function(e){var d=e.changedTouches[0].clientX-sx0;if(Math.abs(d)>50)nav(d<0?1:-1)});
 var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.08});
 document.querySelectorAll('.reveal').forEach(function(x){io.observe(x)});
 render();
