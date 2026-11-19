@@ -149,8 +149,8 @@ h2{margin:0 0 16px;font:300 clamp(32px,5vw,58px)/1.05 var(--display);letter-spac
     <div class="tabs" role="group" aria-label="Choose a view"><button type="button" data-v="quick" aria-pressed="true">Quick overview</button><button type="button" data-v="deep" aria-pressed="false">Deep dive: the journey</button></div>
     <div id="v-quick">
     <p class="k">The bench, in detail</p>
-    <h2>Six major slats,<br>twelve minor slats.</h2>
-    <p class="lede">Six major slats, S1 to S6, are motorised and run along the 2.4 m bench, with S1 and S6 at the two ends. Twelve minor slats on castor wheels sit between them. Ideally the bench carries five proximity sensors, each waking the pair of motors on either side of it. The installation uses three.</p>
+    <h2>Six major slats,<br>eighteen minor slats.</h2>
+    <p class="lede">Six major slats, S1 to S6, are motorised and run along the 2.4 m bench, with S1 and S6 at the two ends. Eighteen minor slats on castor wheels sit between them. Ideally the bench carries five proximity sensors, each waking the pair of motors on either side of it. The installation uses three.</p>
     <div class="rules">
       <div class="rule"><div class="n">01</div><h3>Idle</h3><p>Each motor slat shuttles a short way and back at its own speed. S1 and S6 move inward from the ends and return. The free slats on castors are knocked about, so the spacing ripples along the bench.</p></div>
       <div class="rule"><div class="n">02</div><h3>Sense</h3><p>When a sensor is triggered, its two motor slats stop shuttling and head toward each other.</p></div>
@@ -161,7 +161,7 @@ h2{margin:0 0 16px;font:300 clamp(32px,5vw,58px)/1.05 var(--display);letter-spac
       <span><strong>2.4 m</strong>length of the bench</span>
       <span><strong>10</strong>sections of 240 mm</span>
       <span><strong>6</strong>major slats, motorised</span>
-      <span><strong>12</strong>minor slats on castor wheels</span>
+      <span><strong>18</strong>minor slats on castor wheels</span>
       <span><strong>5 / 3</strong>sensors: five in the ideal design, three in the installation</span>
     </div></div>
     <div class="films">
@@ -212,7 +212,7 @@ const bodies=[]; const motors=[];
     motors.push(m); arr.push(m);
   });
   let n=0;
-  const GN=[3,2,3,2,2];
+  const GN=[4,4,4,3,3];
   for(let g=0;g<5;g++){
     for(let j=0;j<GN[g];j++){
       const w=Math.round(30+hash(n,3)*24);
