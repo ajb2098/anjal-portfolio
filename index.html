@@ -165,7 +165,7 @@ P.forEach(function(p,i){
  if(p.img){var im=new Image();im.src='img/'+p.img;im.alt='';im.dataset.i=i;prev.insertBefore(im,cap)}
  var c=document.createElement(p.soon?'div':'a');c.className='card'+(p.soon?' soon':'');if(!p.soon)c.href=dest(p);c.dataset.t=p.group;c.innerHTML='<div class="im">'+(p.img?'<img src="img/'+p.img+'" alt="" loading="lazy">':'<div class="ph">'+p.t+'</div>')+'</div><div class="m mono"><span>'+p.n+'</span><span>'+p.type+'</span></div><h3>'+p.t+'</h3><p>'+p.status+'</p>';if(!p.soon)c.addEventListener('click',click(p));grid.appendChild(c)});
 show(0);
-window.addEventListener('pageshow',function(){busy=false});
+window.addEventListener('pageshow',function(e){busy=false;if(e.persisted)document.querySelectorAll('canvas').forEach(function(c){if(c.style.zIndex==='2147483000')c.remove()})});
 /* arrival from a project */
 (function(){var from=(location.search.match(/[?&]from=([a-z]+)/)||[])[1],h=document.getElementById('sx-hide');
  if(!from||reduce||!TR.has(from)){if(h)h.remove();return}

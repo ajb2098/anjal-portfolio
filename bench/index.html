@@ -118,9 +118,10 @@ h2{margin:0 0 16px;font:300 clamp(32px,5vw,58px)/1.05 var(--display);letter-spac
 .credit{margin-top:60px;font:400 12px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
 .credit b{color:var(--ink);font-weight:500}
 @media (max-width:640px){.hud{gap:8px}.panel{padding:10px 12px}.hint{max-width:none;width:100%}.hint-t{display:none}.hint-m{display:inline}.ctrls{width:100%;justify-content:space-between;gap:8px}label.sl{display:none}.ruler .sec span{font-size:9px}}
+html:not(.sx-ready) .award,html:not(.sx-ready) .title .eye,html:not(.sx-ready) .title h1,html:not(.sx-ready) .title p,html:not(.sx-ready) .cue{animation-play-state:paused}
 @media (prefers-reduced-motion:reduce){.award,.title .eye,.title h1,.title p,.cue{animation:none;opacity:1}.cue i{animation:none}}
 </style>
-<script>if(/[?&]from=/.test(location.search)){var s=document.createElement('style');s.id='sx-hide';var m={glitch:'#0a0014',eq:'#1d1815',beam:'#0a0d18',rain:'#151515',slats:'linear-gradient(#b9cfee,#ecb8a6 50%,#2b3828 62%,#161c15)',wave:'#f3eee3',clouds:'#dcebee',shutter:'#111',fade:'#f4f3ef'},f=(location.search.match(/[?&]from=([a-z]+)/)||[])[1];s.textContent='html{background:'+(m[f]||'#f4f3ef')+' fixed}body{opacity:0!important}';document.head.appendChild(s)}</script></head>
+<script>if(/[?&]from=/.test(location.search)){var s=document.createElement('style');s.id='sx-hide';var m={glitch:'#0a0014',eq:'#1d1815',beam:'#0a0d18',rain:'#151515',slats:'linear-gradient(#b9cfee,#ecb8a6 50%,#2b3828 62%,#161c15)',wave:'#f3eee3',clouds:'#dcebee',shutter:'#111',fade:'#f4f3ef'},f=(location.search.match(/[?&]from=([a-z]+)/)||[])[1];s.textContent='html{background:'+(m[f]||'#f4f3ef')+' fixed}body{opacity:0!important}';document.head.appendChild(s)}</script><noscript><style>.award,.title .eye,.title h1,.title p,.cue{animation-play-state:running!important}</style></noscript></head>
 <body>
 <section id="track" aria-label="Scroll to explore the bench">
   <div id="stage">

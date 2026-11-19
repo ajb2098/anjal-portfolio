@@ -61,9 +61,11 @@ var prev=PROJ[(idx+PROJ.length-1)%PROJ.length],next=PROJ[(idx+1)%PROJ.length];
 var inFrame=window.top!==window.self,reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches;
 /* arrival: cover, then reveal */
 var from=(location.search.match(/[?&]from=([a-z]+)/)||[])[1];
-function arrive(){var h=document.getElementById('sx-hide');
- if(!from||reduce||!TR.has(from)){if(h)h.remove();return}
- var c=TR.cover(from);if(h)h.remove();setTimeout(function(){TR.run(from,'out',750).then(function(){c.remove()});},120)}
+function arrive(){var h=document.getElementById('sx-hide'),R=function(){document.documentElement.classList.add('sx-ready')};
+ if(!from||reduce||!TR.has(from)){if(h)h.remove();R();return}
+ var c=TR.cover(from);if(h)h.remove();setTimeout(function(){R();TR.run(from,'out',750).then(function(){c.remove()});},120);setTimeout(function(){c.remove();R()},3500)}
+/* back/forward cache: never restore a page with a transition cover stuck on it */
+window.addEventListener('pageshow',function(e){if(e.persisted){document.querySelectorAll('canvas').forEach(function(c){if(c.style.zIndex==='2147483000')c.remove()});document.documentElement.classList.add('sx-ready')}});
 /* shell */
 var css='.sx{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;color:#111;background:#f4f3ef;position:relative;z-index:30;-webkit-font-smoothing:antialiased;line-height:1.4;text-align:left}.sx *{box-sizing:border-box;margin:0}.sx a{color:inherit;text-decoration:none}'+
 '.sx-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 24px;border-bottom:1px solid #111;font:11px/1.2 ui-monospace,"SF Mono",Menlo,Consolas,monospace;letter-spacing:.06em;text-transform:uppercase}'+
