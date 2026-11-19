@@ -153,7 +153,7 @@ canvas{display:block;width:100%;touch-action:none;cursor:pointer}
 .timeline li b{display:block;font-family:var(--display);font-weight:500;font-size:15px;margin-bottom:4px}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
 .stat{padding:18px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
-.stat strong{display:block;font-family:var(--display);font-weight:700;font-size:clamp(30px,4vw,40px);line-height:1;color:var(--brand);margin-bottom:8px}
+.stat strong{display:block;white-space:nowrap;font-family:var(--display);font-weight:700;font-size:clamp(26px,2.7vw,34px);line-height:1;color:var(--brand);margin-bottom:8px}
 .stat span{font-size:14.5px;line-height:1.45;display:block;color:#e6e6ea}
 .stat em{display:block;font-style:normal;font-family:var(--mono);font-size:11.5px;color:var(--muted);margin-top:8px}
 .pal{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 0}
@@ -404,7 +404,7 @@ footer p{max-width:70ch}
 @media (max-width:900px){.apps{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:12px;padding-bottom:8px}.apps figure{flex:0 0 200px;scroll-snap-align:start}}
 </style>
 <noscript><style>html[data-view] [data-view]{display:block!important}</style></noscript>
-<script>if(/[?&]from=/.test(location.search)){var s=document.createElement('style');s.id='sx-hide';s.textContent='html{background:#f4f3ef}body{opacity:0!important}';document.head.appendChild(s)}</script></head>
+<script>if(/[?&]from=/.test(location.search)){var s=document.createElement('style');s.id='sx-hide';var m={glitch:'#0a0014',eq:'#1d1815',beam:'#0a0d18',rain:'#151515',slats:'linear-gradient(#b9cfee,#ecb8a6 50%,#2b3828 62%,#161c15)',wave:'#f3eee3',clouds:'#dcebee',shutter:'#111',fade:'#f4f3ef'},f=(location.search.match(/[?&]from=([a-z]+)/)||[])[1];s.textContent='html{background:'+(m[f]||'#f4f3ef')+' fixed}body{opacity:0!important}';document.head.appendChild(s)}</script></head>
 <body>
 <div class="topbar" id="top"><div class="wrap bar"><a class="logo" href="#top" aria-label="mused, back to top"><img src="img/logo_mark.png" alt="" width="34" height="30"><span>mused</span></a><nav aria-label="Sections" data-view="deep"><a href="#player">Play</a><a href="#research">Research</a><a href="#journey">Journey</a><a href="#result">Product</a></nav><div class="viewsw" role="group" aria-label="How to read this page"><button type="button" data-setview="quick" aria-pressed="true">Quick tour</button><button type="button" data-setview="deep" aria-pressed="false">Deep dive</button></div></div></div>
 <header class="wrap">

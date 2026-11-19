@@ -116,7 +116,7 @@ footer{padding:44px 0 80px;font-size:.8rem;color:var(--mut)}
 .callout b{font-family:system-ui}
 .team{font-family:system-ui;font-size:.78rem;letter-spacing:.06em}
 </style>
-<script>if(/[?&]from=/.test(location.search)){var s=document.createElement('style');s.id='sx-hide';s.textContent='html{background:#f4f3ef}body{opacity:0!important}';document.head.appendChild(s)}</script></head>
+<script>if(/[?&]from=/.test(location.search)){var s=document.createElement('style');s.id='sx-hide';var m={glitch:'#0a0014',eq:'#1d1815',beam:'#0a0d18',rain:'#151515',slats:'linear-gradient(#b9cfee,#ecb8a6 50%,#2b3828 62%,#161c15)',wave:'#f3eee3',clouds:'#dcebee',shutter:'#111',fade:'#f4f3ef'},f=(location.search.match(/[?&]from=([a-z]+)/)||[])[1];s.textContent='html{background:'+(m[f]||'#f4f3ef')+' fixed}body{opacity:0!important}';document.head.appendChild(s)}</script></head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
 <header class="bar"><div class="wrap">
@@ -224,11 +224,11 @@ footer{padding:44px 0 80px;font-size:.8rem;color:var(--mut)}
 <section id="demo"><div class="wrap">
   <p class="tag">05 · Interactive</p>
   <h2>Fit the description into the gaps</h2>
-  <p>A 40-second scene written for this page. Compare a naive "emotional" draft with a standards-based one. Press play to hear each, or step through the cues one at a time.</p>
+  <p>A 40-second scene written for this page. Compare an unreviewed AI draft, written here to show typical over-interpretation, with a describer-edited, standards-based one. Both are illustrations written for this page, not recorded model output. Press play to hear each, or step through the cues one at a time.</p>
   <div class="demo">
     <div class="row" role="group" aria-label="Description version">
       <span class="sans" style="font-size:.8rem;color:var(--mut)">Version</span>
-      <div class="seg"><button id="vNaive" aria-pressed="true">Naive AI draft</button><button id="vStd" aria-pressed="false">Sightsonic reviewed</button></div>
+      <div class="seg"><button id="vNaive" aria-pressed="true">Unreviewed AI draft</button><button id="vStd" aria-pressed="false">Sightsonic reviewed</button></div>
     </div>
     <div class="row">
       <button class="btn solid" id="play">Play</button>

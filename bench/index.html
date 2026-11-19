@@ -120,7 +120,7 @@ h2{margin:0 0 16px;font:300 clamp(32px,5vw,58px)/1.05 var(--display);letter-spac
 @media (max-width:640px){.hud{gap:8px}.panel{padding:10px 12px}.hint{max-width:none;width:100%}.hint-t{display:none}.hint-m{display:inline}.ctrls{width:100%;justify-content:space-between;gap:8px}label.sl{display:none}.ruler .sec span{font-size:9px}}
 @media (prefers-reduced-motion:reduce){.award,.title .eye,.title h1,.title p,.cue{animation:none;opacity:1}.cue i{animation:none}}
 </style>
-<script>if(/[?&]from=/.test(location.search)){var s=document.createElement('style');s.id='sx-hide';s.textContent='html{background:#f4f3ef}body{opacity:0!important}';document.head.appendChild(s)}</script></head>
+<script>if(/[?&]from=/.test(location.search)){var s=document.createElement('style');s.id='sx-hide';var m={glitch:'#0a0014',eq:'#1d1815',beam:'#0a0d18',rain:'#151515',slats:'linear-gradient(#b9cfee,#ecb8a6 50%,#2b3828 62%,#161c15)',wave:'#f3eee3',clouds:'#dcebee',shutter:'#111',fade:'#f4f3ef'},f=(location.search.match(/[?&]from=([a-z]+)/)||[])[1];s.textContent='html{background:'+(m[f]||'#f4f3ef')+' fixed}body{opacity:0!important}';document.head.appendChild(s)}</script></head>
 <body>
 <section id="track" aria-label="Scroll to explore the bench">
   <div id="stage">
@@ -135,14 +135,9 @@ h2{margin:0 0 16px;font:300 clamp(32px,5vw,58px)/1.05 var(--display);letter-spac
     <div class="layer cap" id="cap2"><span>A bench on a hill.<small>2.4 metres, always shifting</small></span></div>
     <div class="layer cap" id="cap3"><span>Walk toward it.</span></div>
     <div class="hud" id="hud">
-      <div class="panel hint"><b>Try it</b><span class="hint-t">Move your pointer along the bench. The nearest sensor wakes two motor slats. They close in and pack the slats between them into one solid seat, then return home when you leave.</span><span class="hint-m">Drag along the bench.</span>
-        <div class="legend"><i style="background:#4a2c16"></i>motor slat S1-S6 <i style="background:#9a6b3c"></i>free slat</div>
-        <div class="stat" id="stat" aria-live="polite"></div></div>
-      <div class="panel ctrls">
-        
-        <label class="sl">Patrol speed<input type="range" id="spd" min="0.3" max="2.5" step="0.1" value="1"></label>
+      <div class="panel hint"><b>Try it</b><span class="hint-t">Move your pointer along the bench. Where you stand, the two nearest motor slats close in and pack the slats between them into one solid seat, then return home when you leave.</span><span class="hint-m">Drag along the bench.</span>
+        </div>
       </div>
-    </div>
   </div>
 </section>
 
@@ -154,8 +149,8 @@ h2{margin:0 0 16px;font:300 clamp(32px,5vw,58px)/1.05 var(--display);letter-spac
     <div class="tabs" role="group" aria-label="Choose a view"><button type="button" data-v="quick" aria-pressed="true">Quick overview</button><button type="button" data-v="deep" aria-pressed="false">Deep dive: the journey</button></div>
     <div id="v-quick">
     <p class="k">The bench, in detail</p>
-    <h2>Ten sections, five sensors,<br>six motors.</h2>
-    <p class="lede">Six motor slats, S1 to S6, run along the 2.4 m bench with S1 and S6 at the two ends. Five proximity sensors sit at the ends of sections P1, P3, P5, P7 and P9, and each one wakes the pair of motors on either side of it.</p>
+    <h2>Six major slats,<br>twelve minor slats.</h2>
+    <p class="lede">Six major slats, S1 to S6, are motorised and run along the 2.4 m bench, with S1 and S6 at the two ends. Twelve minor slats on castor wheels sit between them. Ideally the bench carries five proximity sensors, each waking the pair of motors on either side of it. The installation uses three.</p>
     <div class="rules">
       <div class="rule"><div class="n">01</div><h3>Idle</h3><p>Each motor slat shuttles a short way and back at its own speed. S1 and S6 move inward from the ends and return. The free slats on castors are knocked about, so the spacing ripples along the bench.</p></div>
       <div class="rule"><div class="n">02</div><h3>Sense</h3><p>When a sensor is triggered, its two motor slats stop shuttling and head toward each other.</p></div>
@@ -165,8 +160,9 @@ h2{margin:0 0 16px;font:300 clamp(32px,5vw,58px)/1.05 var(--display);letter-spac
     <div class="ff"><b>Fact file</b><div>
       <span><strong>2.4 m</strong>length of the bench</span>
       <span><strong>10</strong>sections of 240 mm</span>
-      <span><strong>6</strong>motor slats, S1 to S6</span>
-      <span><strong>5</strong>sensors: P1, P3, P5, P7, P9</span>
+      <span><strong>6</strong>major slats, motorised</span>
+      <span><strong>12</strong>minor slats on castor wheels</span>
+      <span><strong>5 / 3</strong>sensors: five in the ideal design, three in the installation</span>
     </div></div>
     <div class="films">
       <figure><img src="img/f_17.jpg" alt="Drone view looking straight down on the bench: timber slats of different widths across a dark base, on grass" loading="lazy"><figcaption>From above: slats across a dark base</figcaption></figure>
@@ -206,7 +202,7 @@ const SENS=[1,3,5,7,9].map(k=>k*SECT);            // ends of P1,P3,P5,P7,P9
 const MOTOR_HOME=[0,480,960,1440,1920,2400];       // S1..S6
 const IDLE_A=[240,150,150,150,150,240];            // shuttle reach (mm)
 const IDLE_T=[11,15,12,17,13,10];                  // seconds per cycle
-let speedScale=1, tIdle=0;
+const speedScale=.75; let tIdle=0;
 const bodies=[]; const motors=[];
 (function init(){
   const arr=[];
@@ -216,11 +212,12 @@ const bodies=[]; const motors=[];
     motors.push(m); arr.push(m);
   });
   let n=0;
+  const GN=[3,2,3,2,2];
   for(let g=0;g<5;g++){
-    for(let j=0;j<5;j++){
+    for(let j=0;j<GN[g];j++){
       const w=Math.round(30+hash(n,3)*24);
-      const f=(j+.5)/5+(hash(n,8)-.5)*.1;
-      arr.push({main:false,w,g,x:MOTOR_HOME[g]+480*((j+.5)/5)+(hash(n,8)-.5)*30,v:0,vd:(hash(n,6)-.5)*90,timer:hash(n,9)*5});
+      
+      arr.push({main:false,w,g,x:MOTOR_HOME[g]+480*((j+.5)/GN[g])+(hash(n,8)-.5)*30,v:0,vd:(hash(n,6)-.5)*90,timer:hash(n,9)*5});
       n++;
     }
   }
@@ -536,7 +533,7 @@ function benchLabels(){
     }
     ctx.textBaseline='middle'; ctx.textAlign='left'; ctx.fillStyle='#fff';
     ctx.font=`500 ${Math.max(8,fs-2)}px "DM Mono",ui-monospace,monospace`;
-    ctx.fillText(sensorLabel(i),cx+Math.max(5,26*s),cy);
+    
     ctx.textAlign='center';
   });
 }
@@ -590,7 +587,7 @@ cv.addEventListener('pointerleave',()=>{ptr.inside=false;});
 cv.addEventListener('pointercancel',()=>{ptr.inside=false;});
 if($('vFront'))$('vFront').onclick=()=>{ planOn=false; $('vFront').setAttribute('aria-pressed','true'); $('vPlan').setAttribute('aria-pressed','false'); };
 if($('vPlan'))$('vPlan').onclick=()=>{ planOn=true; $('vPlan').setAttribute('aria-pressed','true'); $('vFront').setAttribute('aria-pressed','false'); };
-$('spd').oninput=e=>speedScale=+e.target.value;
+
 
 /* ---------- loop ---------- */
 const capEls=[[$('cap2'),.30,.50],[$('cap3'),.54,.74]];
@@ -629,13 +626,6 @@ function frame(now){
   if(ptr.on && planMix<.5){
     ctx.strokeStyle='rgba(255,255,255,.85)'; ctx.lineWidth=1.5; ctx.beginPath(); ctx.arc(ptr.x,ptr.y,13,0,6.283); ctx.stroke();
     ctx.fillStyle='rgba(255,255,255,.9)'; ctx.beginPath(); ctx.arc(ptr.x,ptr.y,2.5,0,6.283); ctx.fill();
-  }
-  statT+=dt;
-  if(statT>.15 && p>.55){
-    statT=0;
-    stat.innerHTML = activeS>=0
-      ? `<b>${sensorLabel(activeS)}</b> active · <b>S${activeS+1}</b> and <b>S${activeS+2}</b> closing in`
-      : 'No one in front · motor slats shuttle, free slats drift';
   }
 }
 addEventListener('resize',resize);
