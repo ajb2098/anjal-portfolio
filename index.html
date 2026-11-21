@@ -75,6 +75,7 @@ footer{font-size:13px}
 @media(max-width:640px){.idrow{flex-direction:column;align-items:flex-start;gap:6px}.idrow>.me{order:0}.idr{order:1}.idrow>.about{order:2}.idrow>.about{margin:.5em 0 0;flex:none;max-width:none}.idr{width:100%}}
 @media(min-width:641px){.idr{align-self:last baseline!important}.idrow>.about{align-self:last baseline!important;margin-bottom:0!important}.idr .name{margin-bottom:0}.idr{padding-bottom:.16em}}
 .work a span{text-align:right}@media(max-width:640px){.work a span{text-align:left}}
+.work a span{max-width:22em}
 </style></head>
 <nav class="top" aria-label="Primary"><div><a href="#work">Work</a><a href="#about">About</a><a href="#experience">Experience</a></div><div><a href="#resume">Resume</a><a href="#contact">Contact</a></div></nav>
 <section class="hero">
@@ -98,13 +99,13 @@ footer{font-size:13px}
 <script>window.PROJ=[
 {n:'01',t:'A Memoir to Public Benches',k:'Experience design · Staging',u:'bench/',w:'benches'},
 {n:'02',t:'Mused',k:'Product design · Music · Edutech',u:'mused/',w:'pianos'},
-{n:'03',t:'What remains when the song fades?',k:'Storytelling · Documentation · Research',u:'music-strip/',w:'songs'},
-{n:'04',t:'Secret Coterie of Subterranean Statuary',k:'Conceptual design · Architecture · Storytelling',u:'secret-coterie/',w:'statues'},
+{n:'03',t:'What remains when the song fades?',k:'Experience design · Staging · Documentation · Storytelling · Research · UX',u:'music-strip/',w:'songs'},
+{n:'04',t:'Secret Coterie of Subterranean Statuary',k:'Speculative and Conceptual design · Architecture · Storytelling',u:'secret-coterie/',w:'statues'},
 {n:'05',t:'Reconnecting with spaces and self',k:'Research · Documentation · Problem solving',u:'multifunctional-spaces/',w:'rooms'},
-{n:'06',t:'Leap of Light',k:'Sculpture · Conceptual design · Staging',u:'leap-of-light/',w:'light'},
-{n:'07',t:'Sightsonic',k:'Product design · UX · Research',u:'sightsonic/',w:'stories'},
+{n:'06',t:'Leap of Light',k:'Experience design · Staging · Conceptual design · Sculpture',u:'leap-of-light/',w:'light'},
+{n:'07',t:'Sightsonic',k:'Product design · Problem solving · UX · Research',u:'sightsonic/',w:'stories'},
 {n:'08',t:'Capturing Play',k:'Photography · Documentation · Storytelling',u:'capturing-play/',w:'play'},
-{n:'09',t:'Noice',k:'Experience design · Staging · Storytelling',u:null,w:'noise'}];
+{n:'09',t:'Noice',k:'Experience design · Staging · Storytelling · Research',u:null,w:'noise'}];
 </script>
 <script>
 var ALT=[{i:1,w:'pianos that teach'},{i:3,w:'statues that hide'},{i:4,w:'rooms that heal'},{i:5,w:'light that leaps'},{i:6,w:'films that can be heard'},{i:7,w:'photographs that play'}];
@@ -137,7 +138,7 @@ P.forEach(function(x,i){els[i].textContent='';if(T[i])T[i].classList.remove('v')
   el.classList.remove('ty');if(T[i])T[i].classList.add('v')}
  swap()})();
 })();
-document.getElementById('list').innerHTML=PROJ.map(function(q){return '<a href="'+(q.u||'#')+'"'+(q.u?'':' class="soon"')+'><i style="font-style:normal;font-size:var(--s);color:#6b6a63">'+q.n+'</i><b>'+q.t+'</b><span>'+(q.u?q.k:'Coming soon')+'</span></a>'}).join('');
+document.getElementById('list').innerHTML=PROJ.map(function(q){return '<a href="'+(q.u||'#')+'"'+(q.u?'':' class="soon"')+'><i style="font-style:normal;font-size:var(--s);color:#6b6a63">'+q.n+'</i><b>'+q.t+'</b><span>'+q.k+(q.u?'':'<br>Coming soon')+'</span></a>'}).join('');
 
 (function(){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('v');io.unobserve(e.target)}})},{threshold:.2});Array.prototype.forEach.call(document.querySelectorAll('#list a'),function(a){io.observe(a)})})();
 var me=document.getElementById('me'),rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
