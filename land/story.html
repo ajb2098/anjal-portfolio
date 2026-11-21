@@ -8,7 +8,7 @@ html{scroll-behavior:smooth}
 body{background:#f4f3ef;color:#141412;font-family:var(--serif);font-weight:450}
 .top{position:absolute;left:0;right:0;top:0;display:flex;justify-content:space-between;padding:22px 32px;font-size:var(--s);z-index:2}
 .top a{color:#6b6a63;text-decoration:none;margin-left:22px}.top a:hover{color:#141412}.top a:first-child{margin-left:0}
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:72px 32px 32px}
+.hero{display:flex;flex-direction:column;justify-content:flex-start;padding:56px 32px 28px}
 .greet{display:flex;align-items:flex-end;gap:calc(var(--u)*.08);line-height:1}
 .say{font:450 var(--l)/1.2 var(--serif);padding-bottom:.15em;margin-right:calc(var(--u)*-.12);white-space:nowrap}
 .hi{color:#e2461b;font-weight:500}
@@ -35,7 +35,10 @@ h1 a:hover,h1 a:focus-visible{background:#e2461b;color:#f4f3ef;border-color:#e24
 footer{padding:0 32px 28px;font-size:var(--s);color:#6b6a63;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 @media(max-width:640px){:root{--u:clamp(64px,23vw,120px);--l:clamp(20px,5.6vw,26px);--s:14px}.top,.hero,.work,footer{padding-left:18px;padding-right:18px}.work a{grid-template-columns:30px 1fr}.work a span{grid-column:2}}
 @media(prefers-reduced-motion:reduce){#r{transition:none}html{scroll-behavior:auto}}
-.namerow{display:flex;align-items:flex-end;justify-content:space-between;gap:calc(var(--l)*1.5)}.namerow .about{margin:0 0 calc(var(--u)*.12);max-width:22em;flex:0 1 22em}.namerow .name{margin-bottom:.16em}@media(max-width:640px){.namerow{flex-direction:column;align-items:flex-start;gap:0}.namerow .about{flex:none;max-width:none;margin-top:calc(var(--l)*.5)}}</style></head>
+.namerow{display:flex;align-items:flex-end;justify-content:space-between;gap:calc(var(--l)*1.5)}.namerow .about{margin:0 0 calc(var(--u)*.12);max-width:22em;flex:0 1 22em}.namerow .name{margin-bottom:.16em}@media(max-width:640px){.namerow{flex-direction:column;align-items:flex-start;gap:0}.namerow .about{flex:none;max-width:none;margin-top:calc(var(--l)*.5)}}.pv{position:fixed;right:32px;top:50%;width:min(34vw,520px);aspect-ratio:1200/630;transform:translateY(-50%);pointer-events:none;opacity:0;transition:opacity .25s;z-index:3;background:#e9e7e0;overflow:hidden}
+.pv.on{opacity:1}.pv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .25s}.pv img.on{opacity:1}
+@media(min-width:900px){.work a{max-width:calc(100% - min(34vw,520px) - 48px)}}
+@media(hover:none),(max-width:899px){.pv{display:none}}</style></head>
 <div class="top"><a href="#work">Work</a><div><a href="mailto:anjal2098@gmail.com">Contact</a><a href="../resume/">Resume</a></div></div>
 <section class="hero">
 <div class="greet"><div class="say"><span class="hi">Hi!</span> <span class="iam">I am</span></div><div class="me" id="me" role="img" aria-label="Illustration of Anjal waving hello"><div class="hand" id="hand"></div></div></div>
@@ -43,6 +46,7 @@ footer{padding:0 32px 28px;font-size:var(--s);color:#6b6a63;display:flex;justify
 <div class="lower"><h1>I tell experimental stories through <a href="../bench/">benches that remember</a>, <a href="../music-strip/">songs that outlast their fade</a> and <a id="r" href="#"></a>.</h1>
 </div>
 </section>
+<div class="pv" id="pv" aria-hidden="true"></div>
 <section class="work" id="work"><h2>All work</h2><div id="list"></div></section>
 <footer><span>Installation, interactive media, sound and research</span><span>Assistant Professor, DC School of Architecture and Design</span></footer>
 <script src="data.js"></script>
@@ -70,4 +74,11 @@ async function play(){
  }
 }
 if(!rm){play()}
+
+(function(){var IM={'01':'bench','02':'mused','03':'music-strip','04':'secret-coterie','05':'multifunctional-spaces','06':'leap-of-light','07':'sightsonic','08':'capturing-play'},pv=document.getElementById('pv'),els={};
+Object.keys(IM).forEach(function(n){var i=new Image();i.src='../img/og-'+IM[n]+'.jpg';i.alt='';pv.appendChild(i);els[n]=i});
+var L=document.getElementById('list'),cur=null;
+Array.prototype.forEach.call(L.children,function(a,k){var n=PROJ[k].n;
+a.addEventListener('mouseenter',function(){if(cur)cur.classList.remove('on');cur=els[n]||null;if(cur){cur.classList.add('on');pv.classList.add('on')}else pv.classList.remove('on')});});
+L.addEventListener('mouseleave',function(){pv.classList.remove('on');if(cur){cur.classList.remove('on');cur=null}});})();
 </script></body></html>
