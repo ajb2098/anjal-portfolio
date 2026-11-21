@@ -71,10 +71,12 @@ footer{font-size:13px}
 .idrow{display:flex;align-items:flex-end;gap:calc(var(--u)*.22)}.idr{flex:1;min-width:0}.idr .say{margin:0 0 .1em}
 .me{flex:none;height:calc(var(--u)*1.12 + var(--l)*1.9)!important;width:calc((var(--u)*1.12 + var(--l)*1.9)*112/182)!important}
 @media(max-width:640px){.idrow{flex-direction:column;align-items:flex-start;gap:6px}.me{height:calc(var(--u)*1.25)!important;width:calc(var(--u)*1.25*112/182)!important}.idr{width:100%}}
+.idrow{justify-content:flex-start}.idrow>.about{margin:0 0 calc(var(--u)*.12) auto;align-self:flex-end;max-width:22em;flex:0 1 22em}.idr{flex:none}.idr .name{margin-bottom:.16em}
+@media(max-width:640px){.idrow{flex-direction:column;align-items:flex-start;gap:6px}.idrow>.me{order:0}.idr{order:1}.idrow>.about{order:2}.idrow>.about{margin:.5em 0 0;flex:none;max-width:none}.idr{width:100%}}
 </style></head>
 <nav class="top" aria-label="Primary"><div><a href="#work">Work</a><a href="#about">About</a><a href="#experience">Experience</a></div><div><a href="#resume">Resume</a><a href="#contact">Contact</a></div></nav>
 <section class="hero">
-<div class="idrow"><div class="me" id="me" role="img" aria-label="Illustration of Anjal waving hello"><div class="hand" id="hand"></div></div><div class="idr"><div class="say"><span class="hi">Hi!</span> <span class="iam">I am</span></div><div class="namerow"><div class="name">Anjal B</div><p class="about">Designer-researcher and Assistant Professor in Trivandrum. Trained in architecture and new media design, I work across installation, interactive media, sound and research.</p></div></div></div>
+<div class="idrow"><div class="idr"><div class="say"><span class="hi">Hi!</span> <span class="iam">I am</span></div><div class="name">Anjal B</div></div><div class="me" id="me" role="img" aria-label="Illustration of Anjal waving hello"><div class="hand" id="hand"></div></div><p class="about">Designer-researcher and Assistant Professor in Trivandrum. Trained in architecture and new media design, I work across installation, interactive media, sound and research.</p></div>
 <div class="lower"><h1>I make products and tell experimental stories, and sometimes they are the same thing: <a href="bench/">benches that remember</a>, <a href="music-strip/">songs that outlast their fade</a> and <a id="r" href="#"></a>.</h1>
 </div>
 <a class="scroll" href="#work" aria-label="Scroll to all work"><i></i>Scroll for all work</a>
