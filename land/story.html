@@ -35,13 +35,13 @@ h1 a:hover,h1 a:focus-visible{background:#e2461b;color:#f4f3ef;border-color:#e24
 footer{padding:0 32px 28px;font-size:var(--s);color:#6b6a63;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 @media(max-width:640px){:root{--u:clamp(64px,23vw,120px);--l:clamp(20px,5.6vw,26px);--s:14px}.top,.hero,.work,footer{padding-left:18px;padding-right:18px}.work a{grid-template-columns:30px 1fr}.work a span{grid-column:2}}
 @media(prefers-reduced-motion:reduce){#r{transition:none}html{scroll-behavior:auto}}
-</style></head>
+.namerow{display:flex;align-items:flex-end;justify-content:space-between;gap:calc(var(--l)*1.5)}.namerow .about{margin:0 0 calc(var(--u)*.12);max-width:22em;flex:0 1 22em}.namerow .name{margin-bottom:.16em}@media(max-width:640px){.namerow{flex-direction:column;align-items:flex-start;gap:0}.namerow .about{flex:none;max-width:none;margin-top:calc(var(--l)*.5)}}</style></head>
 <div class="top"><a href="#work">Work</a><div><a href="mailto:anjal2098@gmail.com">Contact</a><a href="../resume/">Resume</a></div></div>
 <section class="hero">
 <div class="greet"><div class="say"><span class="hi">Hi!</span> <span class="iam">I am</span></div><div class="me" id="me" role="img" aria-label="Illustration of Anjal waving hello"><div class="hand" id="hand"></div></div></div>
-<div class="name">Anjal B</div>
+<div class="namerow"><div class="name">Anjal B</div><p class="about">Designer-researcher and Assistant Professor in Trivandrum. Trained in architecture and new media design, I work across installation, interactive media, sound and research.</p></div>
 <div class="lower"><h1>I tell experimental stories through <a href="../bench/">benches that remember</a>, <a href="../music-strip/">songs that outlast their fade</a> and <a id="r" href="#"></a>.</h1>
-<p class="about">Designer-researcher and Assistant Professor in Trivandrum. Trained in architecture and new media design, I work across installation, interactive media, sound and research.</p></div>
+</div>
 </section>
 <section class="work" id="work"><h2>All work</h2><div id="list"></div></section>
 <footer><span>Installation, interactive media, sound and research</span><span>Assistant Professor, DC School of Architecture and Design</span></footer>
