@@ -1,22 +1,22 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Anjal B - Experimental storytelling</title>
 <meta name="description" content="Anjal B is a designer-researcher telling experimental stories through installation, interactive media, sound and research.">
 <style>
-@font-face{font-family:Fraunces;src:url(fonts/fraunces-latin-wght-normal.woff2) format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
+@font-face{font-family:Jost;src:url(fonts/jost-latin-wght-normal.woff2) format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
 *{box-sizing:border-box;margin:0}
 html{scroll-behavior:smooth}
-:root{--u:clamp(70px,min(16vw,21.5vh),250px);--serif:Fraunces,Georgia,serif}
+:root{--u:clamp(70px,min(16vw,21.5vh),250px);--serif:Jost,Futura,'Century Gothic',sans-serif}
 body{background:#f4f3ef;color:#141412;font-family:var(--serif)}
 .top{position:absolute;left:0;right:0;top:0;display:flex;justify-content:space-between;padding:22px 32px;font-size:13px;z-index:2}
 .top a{color:#6b6a63;text-decoration:none;margin-left:22px}.top a:hover{color:#141412}.top a:first-child{margin-left:0}
 .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:72px 32px 32px}
 .greet{display:flex;align-items:flex-end;gap:calc(var(--u)*.08);line-height:1}
-.hi{font:500 calc(var(--u)*.7)/.78 var(--serif);color:#e2461b;letter-spacing:-.04em;padding-bottom:calc(var(--u)*.06)}
+.hi{font:500 calc(var(--u)*.42)/.8 var(--serif);color:#e2461b;letter-spacing:-.02em;padding-bottom:calc(var(--u)*.04)}
 .me{height:calc(var(--u)*1.3);width:calc(var(--u)*1.3*112/182);flex:none;background:url(anjal-wave.webp) 0 0/1300% 100% no-repeat;position:relative}
 .hand{position:absolute;inset:0;background:url(anjal-hand.webp) 0 0/100% 100% no-repeat;transform-origin:74.4% 48%;display:none}
 .hand.on{display:block;animation:wv .4s ease-in-out 4}
 @keyframes wv{0%,100%{transform:rotate(0)}25%{transform:rotate(-22deg)}75%{transform:rotate(22deg)}}
 .iam{font:400 calc(var(--u)*.2)/1 var(--serif);color:#6b6a63;margin:calc(var(--u)*.1) 0 0 .08em}
-.name{font:500 var(--u)/.88 var(--serif);letter-spacing:-.045em;margin:.02em 0 .14em -.05em;white-space:nowrap}
+.name{font:500 var(--u)/.9 var(--serif);letter-spacing:-.05em;margin:.02em 0 .14em -.05em;white-space:nowrap}
 .about{font-size:clamp(15px,1.3vw,19px);line-height:1.5;color:#4a4943;max-width:36em;margin:0 0 clamp(14px,2.4vh,24px)}
 h1{font:400 clamp(20px,2.4vw,36px)/1.22 var(--serif);letter-spacing:-.02em;max-width:30em}
 h1 a{color:#141412;text-decoration:none;border-bottom:.06em solid #141412;transition:background .15s,color .15s}
