@@ -17,8 +17,9 @@ body{background:#f4f3ef;color:#141412;font-family:var(--serif);font-weight:450}
 @keyframes wv{0%,100%{transform:rotate(0)}25%{transform:rotate(-22deg)}75%{transform:rotate(22deg)}}
 .iam{font:450 var(--l)/1.2 var(--serif);color:#6b6a63;margin:calc(var(--l)*.6) 0 0 .08em}
 .name{font:500 var(--u)/.9 var(--serif);letter-spacing:-.05em;margin:.02em 0 .14em -.05em;white-space:nowrap}
-.about{font-size:var(--s);line-height:1.55;color:#4a4943;max-width:34em;margin:0 0 calc(var(--l)*.8)}
-h1{font:450 var(--l)/1.22 var(--serif);letter-spacing:-.01em;max-width:28em}
+.lower{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.2fr);gap:calc(var(--l)*1.4);border-top:1px solid #d9d7cf;padding-top:calc(var(--l)*.8);margin-top:calc(var(--l)*.4);align-items:start}
+.about{font-size:var(--s);line-height:1.6;color:#4a4943;margin:0;max-width:24em}
+h1{font:450 var(--l)/1.25 var(--serif);letter-spacing:-.01em;max-width:26em}
 h1 a{color:#141412;text-decoration:none;border-bottom:.06em solid #141412;transition:background .15s,color .15s}
 h1 a:hover,h1 a:focus-visible{background:#e2461b;color:#f4f3ef;border-color:#e2461b;outline:0}
 #r{opacity:0;transition:opacity .9s}#r.in{opacity:1}
@@ -31,6 +32,7 @@ h1 a:hover,h1 a:focus-visible{background:#e2461b;color:#f4f3ef;border-color:#e24
 .work a:hover b{color:#e2461b}
 .work a.soon{color:#a9a79e;pointer-events:none}
 footer{padding:0 32px 28px;font-size:var(--s);color:#6b6a63;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media(max-width:820px){.lower{grid-template-columns:1fr;gap:calc(var(--l)*.7)}}
 @media(max-width:640px){:root{--u:clamp(64px,23vw,120px);--l:clamp(20px,5.6vw,26px);--s:14px}.top,.hero,.work,footer{padding-left:18px;padding-right:18px}.work a{grid-template-columns:30px 1fr}.work a span{grid-column:2}}
 @media(prefers-reduced-motion:reduce){#r{transition:none}html{scroll-behavior:auto}}
 </style></head>
@@ -39,8 +41,8 @@ footer{padding:0 32px 28px;font-size:var(--s);color:#6b6a63;display:flex;justify
 <div class="greet"><div class="hi" aria-hidden="true">Hi!</div><div class="me" id="me" role="img" aria-label="Illustration of Anjal waving hello"><div class="hand" id="hand"></div></div></div>
 <div class="iam">I am</div>
 <div class="name">Anjal B</div>
-<p class="about">Designer-researcher and Assistant Professor in Trivandrum. Trained in architecture and new media design, I work across installation, interactive media, sound and research.</p>
-<h1>I tell experimental stories through <a href="../bench/">benches that remember</a>, <a href="../music-strip/">songs that outlast their fade</a> and <a id="r" href="#"></a>.</h1>
+<div class="lower"><p class="about">Designer-researcher and Assistant Professor in Trivandrum. Trained in architecture and new media design, I work across installation, interactive media, sound and research.</p>
+<h1>I tell experimental stories through <a href="../bench/">benches that remember</a>, <a href="../music-strip/">songs that outlast their fade</a> and <a id="r" href="#"></a>.</h1></div>
 </section>
 <section class="work" id="work"><h2>All work</h2><div id="list"></div></section>
 <footer><span>Installation, interactive media, sound and research</span><span>Assistant Professor, DC School of Architecture and Design</span></footer>
