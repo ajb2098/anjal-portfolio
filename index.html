@@ -171,7 +171,7 @@ async function play(){
 if(!rm){play()}
 
 (function(){var IM={'01':'bench','02':'mused','03':'music-strip','04':'secret-coterie','05':'multifunctional-spaces','06':'leap-of-light','07':'sightsonic','08':'capturing-play'},pv=document.getElementById('pv'),els={};
-Object.keys(IM).forEach(function(n){var i=new Image();i.src='img/og-'+IM[n]+'.jpg';i.alt='';pv.appendChild(i);els[n]=i});
+Object.keys(IM).forEach(function(n){var i=new Image();i.src='img/pv-'+IM[n]+'.jpg';i.alt='';pv.appendChild(i);els[n]=i});
 var L=document.getElementById('list'),cur=null;
 Array.prototype.forEach.call(L.children,function(a,k){var n=PROJ[k].n;
 a.addEventListener('mouseenter',function(){if(cur)cur.classList.remove('on');cur=els[n]||null;if(cur){cur.classList.add('on');pv.classList.add('on')}else pv.classList.remove('on')});a.addEventListener('focus',function(){a.dispatchEvent(new Event('mouseenter'))});});
