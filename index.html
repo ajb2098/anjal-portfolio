@@ -1,166 +1,146 @@
-<!DOCTYPE html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Anjal B - Designer-researcher</title><meta name="description" content="Anjal B is a designer-researcher and Assistant Professor in Trivandrum, focused on experimental storytelling through installation, interactive media, sound and research."><link rel="canonical" href="https://www.anjal.in/"><meta name="theme-color" content="#f4f3ef"><link rel="icon" href="https://www.anjal.in/favicon.svg" type="image/svg+xml"><meta property="og:type" content="website"><meta property="og:site_name" content="Anjal B"><meta property="og:title" content="Anjal B - Designer-researcher"><meta property="og:description" content="Anjal B is a designer-researcher and Assistant Professor in Trivandrum, focused on experimental storytelling through installation, interactive media, sound and research."><meta property="og:url" content="https://www.anjal.in/"><meta property="og:image" content="https://www.anjal.in/img/og-home.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Anjal B - Designer-researcher"><meta name="twitter:description" content="Anjal B is a designer-researcher and Assistant Professor in Trivandrum, focused on experimental storytelling through installation, interactive media, sound and research."><meta name="twitter:image" content="https://www.anjal.in/img/og-home.jpg">
-<script>if(/[?&]from=/.test(location.search)){var s=document.createElement('style');s.id='sx-hide';var m={glitch:'#0a0014',eq:'#1d1815',beam:'#0a0d18',rain:'#151515',slats:'linear-gradient(#b9cfee,#ecb8a6 50%,#2b3828 62%,#161c15)',wave:'#f3eee3',clouds:'#dcebee',shutter:'#111',fade:'#f4f3ef'},f=(location.search.match(/[?&]from=([a-z]+)/)||[])[1];s.textContent='html{background:'+(m[f]||'#f4f3ef')+' fixed}body{opacity:0!important}';document.head.appendChild(s)}</script>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Anjal B - Designer-researcher</title><meta name="description" content="Anjal B is a designer-researcher and Assistant Professor in Trivandrum, focused on experimental storytelling through installation, interactive media, sound and research."><link rel="canonical" href="https://www.anjal.in/"><meta name="theme-color" content="#f4f3ef"><link rel="icon" href="https://www.anjal.in/favicon.svg" type="image/svg+xml"><meta property="og:type" content="website"><meta property="og:site_name" content="Anjal B"><meta property="og:title" content="Anjal B - Designer-researcher"><meta property="og:description" content="Anjal B is a designer-researcher and Assistant Professor in Trivandrum, focused on experimental storytelling through installation, interactive media, sound and research."><meta property="og:url" content="https://www.anjal.in/"><meta property="og:image" content="https://www.anjal.in/img/og-home.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Anjal B - Designer-researcher"><meta name="twitter:description" content="Anjal B is a designer-researcher and Assistant Professor in Trivandrum, focused on experimental storytelling through installation, interactive media, sound and research."><meta name="twitter:image" content="https://www.anjal.in/img/og-home.jpg">
 <style>
-:root{--paper:#f4f3ef;--ink:#111;--mut:#66665f;--acc:#ff4b1f;--sans:'Helvetica Neue',Helvetica,Arial,'Segoe UI',system-ui,sans-serif;--mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace}
+@font-face{font-family:Jost;src:url(land/fonts/jost-latin-wght-normal.woff2) format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
 *{box-sizing:border-box;margin:0}
 html{scroll-behavior:smooth}
-body{background:var(--paper);color:var(--ink);font-family:var(--sans);line-height:1.45;-webkit-font-smoothing:antialiased}
-a{color:inherit;text-decoration:none}
-:focus-visible{outline:3px solid var(--acc);outline-offset:3px}
-.mono{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
-.nav{display:flex;justify-content:space-between;align-items:center;padding:0 28px;border-bottom:1px solid var(--ink)}
-.nav div{display:flex;gap:22px}.nav a:hover{color:var(--acc)}.nav a,footer a{display:inline-flex;align-items:center;min-height:44px}
-.skip{position:absolute;left:12px;top:-60px;background:var(--ink);color:var(--paper);padding:12px 16px;z-index:9;font:11px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase}.skip:focus{top:8px}
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-.head{padding:70px 28px 40px;max-width:1360px;margin:0 auto;display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:end}
-h1{font-size:clamp(3.4rem,11vw,9.5rem);line-height:.86;font-weight:800;letter-spacing:-.055em}
-h1 i{font-style:normal;color:var(--acc)}
-.head p{font-size:clamp(1.15rem,1.7vw,1.45rem);line-height:1.35;max-width:26em;justify-self:end}
-.head p b{font-weight:700}
-.wrap{max-width:1360px;margin:18px auto 0;padding:0 28px 100px}
-/* list */
-.list{display:grid;grid-template-columns:1.35fr .65fr;gap:46px}
-.hd,.row{display:grid;grid-template-columns:44px 1.5fr 1fr 1.1fr;gap:18px;align-items:baseline}
-.hd{padding:10px 0;border-top:1px solid var(--ink);color:var(--mut)}
-.row{padding:20px 0;border-top:1px solid rgba(17,17,17,.25);transition:padding .25s}
-.row:last-child{border-bottom:1px solid var(--ink)}
-.row .n{font-family:var(--mono);font-size:12px;color:var(--mut)}
-.row h3{font-size:clamp(20px,2.4vw,32px);font-weight:700;letter-spacing:-.03em;line-height:1.08}
-.row .c{font-size:14px;color:var(--mut)}
-.row .th{display:none;width:100%;aspect-ratio:16/9;object-fit:cover;background:#ddd;margin-bottom:12px}
-.st{margin-top:8px;color:var(--ink)}.st::before{content:"";display:inline-block;width:8px;height:8px;background:var(--acc);margin-right:7px}
-.row .s{font-family:var(--mono);font-size:11px;letter-spacing:.04em;text-transform:uppercase}
-.row:hover,.row:focus-visible{padding-left:14px}.row:focus-visible{outline:3px solid var(--acc);outline-offset:2px}.row:hover h3,.row:focus-visible h3{color:var(--acc)}
-.prev{position:sticky;top:24px;align-self:start;margin-top:38px;aspect-ratio:1/1;max-height:calc(100vh - 48px);background:#ddd;overflow:hidden}
-.prev img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .35s}.prev img.on{opacity:1}
-.prev .cap{position:absolute;left:0;right:0;bottom:0;padding:12px 14px;color:#fff;background:linear-gradient(transparent,rgba(0,0,0,.65));font-size:13px}
-.hint{margin-top:16px;color:var(--mut)}
-/* grid */
-.grid{display:none;grid-template-columns:repeat(4,1fr);gap:34px 18px}
-.card{display:block}.card .im{aspect-ratio:4/5;overflow:hidden;background:#ddd}.card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s}
-.card:hover img{transform:scale(1.04)}
-.soon{cursor:default}.row.soon h3,.row.soon .n{color:var(--mut)}.row.soon:hover{padding-left:0}.row.soon:hover h3{color:var(--mut)}
-.ph{width:100%;height:100%;display:grid;place-items:center;background:#e7e6df;font-size:clamp(1.6rem,3vw,2.6rem);font-weight:800;letter-spacing:-.04em;color:#bdbcb2}
-.card .m{display:flex;justify-content:space-between;gap:8px;border-top:1px solid var(--ink);margin-top:10px;padding-top:8px;color:var(--mut)}
-.card h3{font-size:1.1rem;font-weight:700;letter-spacing:-.02em;line-height:1.15;margin-top:6px}
-.card p{font-size:.85rem;color:var(--mut);margin-top:3px}
-body.g .list{display:none}body.g .grid{display:grid}
-.about{border-top:1px solid var(--ink);padding:60px 28px 70px;max-width:1360px;margin:0 auto;display:grid;grid-template-columns:1fr 1.5fr;gap:40px}
-.about h2{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:800;letter-spacing:-.04em;line-height:1}
-.about p{max-width:36em;margin-bottom:1em}
-.dl{display:flex;gap:12px;flex-wrap:wrap;margin:26px 0 34px}
-.btn{display:inline-flex;align-items:center;min-height:44px;padding:0 20px;border:1px solid var(--ink);font:11px/1 ui-monospace,"SF Mono",Menlo,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;transition:background .2s,color .2s,border-color .2s}
-.btn.pri{background:var(--ink);color:var(--paper,#f4f3ef)}
-.btn:hover{background:var(--acc);border-color:var(--acc);color:#111}
-.rs{display:grid;grid-template-columns:140px 1fr;gap:0;border-top:1px solid var(--ink)}
-.rs dt,.rs dd{padding:14px 0;border-bottom:1px solid rgba(17,17,17,.2);margin:0}
-.rs dt{font:11px/1.5 ui-monospace,"SF Mono",Menlo,Consolas,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mut);padding-top:16px}
-.rs dd{font-size:15px;line-height:1.5}.rs dd span{display:block}
-@media(max-width:900px){.rs{grid-template-columns:100px 1fr}}
-footer{border-top:1px solid var(--ink);padding:4px 28px;align-items:center;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-footer a:hover{color:var(--acc)}
-@media(max-width:900px){.head,.about{grid-template-columns:1fr}.head p{justify-self:start}.list{grid-template-columns:1fr}.prev{display:none}.grid{grid-template-columns:repeat(2,1fr)}.hd{display:none}.hint{display:none}.row{grid-template-columns:34px 1fr}.row .c,.row .s{grid-column:2}.nav{padding:0 16px}.row{align-items:start}.row .th{display:block}.row .th,.row .st{grid-column:2}.nav div{gap:14px}.head,.wrap,.about{padding-left:16px;padding-right:16px}}
-@media(hover:none){.hint{display:none}}
-@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.row,.card img,.prev img{transition:none}}
-</style></head><body>
-<a class="skip" href="#work">Skip to work</a>
-<nav class="nav mono" aria-label="Primary"><b>Anjal B</b><div><a href="#work">Work</a><a href="#about">About</a><a href="#resume">Resume</a><a href="mailto:anjal2098@gmail.com">Contact</a><a href="https://medium.com/@anjal_b" target="_blank" rel="noopener">Medium</a></div></nav>
-<header class="head"><h1>Anjal B<i>.</i></h1><p><b>Designer-researcher</b> and Assistant Professor in Trivandrum. Experimental storytelling is what I focus on, through installation, interactive media, sound and research.</p></header>
-<noscript><ul style="list-style:none;padding:0 24px 24px;font:16px/1.7 Helvetica,Arial,sans-serif"><li><a href="bench/">A Memoir to Public Benches</a> - Kinetic bench and film</li><li><a href="mused/">Mused</a> - A piano-learning strip for self-learners</li><li><a href="music-strip/">The Music Strip</a> - Interactive documentary, Bangalore music scene</li><li><a href="secret-coterie/">Secret Coterie of Subterranean Statuary</a> - A speculative city called Doshire</li><li><a href="multifunctional-spaces/">Reconnecting with spaces and self</a> - How multifunctional spaces shape wellbeing</li><li><a href="leap-of-light/">Leap of Light</a> - Light sculpture for Amsterdam Light Festival</li><li><a href="sightsonic/">Sightsonic</a> - Audio description for every language</li><li><a href="capturing-play/">Capturing Play</a> - Cricket, Theyyam and a bus conductor</li><li>Noice - interactive sound-based experience (page in progress)</li></ul></noscript><main class="wrap" id="work"><h2 class="sr">Work</h2>
- <div class="list"><div><div class="hd mono"><span>No.</span><span>Project</span><span>Type</span><span>Status</span></div><div id="rows"></div><p class="hint mono">Hover to preview &middot; click to enter</p></div><div class="prev" id="prev"><div class="cap" id="cap"></div></div></div>
- <div class="grid" id="grid"></div>
-</main>
-<section class="about" id="about"><h2>About</h2><div><p>I am an Assistant Professor at the Department of Design, DC School of Architecture and Design, Trivandrum, where I teach and design courses on technology, art history and film. I trained in architecture (B.Arch, College of Engineering Trivandrum) and then in New Media Design (M.Des, NID Gandhinagar).</p><p>Experimental storytelling is what I focus on. My work moves between installation, interactive media, oral history, sound and research. It has been shown at the Florence Biennale, shortlisted for the Amsterdam Light Festival, and made at Science Gallery Bangalore and the Sensistan residency.</p><div class="dl" id="resume"><a class="btn pri" href="resume/Anjal_B_Resume.pdf" download>Download resume (PDF)</a><a class="btn" href="resume/Anjal_B_Resume.pdf">View in browser</a></div><dl class="rs">
-<dt>Education</dt><dd><span>M.Des, New Media Design, National Institute of Design, Gandhinagar (2021-2025)</span><span>B.Arch, College of Engineering Trivandrum (2016-2021)</span></dd>
+:root{--u:clamp(70px,min(16vw,21.5vh),250px);--l:clamp(24px,2.6vw,40px);--xl:clamp(30px,4.1vw,66px);--s:clamp(14px,1.1vw,16.5px);--serif:Jost,Futura,'Century Gothic',sans-serif}
+body{background:#f4f3ef;color:#141412;font-family:var(--serif);font-weight:450}
+.top{position:absolute;left:0;right:0;top:0;display:flex;justify-content:space-between;padding:22px 32px;font-size:var(--s);z-index:2}
+.top a{color:#6b6a63;text-decoration:none;margin-left:22px}.top a:hover{color:#141412}.top a:first-child{margin-left:0}
+.hero{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:48px 32px 70px}
+.greet{display:flex;align-items:flex-end;gap:calc(var(--u)*.08);line-height:1}
+.say{font:450 var(--l)/1.2 var(--serif);padding-bottom:.15em;margin-right:calc(var(--u)*-.12);white-space:nowrap}
+.hi{color:#8b1a1a;font-weight:500}
+.me{height:calc(var(--u)*1.4);width:calc(var(--u)*1.4*112/182);flex:none;background:url(land/anjal-wave.webp) 0 0/1300% 100% no-repeat;position:relative}
+.hand{position:absolute;inset:0;background:url(land/anjal-hand.webp) 0 0/100% 100% no-repeat;transform-origin:74.4% 48%;display:none}
+.hand.on{display:block;animation:wv .4s ease-in-out 4}
+@keyframes wv{0%,100%{transform:rotate(0)}25%{transform:rotate(-22deg)}75%{transform:rotate(22deg)}}
+.iam{color:#6b6a63}
+.name{font:500 var(--u)/.9 var(--serif);letter-spacing:-.05em;margin:.0em 0 .16em -.05em;white-space:nowrap}
+.lower{display:block;border-top:1px solid #d9d7cf;padding-top:calc(var(--l)*.8);margin-top:calc(var(--l)*.4);max-width:none}
+.about{font-size:var(--s);line-height:1.6;color:#4a4943;margin:calc(var(--l)*.7) 0 0;max-width:34em}
+h1{font:450 var(--xl)/1.36 var(--serif);letter-spacing:-.01em;max-width:none}
+h1 a{color:#141412;text-decoration:none;border-bottom:.06em solid #141412;transition:background .15s,color .15s}
+h1 a:hover,h1 a:focus-visible{background:#e2461b;color:#f4f3ef;border-color:#e2461b;outline:0}
+#r{opacity:0;transition:opacity .9s}#r.in{opacity:1}
+.work{padding:0 32px 48px}
+.work h2{font-size:var(--s);letter-spacing:.08em;text-transform:uppercase;font-weight:400;color:#6b6a63;padding:18px 0 12px}
+.work a{display:grid;grid-template-columns:48px 1fr auto;gap:16px;align-items:baseline;padding:16px 0;border-top:1px solid #d9d7cf;color:inherit;text-decoration:none}
+.work a:last-child{border-bottom:1px solid #d9d7cf}
+.work a b{font:450 var(--l)/1.2 var(--serif);letter-spacing:-.01em}
+.work a span{font-size:var(--s);color:#6b6a63}
+.work a:hover b{color:#e2461b}
+.work a.soon{color:#a9a79e;pointer-events:none}
+footer{padding:0 32px 28px;font-size:var(--s);color:#6b6a63;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media(max-width:640px){:root{--u:clamp(64px,23vw,120px);--l:clamp(20px,5.6vw,26px);--xl:clamp(25px,7.2vw,36px);--s:14px}.top,.hero,.work,footer{padding-left:18px;padding-right:18px}.work a{grid-template-columns:30px 1fr}.work a span{grid-column:2}}
+@media(prefers-reduced-motion:reduce){#r{transition:none}html{scroll-behavior:auto}}
+.namerow{display:flex;align-items:flex-end;justify-content:space-between;gap:calc(var(--l)*1.5)}.namerow .about{margin:0 0 calc(var(--u)*.12);max-width:22em;flex:0 1 22em}.namerow .name{margin-bottom:.16em}@media(max-width:640px){.namerow{flex-direction:column;align-items:flex-start;gap:0}.namerow .about{flex:none;max-width:none;margin-top:calc(var(--l)*.5)}}.pv{position:fixed;right:32px;top:50%;width:min(34vw,520px);aspect-ratio:1200/630;transform:translateY(-50%);pointer-events:none;opacity:0;transition:opacity .25s;z-index:3;background:#e9e7e0;overflow:hidden}
+.pv.on{opacity:1}.pv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .25s}.pv img.on{opacity:1}
+@media(min-width:900px){.work a{max-width:calc(100% - min(34vw,520px) - 48px)}}
+@media(hover:none),(max-width:899px){.pv{display:none}}.ty::after{content:"";display:inline-block;width:2px;height:.85em;background:#e2461b;margin-left:2px;vertical-align:-.08em;animation:bl .9s steps(1) infinite}@keyframes bl{50%{opacity:0}}
+.work #list a{opacity:0;transform:translateY(10px);transition:opacity .6s,transform .6s,color .2s}.work #list a.v{opacity:1;transform:none}.ti{display:inline-block;vertical-align:baseline;margin:0 .08em 0 .25em;width:0;overflow:hidden;white-space:nowrap;font-size:.85em;line-height:1;opacity:0;border:0!important;text-decoration:none;transition:opacity .4s,width .4s}
+.nw{white-space:nowrap}.ti.v{width:.95em;opacity:1}
+@media(prefers-reduced-motion:reduce){.ti{transition:none}}.scroll{position:absolute;left:32px;bottom:22px;display:flex;align-items:center;gap:10px;font-size:var(--s);color:#6b6a63;text-decoration:none;letter-spacing:.04em}
+.scroll i{display:inline-block;width:1px;height:26px;background:#6b6a63;position:relative;overflow:hidden}.scroll i::after{content:"";position:absolute;left:0;top:-50%;width:1px;height:50%;background:#141412;animation:sc 1.6s ease-in-out infinite}
+@keyframes sc{to{top:100%}}.scroll:hover{color:#141412}
+.work{padding-top:48px}
+@media(max-width:640px){.scroll{left:18px}}@media(prefers-reduced-motion:reduce){.scroll i::after{animation:none;top:25%}}.top{position:fixed;background:rgba(244,243,239,.9);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}.top>div{display:flex}
+.sec{display:grid;grid-template-columns:minmax(120px,22%) 1fr;gap:24px;padding:56px 32px;border-top:1px solid #d9d7cf;scroll-margin-top:44px}
+.sec h2{font-size:var(--s);letter-spacing:.08em;text-transform:uppercase;font-weight:400;color:#6b6a63;padding-top:.5em}
+.sec .lead{font:450 var(--l)/1.4 var(--serif);letter-spacing:-.01em;max-width:34em;margin-bottom:1em}
+.sec .links{display:flex;gap:28px;flex-wrap:wrap;margin-top:1.2em;font-size:var(--l)}
+.sec .links a,.mail{color:#141412;text-decoration:none;border-bottom:.06em solid #141412}.sec .links a:hover,.mail:hover{color:#8b1a1a;border-color:#8b1a1a}
+.mail{display:inline-block;font:450 var(--xl)/1.2 var(--serif);letter-spacing:-.02em;word-break:break-all}
+.rs{display:grid;grid-template-columns:minmax(100px,170px) 1fr;gap:18px 24px;font-size:var(--s);line-height:1.6;max-width:50em}
+.rs dt{color:#6b6a63;letter-spacing:.04em}.rs dd{margin:0}.rs dd span{display:block;margin-bottom:.4em}
+footer{border-top:1px solid #d9d7cf;padding-top:28px;margin-top:0}
+@media(max-width:640px){.sec{grid-template-columns:1fr;gap:10px;padding:40px 18px}.rs{grid-template-columns:1fr;gap:4px}.rs dd{margin-bottom:14px}.top{padding:14px 18px}.top a{margin-left:14px}}</style></head>
+<nav class="top" aria-label="Primary"><div><a href="#work">Work</a><a href="#about">About</a><a href="#experience">Experience</a></div><div><a href="#resume">Resume</a><a href="#contact">Contact</a></div></nav>
+<section class="hero">
+<div class="greet"><div class="say"><span class="hi">Hi!</span> <span class="iam">I am</span></div><div class="me" id="me" role="img" aria-label="Illustration of Anjal waving hello"><div class="hand" id="hand"></div></div></div>
+<div class="namerow"><div class="name">Anjal B</div><p class="about">Designer-researcher and Assistant Professor in Trivandrum. Trained in architecture and new media design, I work across installation, interactive media, sound and research.</p></div>
+<div class="lower"><h1>I tell experimental stories through <a href="bench/">benches that remember</a>, <a href="music-strip/">songs that outlast their fade</a> and <a id="r" href="#"></a>.</h1>
+</div>
+<a class="scroll" href="#work" aria-label="Scroll to all work"><i></i>Scroll for all work</a>
+</section>
+<div class="pv" id="pv" aria-hidden="true"></div>
+<section class="work" id="work"><h2>All work</h2><div id="list"></div></section>
+<section class="sec" id="about"><h2>About</h2><div class="bd"><p class="lead">I am an Assistant Professor at the Department of Design, DC School of Architecture and Design, Trivandrum, where I teach and design courses on technology, art history and film. I trained in architecture (B.Arch, College of Engineering Trivandrum) and then in New Media Design (M.Des, NID Gandhinagar).</p><p class="lead">Experimental storytelling is what I focus on. My work moves between installation, interactive media, oral history, sound and research. It has been shown at the Florence Biennale, shortlisted for the Amsterdam Light Festival, and made at Science Gallery Bangalore and the Sensistan residency.</p></div></section>
+<section class="sec" id="experience"><h2>Experience</h2><div class="bd"><dl class="rs">
 <dt>Now</dt><dd>Assistant Professor, DC School of Architecture &amp; Design</dd>
 <dt>Before</dt><dd><span>Visiting Faculty, Srishti Manipal Institute of Art, Design and Technology</span><span>Graduation Researcher, Science Gallery Bangalore</span><span>New media designer, Charuvi Design Lab</span><span>Artist in Residence, Sensistan Tech Art Foundation</span></dd>
+<dt>Education</dt><dd><span>M.Des, New Media Design, National Institute of Design, Gandhinagar (2021-2025)</span><span>B.Arch, College of Engineering Trivandrum (2016-2021)</span></dd>
 <dt>Recognition</dt><dd><span>Special Jury Commendation, Installation Art, XIV Florence Biennale</span><span>Finalist, ARS Electronica European Digital Deal Residency</span><span>Shortlisted, top 30 of 730, Amsterdam Light Festival 15th Edition</span><span>Poster Presentation, Participatory Design Conference India 2022</span></dd>
 <dt>Skills</dt><dd>TouchDesigner, Arduino and sensor-based interaction, Figma, 3D modelling, photography, design research and user testing, AR/VR</dd>
 </dl></div></section>
-<footer class="mono"><span>Anjal B</span><span><a href="mailto:anjal2098@gmail.com">Email</a> &nbsp;/&nbsp; <a href="https://www.linkedin.com/in/anjal-b-496605155/" target="_blank" rel="noopener">LinkedIn</a> &nbsp;/&nbsp; <a href="https://medium.com/@anjal_b" target="_blank" rel="noopener">Medium</a></span></footer>
+<section class="sec" id="resume"><h2>Resume</h2><div class="bd"><p class="lead">The full story, in one page.</p><p class="links"><a href="resume/Anjal_B_Resume.pdf" download>Download resume (PDF)</a><a href="resume/Anjal_B_Resume.pdf">View in browser</a></p></div></section>
+<section class="sec" id="contact"><h2>Contact</h2><div class="bd"><a class="mail" href="mailto:anjal2098@gmail.com">anjal2098@gmail.com</a><p class="links"><a href="https://www.linkedin.com/in/anjal-b-496605155/" target="_blank" rel="noopener">LinkedIn</a><a href="https://medium.com/@anjal_b" target="_blank" rel="noopener">Medium</a></p></div></section>
+<footer><span>Installation, interactive media, sound and research</span><span>Assistant Professor, DC School of Architecture and Design</span></footer>
+<script>window.PROJ=[
+{n:'01',t:'A Memoir to Public Benches',k:'Installation',u:'bench/',w:'benches'},
+{n:'02',t:'Mused',k:'Product',u:'mused/',w:'pianos'},
+{n:'03',t:'What remains when the song fades?',k:'Interactive',u:'music-strip/',w:'songs'},
+{n:'04',t:'Secret Coterie of Subterranean Statuary',k:'Speculative',u:'secret-coterie/',w:'statues'},
+{n:'05',t:'Reconnecting with spaces and self',k:'Research',u:'multifunctional-spaces/',w:'rooms'},
+{n:'06',t:'Leap of Light',k:'Competition',u:'leap-of-light/',w:'light'},
+{n:'07',t:'Sightsonic',k:'Competition',u:'sightsonic/',w:'stories'},
+{n:'08',t:'Capturing Play',k:'Photography',u:'capturing-play/',w:'play'},
+{n:'09',t:'Noice',k:'Interactive',u:null,w:'noise'}];
+</script>
 <script>
-var TR=(function(){
-function rng(s){return function(){s=(s*16807)%2147483647;return (s-1)/2147483646}}
-function cl(x){return x<0?0:x>1?1:x}
-function ease(x){x=cl(x);return x*x*(3-2*x)}
-var T={};
-/* glitch - Secret Coterie */
-T.glitch=function(){var r=rng(11),B=[];for(var i=0;i<30;i++)B.push({y:r(),h:.008+r()*.06,th:r()*.85,c:Math.floor(r()*6),dx:r()-.5});
- var cols=['#0a0014','#00f0d0','#ff2e88','#7a2cff','#f5ff3a','#39ff14'];
- return function(x,W,H,p,t){var f=Math.floor(t/110),rr=rng(f*97+5);
-  x.fillStyle='#0a0014';x.globalAlpha=cl((p-.6)/.4);x.fillRect(0,0,W,H);x.globalAlpha=1;
-  B.forEach(function(b,i){if(b.th>p*1.05)return;var jx=(rr()-.5)*W*.2*(1-p*.6)+b.dx*W*.06;x.fillStyle=cols[(b.c+f+i)%6];x.fillRect(jx-W*.1,b.y*H,W*1.2,Math.max(2,b.h*H))});
-  for(var k=0;k<Math.floor(14*Math.min(p*2,1));k++){x.fillStyle=cols[Math.floor(rr()*6)];x.fillRect(rr()*W,rr()*H,20+rr()*120,4+rr()*18)}
-  if(p>.15){x.globalAlpha=.4;x.fillStyle='#00f0d0';x.fillRect(rr()*W*.5,rr()*H,W*.5,6);x.fillStyle='#ff2e88';x.fillRect(rr()*W*.5,rr()*H,W*.5,6);x.globalAlpha=1}
-  if(p>.4){x.fillStyle='rgba(0,0,0,.14)';for(var y=0;y<H;y+=4)x.fillRect(0,y,W,1)}}};
-/* clouds - Reconnecting with spaces */
-T.clouds=function(){var r=rng(23),C=[],cols=5,rows=4;
- for(var j=0;j<rows;j++)for(var i=0;i<cols;i++)C.push({u:(i+.5)/cols+(r()-.5)*.1,v:(j+.5)/rows+(r()-.5)*.1,d:r()*.3,dir:(j%2?-1:1),s:.9+r()*.5});
- return function(x,W,H,p){x.globalAlpha=cl((p-.55)/.45);x.fillStyle='#dcebee';x.fillRect(0,0,W,H);x.globalAlpha=1;
-  var R=W/cols*.95;C.forEach(function(c){var q=ease((p-c.d)/.7);if(q<=0)return;var cx=c.u*W-c.dir*(1-q)*W*.18,cy=c.v*H,rad=R*c.s*(Math.max(W,H*1.3)/W);x.globalAlpha=q*.8;
-   for(var k=0;k<5;k++){var ox=(k-2)*rad*.5,oy=Math.sin(k*1.7)*rad*.18,rr=rad*(.62+.22*Math.sin(k*2.3+1));var g=x.createRadialGradient(cx+ox,cy+oy,0,cx+ox,cy+oy,rr);g.addColorStop(0,'rgba(255,255,255,.7)');g.addColorStop(.55,'rgba(236,246,248,.5)');g.addColorStop(1,'rgba(200,224,230,0)');x.fillStyle=g;x.beginPath();x.arc(cx+ox,cy+oy,rr,0,6.3);x.fill()}x.globalAlpha=1})}};
-/* rain of notes - Mused */
-T.rain=function(){var r=rng(5),N=26,cols=['#ff2a1f','#ff5a1f','#ff8a2a','#ffae25','#ffcb1f','#b8e51f','#21e85c','#1fd3a8','#00a8ea','#5a86ff','#7d52e0','#b3309f'],C=[];
- for(var i=0;i<N;i++){var segs=[],y=0;while(y<2400){var h=24+r()*110;segs.push({y:y,h:h,c:cols[Math.floor(r()*cols.length)]});y+=h}C.push({d:r()*.45,segs:segs})}
- return function(x,W,H,p,t,mode){var w=W/N,s=H/800;C.forEach(function(c,i){var q=ease((p-c.d)/.55);if(q<=0)return;var fh=q*H*1.02,y0=mode==='in'?0:H-fh,y1=mode==='in'?fh:H;
-  x.fillStyle='#151515';x.fillRect(i*w,y0,w+1,y1-y0);
-  c.segs.forEach(function(sg){var a=sg.y*s,b=a+sg.h*s;if(b<y0||a>y1)return;a=Math.max(a,y0);b=Math.min(b,y1);x.fillStyle=sg.c;x.fillRect(i*w+1,a+1,w-1,Math.max(1,b-a-2))});
-  if(q<1){var hy=mode==='in'?y1-16:y0;x.fillStyle='rgba(255,255,255,.45)';x.fillRect(i*w+1,hy,w-1,10)}})}};
-/* slats - Bench */
-T.slats=function(){var S=18;return function(x,W,H,p){var w=W/S;for(var i=0;i<S;i++){var q=ease((p-(i/S)*.5)/.5);if(q<=0)continue;var a=(1-q)*Math.PI/2,ww=w*Math.cos(a)+(q>=1?1:0),cx=(i+.5)*w;
-  var g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,'#b9cfee');g.addColorStop(.5,'#ecb8a6');g.addColorStop(.62,'#2b3828');g.addColorStop(1,'#161c15');x.fillStyle=g;x.fillRect(cx-ww/2,0,ww,H);
-  x.fillStyle='rgba(20,14,10,'+(Math.sin(a)*.55)+')';x.fillRect(cx-ww/2,0,ww,H);x.fillStyle='rgba(0,0,0,.18)';x.fillRect(cx+ww/2-1,0,1,H)}}};
-/* equalizer - Music Strip */
-T.eq=function(){var r=rng(9),N=46,D=[];for(var i=0;i<N;i++)D.push({d:r()*.4,c:['#b08428','#d9a93f','#8a6620','#e8c36a'][i%4]});
- return function(x,W,H,p,t){x.globalAlpha=cl((p-.8)/.2);x.fillStyle='#1d1815';x.fillRect(0,0,W,H);x.globalAlpha=1;var w=W/N;
-  D.forEach(function(b,i){var q=ease((p-b.d)/.6);if(q<=0)return;var h=H*q+Math.sin(t/90+i*1.3)*H*.04*(1-q);h=Math.max(0,Math.min(H,h));x.fillStyle=b.c;x.fillRect(i*w+1,H-h,w-1+(q>=1?1:0),h)})}};
-/* beam - Leap of Light */
-T.beam=function(){return function(x,W,H,p){var soft=Math.min(320,W*.3),e=ease(p)*(W+soft)-soft;x.fillStyle='#0a0d18';x.fillRect(0,0,Math.max(0,e),H);
- var g=x.createLinearGradient(e,0,e+soft,0);g.addColorStop(0,'rgba(10,13,24,1)');g.addColorStop(.35,'rgba(255,210,120,.16)');g.addColorStop(1,'rgba(10,13,24,0)');x.fillStyle=g;x.fillRect(e,0,soft,H)}};
-/* wave - Sightsonic */
-T.wave=function(){var r=rng(31),N=44,D=[];for(var i=0;i<N;i++)D.push({d:Math.abs(i-N/2)/N*.5+r()*.1,a:.35+r()*.65});
- return function(x,W,H,p){x.globalAlpha=cl((p-.78)/.22);x.fillStyle='#f3eee3';x.fillRect(0,0,W,H);x.globalAlpha=1;var w=W/N;
-  D.forEach(function(b,i){var q=ease((p-b.d)/.55);if(q<=0)return;var h=H*Math.min(1,q*(q>=1?1:b.a*1.2));x.fillStyle='#d9381e';x.fillRect(i*w+w*.18,(H-h)/2,w*.64+(q>=1?w*.4:0),h)})}};
-/* shutter - Capturing Play */
-T.shutter=function(){return function(x,W,H,p){var q=ease(p),h=q*H/2+(q>=1?1:0);x.fillStyle='#111';x.fillRect(0,0,W,h);x.fillRect(0,H-h,W,h);
- if(q>0&&q<1){x.fillStyle='#ff4b1f';x.fillRect(0,h-1,W,2);x.fillRect(0,H-h-1,W,2)}}};
-/* fade - neutral hub */
-T.fade=function(){return function(x,W,H,p){x.globalAlpha=ease(p);x.fillStyle='#f4f3ef';x.fillRect(0,0,W,H);x.globalAlpha=1}};
-function run(type,mode,dur){return new Promise(function(res){var c=document.createElement('canvas');c.style.cssText='position:fixed;left:0;top:0;width:100%;height:100%;z-index:2147483000;pointer-events:none';c.width=innerWidth;c.height=innerHeight;document.documentElement.appendChild(c);
- var x=c.getContext('2d'),d=T[type](),t0=performance.now();
- function f(now){var t=now-t0,u=cl(t/dur),p=mode==='in'?u:1-u;x.clearRect(0,0,c.width,c.height);if(p>0||mode==='in')d(x,c.width,c.height,p,t,mode);
-  if(u<1)requestAnimationFrame(f);else{if(mode==='out'){c.remove();res(null)}else res(c)}}
- f(performance.now())})}
-function frame(type,p,mode){var c=document.createElement('canvas');c.id='dbg';c.style.cssText='position:fixed;left:0;top:0;width:100%;height:100%;z-index:2147483000';c.width=innerWidth;c.height=innerHeight;document.documentElement.appendChild(c);T[type]()(c.getContext('2d'),c.width,c.height,p,500,mode||'in')}
-function has(t){return !!T[t]}
-function cover(t){var c=document.createElement('canvas');c.style.cssText='position:fixed;left:0;top:0;width:100%;height:100%;z-index:2147483000;pointer-events:none';c.width=innerWidth;c.height=innerHeight;document.documentElement.appendChild(c);T[t]()(c.getContext('2d'),c.width,c.height,1,0,'in');return c}
-return {run:run,frame:frame,has:has,cover:cover,T:T}})();
-var P=[{"id": "bench", "group": "Built", "n": "01", "t": "A Memoir to Public Benches", "short": "Memoir to Public Benches", "fx": "slats", "type": "Installation", "url": "./bench/", "ctx": "Kinetic bench and film", "status": "Special Jury Commendation, XIV Florence Biennale", "img": "bench.jpg", "facts": [["Type", "Kinetic public bench and film"], ["Recognition", "Special Jury Commendation, XIV Florence Biennale"], ["Build", "2.4 m bench, 6 major and 18 minor slats on castors"], ["Made in", "A course, August to end of November"]]}, {"id": "mused", "group": "Built", "n": "02", "t": "Mused", "short": "Mused", "fx": "rain", "type": "Product", "url": "./mused/", "ctx": "A piano-learning strip for self-learners", "status": "M.Des, NID Gandhinagar", "img": "mused.jpg", "facts": [["Type", "Product and interaction design"], ["Context", "M.Des New Media Design, NID Gandhinagar"], ["For", "Piano self-learners"]]}, {"id": "strip", "group": "Interactive", "n": "03", "t": "What remains when the song fades?", "short": "The Music Strip", "fx": "eq", "type": "Interactive", "url": "./music-strip/", "ctx": "Bangalore Music Strip, graduation research", "status": "Live, Science Gallery Bangalore", "img": "strip.jpg", "facts": [["Type", "Interactive documentary"], ["Context", "Graduation research, Science Gallery Bangalore"], ["Material", "About 33 interviews with Bangalore's 1980s music scene"]]}, {"id": "coterie", "group": "Speculative", "n": "04", "t": "Secret Coterie of Subterranean Statuary", "short": "Secret Coterie", "fx": "glitch", "type": "Speculative", "url": "./secret-coterie/", "ctx": "A speculative city called Doshire", "status": "Design fiction, 2023", "img": "coterie.jpg", "facts": [["Type", "Speculative design, design fiction"], ["Year", "2023"], ["World", "Doshire, a fictional city set in 2030"]]}, {"id": "rm", "group": "Research", "n": "05", "t": "Reconnecting with spaces and self", "short": "Reconnecting with spaces", "fx": "clouds", "type": "Research", "url": "./multifunctional-spaces/", "ctx": "How multifunctional spaces shape wellbeing", "status": "Research Methodology, NID", "img": "rm.jpg", "facts": [["Type", "Research study"], ["Context", "Research Methodology, NID"], ["Subject", "Multifunctional spaces and wellbeing"]]}, {"id": "lol", "group": "Competition", "n": "06", "t": "Leap of Light", "short": "Leap of Light", "fx": "beam", "type": "Competition", "url": "./leap-of-light/", "ctx": "Light sculpture for Amsterdam Light Festival", "status": "Shortlisted, top 30 of 730", "img": "lol.jpg", "facts": [["Type", "Light sculpture proposal"], ["Status", "Shortlisted, top 30 of 730, Amsterdam Light Festival Edition 15"], ["Team", "With Aaditya S, Saipreethi Durairama, Nivedita Singh"]]}, {"id": "sight", "group": "Competition", "n": "07", "t": "Sightsonic", "short": "Sightsonic", "fx": "wave", "type": "Concept", "url": "./sightsonic/", "ctx": "Audio description for every language", "status": "Competition concept", "img": "sight.jpg", "facts": [["Type", "Concept, accessible entertainment platform"], ["Status", "Competition entry, conceptual work"], ["Team", "With Athulya"]]}, {"id": "play", "group": "Photography", "n": "08", "t": "Capturing Play", "short": "Capturing Play", "fx": "shutter", "type": "Photography", "url": "./capturing-play/", "ctx": "Cricket, Theyyam and a bus conductor", "status": "Open elective, 81 photographs", "img": "play.jpg", "facts": [["Type", "Documentary photography"], ["Context", "Open elective Capturing Play, two-week module"], ["Series", "Three stories, 81 photographs"]]}, {"id": "noice", "group": "Interactive", "n": "09", "t": "Noice", "short": "Noice", "fx": "fade", "type": "Interactive", "url": "", "soon": true, "ctx": "Interactive sound-based experience, made during the Sensistan residency", "status": "Page in progress", "img": "", "facts": [["Type", "Interactive sound-based experience"], ["Context", "Sensistan residency"]]}];
-var inFrame=window.top!==window.self,reduce=window.matchMedia&&matchMedia('(prefers-reduced-motion:reduce)').matches,busy=false;
-var rows=document.getElementById('rows'),grid=document.getElementById('grid'),prev=document.getElementById('prev'),cap=document.getElementById('cap');
-function show(i){prev.querySelectorAll('img').forEach(function(m){m.classList.toggle('on',+m.dataset.i===i)});cap.textContent=P[i].ctx}
-function dest(p){return p.url+(p.url.indexOf('?')<0?'?':'&')+'from='+p.fx}
-var pend=null;
-function go(p){busy=true;pend=p;if(reduce){location.href=dest(p);busy=false;return}
- TR.run(p.fx,'in',600).then(function(cv){
-  if(!inFrame){location.href=dest(p);return}
-  var w=window.open(dest(p),'_blank');
-  if(!w){var b=document.createElement('a');b.href=dest(p);b.target='_blank';b.rel='noopener';b.textContent='Open project';b.style.cssText='position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2147483001;background:#111;color:#f4f3ef;padding:16px 30px;font:12px ui-monospace,monospace;letter-spacing:.1em;text-transform:uppercase';b.onclick=function(){setTimeout(function(){b.remove();back(p,cv)},200)};document.body.appendChild(b);return}
-  setTimeout(function(){back(p,cv)},1000)})}
-function back(p,cv){TR.run(p.fx,'out',700).then(function(){busy=false});if(cv)cv.remove()}
-function click(p){return function(e){if(e.metaKey||e.ctrlKey||e.shiftKey||e.button)return;e.preventDefault();if(!busy)go(p);else if(!inFrame&&pend)location.href=dest(pend)}}
-document.addEventListener('keydown',function(e){if(busy&&!inFrame&&pend&&(e.key==='Escape'||e.key==='Enter'||e.key===' ')){e.preventDefault();location.href=dest(pend)}});
-P.forEach(function(p,i){
- var a=document.createElement(p.soon?'div':'a');a.className='row'+(p.soon?' soon':'');if(!p.soon)a.href=dest(p);a.dataset.t=p.group;a.innerHTML='<span class="n">'+p.n+'</span><div>'+(p.img?'<img class="th" src="img/'+p.img+'" alt="" loading="lazy">':'')+'<h3>'+p.t+'</h3><div class="c">'+p.ctx+'</div>'+(i===0?'<div class="st mono">Start here</div>':'')+'</div><span class="s">'+p.type+'</span><span class="s">'+p.status+'</span>';
- a.onmouseenter=a.onfocus=function(){show(i)};if(!p.soon)a.addEventListener('click',click(p));rows.appendChild(a);
- if(p.img){var im=new Image();im.src='img/'+p.img;im.alt='';im.dataset.i=i;prev.insertBefore(im,cap)}
- var c=document.createElement(p.soon?'div':'a');c.className='card'+(p.soon?' soon':'');if(!p.soon)c.href=dest(p);c.dataset.t=p.group;c.innerHTML='<div class="im">'+(p.img?'<img src="img/'+p.img+'" alt="" loading="lazy">':'<div class="ph">'+p.t+'</div>')+'</div><div class="m mono"><span>'+p.n+'</span><span>'+p.type+'</span></div><h3>'+p.t+'</h3><p>'+p.status+'</p>';if(!p.soon)c.addEventListener('click',click(p));grid.appendChild(c)});
-show(0);
-window.addEventListener('pageshow',function(e){busy=false;if(e.persisted)document.querySelectorAll('canvas').forEach(function(c){if(c.style.zIndex==='2147483000')c.remove()})});
-/* arrival from a project */
-(function(){var from=(location.search.match(/[?&]from=([a-z]+)/)||[])[1],h=document.getElementById('sx-hide');
- if(!from||reduce||!TR.has(from)){if(h)h.remove();return}
- var c=TR.cover(from);if(h)h.remove();setTimeout(function(){TR.run(from,'out',750).then(function(){c.remove()})},120);setTimeout(function(){c.remove()},3000)})();
+var ALT=[{i:1,w:'pianos that teach'},{i:3,w:'statues that hide'},{i:4,w:'rooms that heal'},{i:5,w:'light that leaps'},{i:6,w:'films that can be heard'},{i:7,w:'photographs that play'}];
+var last=-1;try{last=+sessionStorage.getItem('lastEnd')}catch(e){}
+var pick,tries=0;do{pick=ALT[Math.floor(Math.random()*ALT.length)];tries++}while(pick.i===last&&tries<5);
+try{sessionStorage.setItem('lastEnd',pick.i)}catch(e){}
+var r=document.getElementById('r'),p=PROJ[pick.i];r.textContent=pick.w;r.href=p.u;
+r.classList.add('in');
+(function(){var h1=document.querySelector('h1'),rmo=matchMedia('(prefers-reduced-motion: reduce)').matches,cur=pick;
+var P=[['t','I tell experimental stories through '],['a','benches that remember','bench/'],['t',','],['t',' '],['a','songs that outlast their fade','music-strip/'],['t',' and '],['r',pick.w,p.u],['t','.']];
+h1.innerHTML='';var T={},pend=null;var BN='<svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" style="vertical-align:-.12em"><path d="M3 8h18M3 12h18M4 16h16M6 16v4M18 16v4M5 8v8M19 8v8"/></svg>';var EM={'bench':BN,'mused':'\u{1F3B9}','music-strip':'\u{1F3B5}','secret-coterie':'\u{1F5FF}','multifunctional-spaces':'\u{1F6CB}\uFE0F','leap-of-light':'\u{1F4A1}','sightsonic':'\u{1F39E}\uFE0F','capturing-play':'\u{1F4F7}'};function ti(u){return EM[u.replace(/\/$/,'').split('/').pop()]||''}
+var wrap=null;var els=P.map(function(x,i){var e=document.createElement(x[0]=='t'?'span':'a');if(x[0]=='r')e.id='r';if(x[2])e.href=x[2];e.className=x[0]=='r'?'in':'';
+ if(x[0]=='t'){if(wrap&&/^[,.]/.test(x[1]))wrap.appendChild(e);else h1.appendChild(e);wrap=null}
+ else{h1.appendChild(e);var l=document.createElement('a');l.href=x[2];l.tabIndex=-1;l.setAttribute('aria-hidden','true');var m=document.createElement('span');m.innerHTML=ti(x[2]);l.appendChild(m);l.className='ti';T[i]=l;wrap=document.createElement('span');wrap.className='nw';wrap.appendChild(l);h1.appendChild(wrap)}
+ return e;});var RI=5+1;
+function full(){P.forEach(function(x,i){els[i].textContent=x[1];if(T[i])T[i].classList.add('v')})}
+function nextPhrase(){var o;do{o=ALT[Math.floor(Math.random()*ALT.length)]}while(o.i===cur.i);return o}
+function sleep(ms){return new Promise(function(k){setTimeout(k,ms)})}
+async function swap(){while(true){await sleep(5000);if(document.hidden)continue;var el=els[RI],o=nextPhrase();
+ if(rmo){el.textContent=o.w;el.href=PROJ[o.i].u;T[RI].href=el.href;T[RI].firstChild.innerHTML=ti(PROJ[o.i].u);cur=o;continue}
+ T[RI].classList.remove('v');el.classList.add('ty');for(var n=el.textContent.length;n>=0;n--){el.textContent=el.textContent.slice(0,n);await sleep(22)}
+ el.href=PROJ[o.i].u;T[RI].href=el.href;T[RI].firstChild.innerHTML=ti(PROJ[o.i].u);for(var k=1;k<=o.w.length;k++){el.textContent=o.w.slice(0,k);await sleep(38)}
+ el.classList.remove('ty');T[RI].classList.add('v');cur=o}}
+full();h1.style.minHeight=h1.offsetHeight+'px';
+if(rmo){swap();return}
+P.forEach(function(x,i){els[i].textContent='';if(T[i])T[i].classList.remove('v')});
+(async function(){var pause=27;var shown=0;
+ for(var i=0;i<P.length;i++){var s=P[i][1],el=els[i];el.classList.add('ty');
+  for(var k=1;k<=s.length;k++){el.textContent=s.slice(0,k);shown++;await sleep(shown===pause?0:30);if(shown===pause)await sleep(650)}
+  el.classList.remove('ty');if(T[i])T[i].classList.add('v')}
+ swap()})();
+})();
+document.getElementById('list').innerHTML=PROJ.map(function(q){return '<a href="'+(q.u||'#')+'"'+(q.u?'':' class="soon"')+'><i style="font-style:normal;font-size:var(--s);color:#6b6a63">'+q.n+'</i><b>'+q.t+'</b><span>'+q.k+(q.u?'':' - coming soon')+'</span></a>'}).join('');
+
+(function(){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('v');io.unobserve(e.target)}})},{threshold:.2});Array.prototype.forEach.call(document.querySelectorAll('#list a'),function(a){io.observe(a)})})();
+var me=document.getElementById('me'),rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+var hand=document.getElementById('hand');
+function fr(i){me.style.backgroundPositionX=(i/12*100)+'%'}
+fr(0);
+function wait(ms){return new Promise(function(r){setTimeout(r,ms)})}
+async function play(){
+ for(;;){
+  hand.classList.remove('on');fr(0);await wait(1300);
+  for(var i of [1,2,3,4]){fr(i);await wait(110)}
+  fr(12);hand.classList.add('on');await wait(1650);
+  hand.classList.remove('on');
+  for(var j of [8,9,10,11]){fr(j);await wait(j===11?100:110)}
+ }
+}
+if(!rm){play()}
+
+(function(){var IM={'01':'bench','02':'mused','03':'music-strip','04':'secret-coterie','05':'multifunctional-spaces','06':'leap-of-light','07':'sightsonic','08':'capturing-play'},pv=document.getElementById('pv'),els={};
+Object.keys(IM).forEach(function(n){var i=new Image();i.src='img/og-'+IM[n]+'.jpg';i.alt='';pv.appendChild(i);els[n]=i});
+var L=document.getElementById('list'),cur=null;
+Array.prototype.forEach.call(L.children,function(a,k){var n=PROJ[k].n;
+a.addEventListener('mouseenter',function(){if(cur)cur.classList.remove('on');cur=els[n]||null;if(cur){cur.classList.add('on');pv.classList.add('on')}else pv.classList.remove('on')});});
+L.addEventListener('mouseleave',function(){pv.classList.remove('on');if(cur){cur.classList.remove('on');cur=null}});})();
 </script></body></html>
