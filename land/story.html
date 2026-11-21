@@ -38,7 +38,8 @@ footer{padding:0 32px 28px;font-size:var(--s);color:#6b6a63;display:flex;justify
 .namerow{display:flex;align-items:flex-end;justify-content:space-between;gap:calc(var(--l)*1.5)}.namerow .about{margin:0 0 calc(var(--u)*.12);max-width:22em;flex:0 1 22em}.namerow .name{margin-bottom:.16em}@media(max-width:640px){.namerow{flex-direction:column;align-items:flex-start;gap:0}.namerow .about{flex:none;max-width:none;margin-top:calc(var(--l)*.5)}}.pv{position:fixed;right:32px;top:50%;width:min(34vw,520px);aspect-ratio:1200/630;transform:translateY(-50%);pointer-events:none;opacity:0;transition:opacity .25s;z-index:3;background:#e9e7e0;overflow:hidden}
 .pv.on{opacity:1}.pv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .25s}.pv img.on{opacity:1}
 @media(min-width:900px){.work a{max-width:calc(100% - min(34vw,520px) - 48px)}}
-@media(hover:none),(max-width:899px){.pv{display:none}}</style></head>
+@media(hover:none),(max-width:899px){.pv{display:none}}.ty::after{content:"";display:inline-block;width:2px;height:.85em;background:#e2461b;margin-left:2px;vertical-align:-.08em;animation:bl .9s steps(1) infinite}@keyframes bl{50%{opacity:0}}
+.work #list a{opacity:0;transform:translateY(10px);transition:opacity .6s,transform .6s,color .2s}.work #list a.v{opacity:1;transform:none}</style></head>
 <div class="top"><a href="#work">Work</a><div><a href="mailto:anjal2098@gmail.com">Contact</a><a href="../resume/">Resume</a></div></div>
 <section class="hero">
 <div class="greet"><div class="say"><span class="hi">Hi!</span> <span class="iam">I am</span></div><div class="me" id="me" role="img" aria-label="Illustration of Anjal waving hello"><div class="hand" id="hand"></div></div></div>
@@ -56,9 +57,30 @@ var last=-1;try{last=+sessionStorage.getItem('lastEnd')}catch(e){}
 var pick,tries=0;do{pick=ALT[Math.floor(Math.random()*ALT.length)];tries++}while(pick.i===last&&tries<5);
 try{sessionStorage.setItem('lastEnd',pick.i)}catch(e){}
 var r=document.getElementById('r'),p=PROJ[pick.i];r.textContent=pick.w;r.href=p.u;
-requestAnimationFrame(function(){setTimeout(function(){r.classList.add('in')},350)});
+r.classList.add('in');
+(function(){var h1=document.querySelector('h1'),rmo=matchMedia('(prefers-reduced-motion: reduce)').matches,cur=pick;
+var P=[['t','I tell experimental stories through '],['a','benches that remember','../bench/'],['t',', '],['a','songs that outlast their fade','../music-strip/'],['t',' and '],['r',pick.w,p.u],['t','.']];
+h1.innerHTML='';var els=P.map(function(x){var e=document.createElement(x[0]=='t'?'span':'a');if(x[0]=='r')e.id='r';if(x[2])e.href=x[2];e.className=x[0]=='r'?'in':'';h1.appendChild(e);return e;});
+function full(){P.forEach(function(x,i){els[i].textContent=x[1]})}
+function nextPhrase(){var o;do{o=ALT[Math.floor(Math.random()*ALT.length)]}while(o.i===cur.i);return o}
+function sleep(ms){return new Promise(function(k){setTimeout(k,ms)})}
+async function swap(){while(true){await sleep(5000);if(document.hidden)continue;var el=els[5],o=nextPhrase();
+ if(rmo){el.textContent=o.w;el.href=PROJ[o.i].u;cur=o;continue}
+ el.classList.add('ty');for(var n=el.textContent.length;n>=0;n--){el.textContent=el.textContent.slice(0,n);await sleep(22)}
+ el.href=PROJ[o.i].u;for(var k=1;k<=o.w.length;k++){el.textContent=o.w.slice(0,k);await sleep(38)}
+ el.classList.remove('ty');cur=o}}
+full();h1.style.minHeight=h1.offsetHeight+'px';
+if(rmo){swap();return}
+P.forEach(function(x,i){els[i].textContent=''});
+(async function(){var pause=27;var shown=0;
+ for(var i=0;i<P.length;i++){var s=P[i][1],el=els[i];el.classList.add('ty');
+  for(var k=1;k<=s.length;k++){el.textContent=s.slice(0,k);shown++;await sleep(shown===pause?0:30);if(shown===pause)await sleep(650)}
+  el.classList.remove('ty')}
+ swap()})();
+})();
 document.getElementById('list').innerHTML=PROJ.map(function(q){return '<a href="'+(q.u||'#')+'"'+(q.u?'':' class="soon"')+'><i style="font-style:normal;font-size:var(--s);color:#6b6a63">'+q.n+'</i><b>'+q.t+'</b><span>'+q.k+(q.u?'':' - coming soon')+'</span></a>'}).join('');
 
+(function(){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('v');io.unobserve(e.target)}})},{threshold:.2});Array.prototype.forEach.call(document.querySelectorAll('#list a'),function(a){io.observe(a)})})();
 var me=document.getElementById('me'),rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
 var hand=document.getElementById('hand');
 function fr(i){me.style.backgroundPositionX=(i/12*100)+'%'}
