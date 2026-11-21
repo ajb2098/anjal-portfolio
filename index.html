@@ -3,7 +3,7 @@
 @font-face{font-family:Jost;src:url(land/fonts/jost-latin-wght-normal.woff2) format("woff2");font-weight:100 900;font-style:normal;font-display:swap}
 *{box-sizing:border-box;margin:0}
 html{scroll-behavior:smooth}
-:root{--u:clamp(70px,min(16vw,21.5vh),250px);--l:clamp(24px,2.6vw,40px);--xl:clamp(30px,4.1vw,66px);--s:clamp(14px,1.1vw,16.5px);--serif:Jost,Futura,'Century Gothic',sans-serif}
+:root{--u:clamp(70px,min(14vw,19vh),190px);--l:clamp(22px,2.1vw,30px);--xl:clamp(28px,3.4vw,50px);--s:clamp(14px,.95vw,15.5px);--serif:Jost,Futura,'Century Gothic',sans-serif}
 body{background:#f4f3ef;color:#141412;font-family:var(--serif);font-weight:450}
 .top{position:absolute;left:0;right:0;top:0;display:flex;justify-content:space-between;padding:22px 32px;font-size:var(--s);z-index:2}
 .top a{color:#6b6a63;text-decoration:none;margin-left:22px}.top a:hover{color:#141412}.top a:first-child{margin-left:0}
@@ -54,7 +54,8 @@ footer{padding:0 32px 28px;font-size:var(--s);color:#6b6a63;display:flex;justify
 .rs{display:grid;grid-template-columns:minmax(100px,170px) 1fr;gap:18px 24px;font-size:var(--s);line-height:1.6;max-width:50em}
 .rs dt{color:#6b6a63;letter-spacing:.04em}.rs dd{margin:0}.rs dd span{display:block;margin-bottom:.4em}
 footer{border-top:1px solid #d9d7cf;padding-top:28px;margin-top:0}
-@media(max-width:640px){.sec{grid-template-columns:1fr;gap:10px;padding:40px 18px}.rs{grid-template-columns:1fr;gap:4px}.rs dd{margin-bottom:14px}.top{padding:14px 18px}.top a{margin-left:14px}}</style></head>
+@media(max-width:640px){.sec{grid-template-columns:1fr;gap:10px;padding:40px 18px}.rs{grid-template-columns:1fr;gap:4px}.rs dd{margin-bottom:14px}.top{padding:14px 18px}.top a{margin-left:14px}}.hero,.work,.sec,footer{max-width:1560px;margin-left:auto;margin-right:auto}.sec{padding-left:32px;padding-right:32px}
+</style></head>
 <nav class="top" aria-label="Primary"><div><a href="#work">Work</a><a href="#about">About</a><a href="#experience">Experience</a></div><div><a href="#resume">Resume</a><a href="#contact">Contact</a></div></nav>
 <section class="hero">
 <div class="greet"><div class="say"><span class="hi">Hi!</span> <span class="iam">I am</span></div><div class="me" id="me" role="img" aria-label="Illustration of Anjal waving hello"><div class="hand" id="hand"></div></div></div>
@@ -95,9 +96,9 @@ try{sessionStorage.setItem('lastEnd',pick.i)}catch(e){}
 var r=document.getElementById('r'),p=PROJ[pick.i];r.textContent=pick.w;r.href=p.u;
 r.classList.add('in');
 (function(){var h1=document.querySelector('h1'),rmo=matchMedia('(prefers-reduced-motion: reduce)').matches,cur=pick;
-var P=[['t','I tell experimental stories through '],['a','benches that remember','bench/'],['t',','],['t',' '],['a','songs that outlast their fade','music-strip/'],['t',' and '],['r',pick.w,p.u],['t','.']];
+var P=[['t','I tell experimental stories through '],['a','benches that remember','bench/'],['t',','],['t',' '],['a','songs that outlast their fade','music-strip/'],['t','and '],['r',pick.w,p.u],['t','.']];
 h1.innerHTML='';var T={},pend=null;var BN='<svg viewBox="0 0 24 24" width="1em" height="1em" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" style="vertical-align:-.12em"><path d="M3 8h18M3 12h18M4 16h16M6 16v4M18 16v4M5 8v8M19 8v8"/></svg>';var EM={'bench':BN,'mused':'\u{1F3B9}','music-strip':'\u{1F3B5}','secret-coterie':'\u{1F5FF}','multifunctional-spaces':'\u{1F6CB}\uFE0F','leap-of-light':'\u{1F4A1}','sightsonic':'\u{1F39E}\uFE0F','capturing-play':'\u{1F4F7}'};function ti(u){return EM[u.replace(/\/$/,'').split('/').pop()]||''}
-var wrap=null;var els=P.map(function(x,i){var e=document.createElement(x[0]=='t'?'span':'a');if(x[0]=='r')e.id='r';if(x[2])e.href=x[2];e.className=x[0]=='r'?'in':'';
+var wrap=null;var els=P.map(function(x,i){if(x[1]==='and ')h1.appendChild(document.createElement('br'));var e=document.createElement(x[0]=='t'?'span':'a');if(x[0]=='r')e.id='r';if(x[2])e.href=x[2];e.className=x[0]=='r'?'in':'';
  if(x[0]=='t'){if(wrap&&/^[,.]/.test(x[1]))wrap.appendChild(e);else h1.appendChild(e);wrap=null}
  else{h1.appendChild(e);var l=document.createElement('a');l.href=x[2];l.tabIndex=-1;l.setAttribute('aria-hidden','true');var m=document.createElement('span');m.innerHTML=ti(x[2]);l.appendChild(m);l.className='ti';T[i]=l;wrap=document.createElement('span');wrap.className='nw';wrap.appendChild(l);h1.appendChild(wrap)}
  return e;});var RI=5+1;
