@@ -1,0 +1,45 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Anjal B - Torch</title>
+<style>
+*{box-sizing:border-box;margin:0}html,body{height:100%}
+body{background:#0e0e0d;color:#f4f3ef;font-family:"Helvetica Neue",Arial,sans-serif;overflow:hidden;position:relative}
+header{position:absolute;left:28px;right:28px;top:18px;display:flex;justify-content:space-between;font-size:13px;z-index:3}header span{color:#8a897f}
+.p{position:absolute;color:inherit;text-decoration:none;font-size:clamp(20px,3.4vw,44px);font-weight:500;letter-spacing:-.02em;opacity:.07;transition:color .15s;white-space:nowrap}
+.p small{display:block;font-size:12px;font-weight:400;letter-spacing:.08em;text-transform:uppercase;color:#8a897f}
+.p.on{color:#ffd9a0}
+#glow{position:absolute;inset:0;pointer-events:none;z-index:1}
+nav{position:absolute;left:28px;right:28px;bottom:16px;z-index:3;display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12px}
+nav a{color:#8a897f;text-decoration:none}nav a:hover,nav a:focus-visible{color:#ffd9a0}
+#hint{position:absolute;left:0;right:0;top:9%;text-align:center;font-size:13px;color:#8a897f;transition:opacity .4s;z-index:3;pointer-events:none}
+@media(max-width:640px){header,nav{left:18px;right:18px}.p{white-space:normal;max-width:52vw;font-size:19px}nav{display:none}}
+</style></head><body>
+<header><b style="font-weight:500">Anjal B</b><span>Designer-researcher, Trivandrum</span></header>
+<canvas id="glow"></canvas><div id="hint">Move your cursor, or drag a finger</div>
+<nav id="nav" aria-label="All projects"></nav>
+<script src="data.js"></script>
+<script>
+var pos=[[.06,.17],[.62,.15],[.3,.34],[.06,.5],[.3,.66],[.06,.82],[.68,.5],[.4,.82],[.72,.8]];
+var els=[],nav=document.getElementById('nav');
+PROJ.forEach(function(p,i){
+ var a=document.createElement('a');a.className='p';a.href=p.u||'#';a.innerHTML='<small>'+p.n+' / '+(p.u?p.k:'coming soon')+'</small>'+p.t;
+ if(innerWidth<640){a.style.left='6%';a.style.top=(12+i*8.6)+'%'}else{a.style.left=(pos[i][0]*100)+'%';a.style.top=(pos[i][1]*100)+'%'}
+ if(!p.u)a.addEventListener('click',function(e){e.preventDefault()});
+ document.body.appendChild(a);els.push(a);
+ var b=document.createElement('a');b.href=p.u||'#';b.textContent=p.n+' '+p.t;nav.appendChild(b);
+});
+var cv=document.getElementById('glow'),cx=cv.getContext('2d'),W,H,mx=-999,my=-999,idle=true,touch=matchMedia('(pointer:coarse)').matches,rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function size(){W=cv.width=innerWidth;H=cv.height=innerHeight}size();addEventListener('resize',size);
+addEventListener('pointermove',function(e){mx=e.clientX;my=e.clientY;idle=false;document.getElementById('hint').style.opacity=0});
+addEventListener('pointerleave',function(){idle=true});
+var R=Math.max(150,Math.min(W,H)*.22);
+function tick(t){
+ var x=mx,y=my;
+ if(idle||touch&&mx<0){x=W*(.5+.34*Math.sin(t/2600));y=H*(.5+.3*Math.sin(t/1900+1))}
+ if(rm&&idle){x=W*.5;y=H*.5}
+ cx.clearRect(0,0,W,H);
+ var g=cx.createRadialGradient(x,y,0,x,y,R);g.addColorStop(0,'rgba(255,214,150,.22)');g.addColorStop(1,'rgba(255,214,150,0)');
+ cx.fillStyle=g;cx.fillRect(0,0,W,H);
+ els.forEach(function(a){var r=a.getBoundingClientRect(),dx=Math.max(r.left-x,0,x-r.right),dy=Math.max(r.top-y,0,y-r.bottom),d=Math.sqrt(dx*dx+dy*dy);
+  var o=Math.max(.07,1-d/R);a.style.opacity=o;a.classList.toggle('on',d<R*.35)});
+ requestAnimationFrame(tick)}
+requestAnimationFrame(tick);
+</script></body></html>

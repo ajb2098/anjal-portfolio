@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Anjal B - Sentence</title>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;1,6..72,400&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}
+body{background:#f4f3ef;color:#141412;font-family:"Helvetica Neue",Arial,sans-serif;min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;padding:22px 32px}
+header{display:flex;justify-content:space-between;font-size:13px}header span{color:#6b6a63}
+h1{font:400 clamp(30px,5.4vw,76px)/1.14 Newsreader,Georgia,serif;letter-spacing:-.02em;max-width:19em}
+h1 a{color:#141412;text-decoration:none;border-bottom:.06em solid #141412;transition:background .15s,color .15s}
+h1 a:hover,h1 a:focus-visible{background:#e2461b;color:#f4f3ef;border-color:#e2461b;outline:0}
+h1 a.soon{border-bottom-style:dotted;color:#6b6a63}
+#card{min-height:64px;display:flex;gap:18px;align-items:baseline;font-size:14px;border-top:1px solid #d9d7cf;padding-top:14px}
+#card b{font-weight:500;font-size:16px}#card span{color:#6b6a63}
+@media(max-width:640px){body{padding:18px}}
+</style></head><body>
+<header><b style="font-weight:500">Anjal B</b><span>Designer-researcher, Trivandrum</span></header>
+<h1 id="h"></h1>
+<div id="card"><span>Hover or tap a word</span></div>
+<script src="data.js"></script>
+<script>
+var P={};PROJ.forEach(function(p){P[p.w]=p});
+function L(w,t){var p=P[w];return '<a href="'+(p.u||'#')+'" data-w="'+w+'"'+(p.u?'':' class="soon"')+'>'+(t||w)+'</a>'}
+document.getElementById('h').innerHTML='I make '+L('benches')+' that remember, '+L('pianos')+' that teach, '+L('songs')+' that outlast their fade, '+L('statues')+' that hide in plain sight, '+L('rooms')+' that heal, '+L('light')+' that leaps, '+L('stories')+' that can be heard, '+L('play')+' worth photographing, and '+L('noise')+' that is somehow music.';
+var c=document.getElementById('card');
+function show(w){var p=P[w];c.innerHTML='<b>'+p.n+'</b><b>'+p.t+'</b><span>'+p.k+(p.u?'':' - coming soon')+'</span>'}
+document.querySelectorAll('h1 a').forEach(function(a){
+ a.addEventListener('mouseenter',function(){show(a.dataset.w)});a.addEventListener('focus',function(){show(a.dataset.w)});
+ if(a.className==='soon')a.addEventListener('click',function(e){e.preventDefault()});
+});
+</script></body></html>
