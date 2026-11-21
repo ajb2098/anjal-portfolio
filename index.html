@@ -51,10 +51,10 @@ footer{padding:0 32px 28px;font-size:var(--s);color:#6b6a63;display:flex;justify
 .sec .links{display:flex;gap:28px;flex-wrap:wrap;margin-top:1.2em;font-size:var(--l)}
 .sec .links a,.mail{color:#141412;text-decoration:none;border-bottom:.06em solid #141412}.sec .links a:hover,.mail:hover{color:#8b1a1a;border-color:#8b1a1a}
 .mail{display:inline-block;font:450 var(--xl)/1.2 var(--serif);letter-spacing:-.02em;word-break:break-all}
-.rs{display:grid;grid-template-columns:minmax(100px,170px) 1fr;gap:18px 24px;font-size:var(--s);line-height:1.6;max-width:50em}
+.rs{display:grid;grid-template-columns:minmax(100px,170px) 1fr;gap:40px 24px;font-size:var(--s);line-height:1.6;max-width:50em}
 .rs dt{color:#6b6a63;letter-spacing:.04em}.rs dd{margin:0}.rs dd span{display:block;margin-bottom:.4em}
 footer{border-top:1px solid #d9d7cf;padding-top:28px;margin-top:0}
-@media(max-width:640px){.sec{grid-template-columns:1fr;gap:10px;padding:40px 18px}.rs{grid-template-columns:1fr;gap:4px}.rs dd{margin-bottom:14px}.top{padding:14px 18px}.top a{margin-left:14px}}.hero,.work,.sec,footer{max-width:1560px;margin-left:auto;margin-right:auto}.sec{padding-left:32px;padding-right:32px}
+@media(max-width:640px){.sec{grid-template-columns:1fr;gap:10px;padding:40px 18px}.rs{grid-template-columns:1fr;gap:4px}.rs dd{margin-bottom:26px}.top{padding:14px 18px}.top a{margin-left:14px}}.hero,.work,.sec,footer{max-width:1560px;margin-left:auto;margin-right:auto}.sec{padding-left:32px;padding-right:32px}
 .hero,.work,.sec,footer{max-width:1360px}
 .work a b{font-size:clamp(18px,1.8vw,24px)}.work a span,.work a i{font-size:13px!important}.work h2,.sec h2{font-size:12px}
 .sec{padding-top:48px;padding-bottom:48px;grid-template-columns:minmax(120px,22%) 1fr}
@@ -76,6 +76,12 @@ footer{font-size:13px}
 @media(min-width:641px){.idr{align-self:last baseline!important}.idrow>.about{align-self:last baseline!important;margin-bottom:0!important}.idr .name{margin-bottom:0}.idr{padding-bottom:.16em}}
 .work a span{text-align:right}@media(max-width:640px){.work a span{text-align:left}}
 .work a span{max-width:22em}
+.rs dd>span{display:block;padding:14px 0;margin:0 !important;border-top:1px solid #dcdcd6}
+.rs dd>span:first-child{padding-top:0;border-top:0}
+.rs dd>span:last-child{padding-bottom:0}.rs dd>span:last-child,.rs dd{border-bottom:0}
+.rs dd>span b{display:block;font-weight:500;color:#161616}
+.rs dd>span i{display:block;font-style:normal;color:#6b6a63}
+.rs dt{padding-top:0}
 </style></head>
 <nav class="top" aria-label="Primary"><div><a href="#work">Work</a><a href="#about">About</a><a href="#experience">Experience</a></div><div><a href="#resume">Resume</a><a href="#contact">Contact</a></div></nav>
 <section class="hero">
@@ -87,9 +93,9 @@ footer{font-size:13px}
 <section class="work" id="work"><h2>All work</h2><div id="list"></div><div class="pvcol" aria-hidden="true"><div class="pv" id="pv"></div></div></section>
 <section class="sec" id="about"><h2>About</h2><div class="bd"><p class="lead">I am an Assistant Professor at the Department of Design, DC School of Architecture and Design, Trivandrum, where I teach and design courses on technology, art history and film. I trained in architecture (B.Arch, College of Engineering Trivandrum) and then in New Media Design (M.Des, NID Gandhinagar).</p><p class="lead">Experimental storytelling is what I focus on. My work moves between installation, interactive media, oral history, sound and research. It has been shown at the Florence Biennale, shortlisted for the Amsterdam Light Festival, and made at Science Gallery Bangalore and the Sensistan residency.</p></div></section>
 <section class="sec" id="experience"><h2>Experience</h2><div class="bd"><dl class="rs">
-<dt>Now</dt><dd>Assistant Professor, DC School of Architecture &amp; Design</dd>
-<dt>Before</dt><dd><span>Visiting Faculty, Srishti Manipal Institute of Art, Design and Technology</span><span>Graduation Researcher, Science Gallery Bangalore</span><span>New media designer, Charuvi Design Lab</span><span>Artist in Residence, Sensistan Tech Art Foundation</span></dd>
-<dt>Education</dt><dd><span>M.Des, New Media Design, National Institute of Design, Gandhinagar (2021-2025)</span><span>B.Arch, College of Engineering Trivandrum (2016-2021)</span></dd>
+<dt>Now</dt><dd><span class="cur"><b>Assistant Professor</b><i>DC School of Architecture &amp; Design</i></span></dd>
+<dt>Before</dt><dd><span><b>Visiting Faculty</b><i>Srishti Manipal Institute of Art, Design and Technology</i></span><span><b>Graduation Researcher</b><i>Science Gallery Bangalore</i></span><span><b>New media designer</b><i>Charuvi Design Lab</i></span><span><b>Artist in Residence</b><i>Sensistan Tech Art Foundation</i></span></dd>
+<dt>Education</dt><dd><span><b>M.Des, New Media Design</b><i>National Institute of Design, Gandhinagar (2021-2025)</i></span><span><b>B.Arch</b><i>College of Engineering Trivandrum (2016-2021)</i></span></dd>
 <dt>Recognition</dt><dd><span>Special Jury Commendation, Installation Art, XIV Florence Biennale</span><span>Finalist, ARS Electronica European Digital Deal Residency</span><span>Shortlisted, top 30 of 730, Amsterdam Light Festival 15th Edition</span><span>Poster Presentation, Participatory Design Conference India 2022</span></dd>
 <dt>Skills</dt><dd>TouchDesigner, Arduino and sensor-based interaction, Figma, 3D modelling, photography, design research and user testing, AR/VR</dd>
 </dl></div></section>
